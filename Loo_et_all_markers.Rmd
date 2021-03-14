@@ -1,0 +1,104 @@
+---
+title: "Loo et all markers"
+output: html_notebook
+---
+
+```{r}
+Markers_Loo = read.csv("Data/Markers_Loo.csv")
+```
+
+```{r}
+genes_detected = pca_1[rownames(pca_1) %in% unlist(Markers_Loo)[!unlist(Markers_Loo) == ""],]
+
+```
+
+Gene present in the 10% of most differentially expressed genes by COTAN
+```{r}
+dim(genes_detected)[1]
+```
+
+of total genes detected as markers by Loo et al
+```{r}
+length(unlist(Markers_Loo)[!unlist(Markers_Loo) == ""])
+```
+
+Number of genes detected:
+```{r}
+sum(unlist(Markers_Loo)[!unlist(Markers_Loo) == ""] %in% rownames(objE17@coex))
+```
+Removed becouse not detected
+```{r}
+pure.markers = unlist(Markers_Loo)
+pure.markers = pure.markers[!unlist(Markers_Loo) == ""]
+pure.markers[!pure.markers %in% rownames(objE17@coex)]
+```
+```{r}
+Markers_Loo = as.list(Markers_Loo)
+for (i in names(Markers_Loo)) {
+    Markers_Loo[[i]] = Markers_Loo[[i]][! Markers_Loo[[i]] == ""]
+}
+Markers_Loo
+```
+
+Table
+
+```{r}
+tableMarkersCOTAN = as.data.frame(matrix(nrow = 6,ncol = 4))
+colnames(tableMarkersCOTAN)=c("Loo.L.I","Loo.L.II.IV","Loo.L.V.VI","Loo.PROG")
+rownames(tableMarkersCOTAN)=c("COTAN.L.I","COTAN.L.II.III","COTAN.L.IV","COTAN.L.V.VI","COTAN.PROG","COTAN.Not Groupped")
+
+layers.cluster = c("Reln","Satb2","Rorb","Bcl11b","Vim")
+names(layers.cluster) = unique(cut[unlist(layers)])
+layers.cluster
+```
+
+
+```{r}
+groups = list("L.I"=5,"L.II.III"=4,"L.IV"=7,"L.V.VI"=6,"PROG"=2)
+
+for(layer1 in c("L.I","L.II.III", "L.IV","L.V.VI","PROG")){
+    for(layer2 in c("L.I","L.II.IV","L.V.VI","PROG")){
+    tableMarkersCOTAN[paste0("COTAN.",layer1),paste0("Loo.",layer2)] =
+        sum(rownames(pca_1[pca_1$hclust %in% groups[[layer1]],]) %in% Markers_Loo[[layer2]])
+    tableMarkersCOTAN[paste0("COTAN.","Not Groupped"),paste0("Loo.",layer2)] =
+        sum(rownames(pca_1[!pca_1$hclust %in% unlist(groups),]) %in% Markers_Loo[[layer2]])
+    }
+}
+
+tableMarkersCOTAN
+```
+
+
+```{r}
+specific.genes.table = data.frame("genes"=c(), "COTAN"=c(),"Loo."=c())
+tt1 = c()
+tt2 = c()
+for(layer1 in c("L.I","L.II.III", "L.IV","L.V.VI","PROG")){
+    for(layer2 in c("L.I","L.II.IV","L.V.VI","PROG")){
+    tt1 = data.frame("genes"= rownames(pca_1[pca_1$hclust %in% groups[[layer1]],])[rownames(pca_1[pca_1$hclust 
+                          %in% groups[[layer1]],]) %in% Markers_Loo[[layer2]]])
+    if (dim(tt1)[1] > 0) {
+                   tt1 = cbind(tt1,  "COTAN"=layer1, "Loo."=layer2)
+        }
+    tt2 = data.frame("genes"= 
+        rownames(pca_1[!pca_1$hclust %in% unlist(groups),])[rownames(pca_1[!pca_1$hclust %in%                   unlist(groups),]) %in% Markers_Loo[[layer2]]])
+    if (dim(tt2)[1] > 0) {
+        tt2 = cbind(tt2, "COTAN"= "Not Groupped", "Loo."=layer2)
+    }
+    specific.genes.table = rbind(specific.genes.table,tt1,tt2)
+    }
+}
+
+specific.genes.table[!(duplicated(specific.genes.table)) , ]
+
+```
+```{r fig.height= 80, fig.width= 8}
+dend %>%
+set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% specific.genes.table$genes], labels(dend), "")) %>%
+  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
+    plot(horiz=T, axes=T,xlim = c(0,80),cex = 1)
+
+```
+
+
+
