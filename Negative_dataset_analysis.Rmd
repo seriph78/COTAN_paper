@@ -1,6 +1,15 @@
 ---
 title: "Negative dataset analysis"
-output: html_notebook
+output:
+  html_notebook:
+      css: html-md-01.css
+      fig_caption: yes
+      highlight: haddock
+      number_sections: yes
+      theme: spacelab
+      toc: yes
+      toc_float: true
+      collapsed: no
 ---
 
 
