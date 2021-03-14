@@ -1,7 +1,72 @@
 ---
 title: "Loo et all markers"
-output: html_notebook
+output:
+    html_document:
+      css: html-md-01.css
+      fig_caption: yes
+      highlight: haddock
+      number_sections: yes
+      theme: spacelab
+      toc: yes
+      toc_float: true
+      collapsed: no
 ---
+```{r}
+input_dir = "../../Cotan_paper/Data/"
+layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
+#objE17 = readRDS(file = paste(input_dir,"E17.5_cortex.cotan.RDS", sep = ""))
+objE17 = readRDS(file = paste(input_dir,"E17.5_cortex_cleaned.cotan.RDS", sep = ""))
+```
+
+```{r}
+g.space = get.gene.coexpression.space(objE17, 
+                                      n.genes.for.marker = 28,  
+                                      primary.markers = unlist(layers))
+```
+```{r}
+g.space = as.data.frame(as.matrix(g.space))
+
+coex.pca.genes <- prcomp(t(g.space),
+                 center = TRUE,
+                 scale. = F) 
+
+fviz_eig(coex.pca.genes, addlabels=TRUE,ncp = 10)
+#fviz_eig(coex.pca.genes, choice = "eigenvalue", addlabels=TRUE)
+```
+Hierarchical clustering
+```{r}
+
+# clustering usign Ward method
+hc.norm = hclust(dist(g.space), method = "ward.D2")
+
+# and cut the tree into 5 clusters (for example)
+cut = cutree(hc.norm, k = 7, order_clusters_as_data = F)
+
+# It crates the tree
+dend <- as.dendrogram(hc.norm)
+
+# I can use a dataframe from the pca to store some data regarding the clustering
+pca_1 = as.data.frame(coex.pca.genes$rotation[,1:5])
+pca_1 = pca_1[order.dendrogram(dend),]
+
+
+mycolours <- c("genes related to L5/6" = "#3C5488FF","genes related to L2/3"="#F39B7FFF","genes related to Prog"="#4DBBD5FF","genes related to L1"="#E64B35FF","genes related to L4" = "#91D1C2FF", "not marked"="#B09C85FF")
+
+# save the cluster number into the dataframe
+pca_1$hclust = cut
+
+dend =branches_color(dend,k=7,col=c("#4DBBD5FF","#91D1C2FF","#F39B7FFF","#E64B35FF","#3C5488FF","#91D1C2FF","#B09C85FF" ),groupLabels = T)
+#dend =color_labels(dend,k=5,labels = rownames(pca_1),col=pca_1$colors)
+
+
+
+dend %>%
+set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% unlist(layers)], labels(dend), "")) %>%
+  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
+plot(horiz=F, axes=T,ylim = c(0,80))
+```
+
+
 
 ```{r}
 Markers_Loo = read.csv("Data/Markers_Loo.csv")

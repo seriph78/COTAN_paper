@@ -1,0 +1,26 @@
+name: COTAN paper
+navbar:
+  title: "Documentation for COTAN paper"
+  left:
+  - text: Topics
+    menu:
+    - text: Comparision with Loo et al. markers
+      href: Loo_et_all_markers.nb.html
+    - text: WGCNA experiments
+      href: WGCNA_experiments.nb.html
+  right:
+  - text: Negative dataset 
+    href: Negative_dataset_analysis.nb.html
+output:
+  html_document:
+    theme: spacelab
+    highlight: haddock
+    css: html-md-01.css
+    fig_caption: no
+    number_sections: yes
+    toc: yes
+    toc_float: no
+    collapsed: no
+    lib_dir: site_libs
+    self_contained: no
+output_dir: docs

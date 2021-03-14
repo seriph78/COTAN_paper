@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>WGCNA experiments</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="html-md-01.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Documentation for COTAN paper</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Topics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Loo_et_all_markers.nb.html">Comparision with Loo et al. markers</a>
+    </li>
+    <li>
+      <a href="WGCNA_experiments.nb.html">WGCNA experiments</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">WGCNA experiments</h1>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">workingDir =<span class="st"> &quot;.&quot;</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(WGCNA)</a></code></pre></div>
+<pre><code>## Loading required package: dynamicTreeCut</code></pre>
+<pre><code>## Loading required package: stats</code></pre>
+<pre><code>## Loading required package: fastcluster</code></pre>
+<pre><code>## 
+## Attaching package: &#39;fastcluster&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     hclust</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## 
+## Attaching package: &#39;WGCNA&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     cor</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(cluster)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">library</span>(data.table)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">library</span>(Matrix)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw">library</span>(Seurat)</a></code></pre></div>
+<pre><code>## Loading required package: methods</code></pre>
+<pre><code>## Attaching SeuratObject</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(utils)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;utils&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:Matrix&#39;:
+## 
+##     head, tail</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     between, first, last</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">library</span>(patchwork)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw">library</span>(graphics)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;graphics&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:Matrix&#39;:
+## 
+##     image</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">data_dir =<span class="st"> &quot;Data/&quot;</span></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw">library</span>(gplots)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     lowess</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">myheatcol =<span class="st"> </span><span class="kw">colorpanel</span>(<span class="dv">250</span>,<span class="st">&#39;red&#39;</span>,<span class="st">&quot;orange&quot;</span>,<span class="st">&#39;lemonchiffon&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">data =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">fread</span>(<span class="kw">paste</span>(data_dir,<span class="st">&quot;E175_only_cortical_cells.txt.gz&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;/&quot;</span>),<span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>))</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">data =<span class="st"> </span><span class="kw">as.data.frame</span>(data)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw">rownames</span>(data) =<span class="st"> </span>data<span class="op">$</span>V1</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">data =<span class="st"> </span>data[,<span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(data)]</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">data[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<pre><code>##               CGTTTAGTTTAC TCTAGAACAACG ACCTTTGTTCGT TTGTCTTCTTCG TAAAATATCGCC
+## 0610005C13Rik            0            0            0            0            0
+## 0610007N19Rik            0            0            0            0            0
+## 0610007P14Rik            2            1            1            1            0
+## 0610009B22Rik            1            1            0            0            0
+## 0610009D07Rik            2            3            0            3            0
+## 0610009E02Rik            0            0            0            0            0
+## 0610009L18Rik            0            0            0            2            0
+## 0610009O20Rik            0            0            0            0            0
+## 0610010F05Rik            1            2            2            0            1
+## 0610010K14Rik            0            0            0            0            0
+##               GTACCCTATTTC GCACATTACCCA CCTCGCGCGGCT TTAATTTTGCCT GTCTTGCGTTTT
+## 0610005C13Rik            0            0            0            0            0
+## 0610007N19Rik            0            0            2            0            0
+## 0610007P14Rik            1            0            0            0            0
+## 0610009B22Rik            0            0            1            1            0
+## 0610009D07Rik            2            1            2            1            5
+## 0610009E02Rik            0            0            0            0            0
+## 0610009L18Rik            0            1            1            2            0
+## 0610009O20Rik            0            0            0            1            0
+## 0610010F05Rik            4            0            1            0            2
+## 0610010K14Rik            0            0            0            0            0</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">E17 &lt;-<span class="st"> </span><span class="kw">CreateSeuratObject</span>(<span class="dt">counts =</span> data, <span class="dt">project =</span> <span class="st">&quot;Cortex E17.5&quot;</span>, <span class="dt">min.cells =</span> <span class="dv">3</span>, <span class="dt">min.features =</span> <span class="dv">200</span>)</a></code></pre></div>
+<pre><code>## Warning: Feature names cannot have underscores (&#39;_&#39;), replacing with dashes
+## (&#39;-&#39;)</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">E17[[<span class="st">&quot;percent.mt&quot;</span>]] &lt;-<span class="st"> </span><span class="kw">PercentageFeatureSet</span>(E17, <span class="dt">pattern =</span> <span class="st">&quot;^mt-&quot;</span>)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">VlnPlot</span>(E17, <span class="dt">features =</span> <span class="kw">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>, <span class="st">&quot;nCount_RNA&quot;</span>, <span class="st">&quot;percent.mt&quot;</span>), <span class="dt">ncol =</span> <span class="dv">3</span>)</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">hist</span>(E17<span class="op">$</span>nFeature_RNA<span class="op">/</span>E17<span class="op">$</span>nCount_RNA, <span class="dt">breaks =</span> <span class="dv">100</span>)</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">plot1 &lt;-<span class="st"> </span><span class="kw">FeatureScatter</span>(E17, <span class="dt">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="dt">feature2 =</span> <span class="st">&quot;percent.mt&quot;</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">plot2 &lt;-<span class="st"> </span><span class="kw">FeatureScatter</span>(E17, <span class="dt">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="dt">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>)</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">plot1 <span class="op">+</span><span class="st"> </span>plot2</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">E17 &lt;-<span class="st"> </span><span class="kw">NormalizeData</span>(E17, <span class="dt">normalization.method =</span> <span class="st">&quot;LogNormalize&quot;</span>, <span class="dt">scale.factor =</span> <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">E17 &lt;-<span class="st"> </span><span class="kw">FindVariableFeatures</span>(E17, <span class="dt">selection.method =</span> <span class="st">&quot;vst&quot;</span>, <span class="dt">nfeatures =</span> <span class="dv">2000</span>)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="co"># Identify the 10 most highly variable genes</span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">top10 &lt;-<span class="st"> </span><span class="kw">head</span>(<span class="kw">VariableFeatures</span>(E17), <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="co"># plot variable features with and without labels</span></a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">plot1 &lt;-<span class="st"> </span><span class="kw">VariableFeaturePlot</span>(E17)</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">plot2 &lt;-<span class="st"> </span><span class="kw">LabelPoints</span>(<span class="dt">plot =</span> plot1, <span class="dt">points =</span> top10, <span class="dt">repel =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">plot2</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">all.genes &lt;-<span class="st"> </span><span class="kw">rownames</span>(E17)</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">E17 &lt;-<span class="st"> </span><span class="kw">ScaleData</span>(E17, <span class="dt">features =</span> all.genes)</a></code></pre></div>
+<pre><code>## Centering and scaling data matrix</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">E17 &lt;-<span class="st"> </span><span class="kw">RunPCA</span>(E17, <span class="dt">features =</span> <span class="kw">VariableFeatures</span>(<span class="dt">object =</span> E17))</a></code></pre></div>
+<pre><code>## PC_ 1 
+## Positive:  Fabp7, Aldoc, Mfge8, Dbi, Ednrb, Vim, Slc1a3, Mt3, Apoe, Ttyh1 
+##     Tnc, Sox2, Atp1a2, Ddah1, Hes5, Sparc, Mlc1, Ppap2b, Rgcc, Bcan 
+##     Ndrg2, Qk, Lxn, Id3, Phgdh, Slc9a3r1, Nr2e1, Aldh1l1, Gpx8, Mt1 
+## Negative:  Tubb3, Stmn2, Neurod6, Stmn4, Map1b, Stmn1, Myt1l, Mef2c, Thra, 4930506M07Rik 
+##     Bcl11a, Gap43, Bhlhe22, Syt4, Cntn2, Nell2, Hs6st2, 9130024F11Rik, Olfm1, Satb2 
+##     Akap9, Ptprd, Rbfox1, Clmp, Ina, Enc1, Camk2b, Dync1i1, Dab1, Atp2b1 
+## PC_ 2 
+## Positive:  Sstr2, Mdk, Meis2, Pou3f2, Eomes, Zbtb20, Unc5d, Sema3c, Fos, Tead2 
+##     Palmd, Mfap4, Nhlh1, Ulk4, H1f0, Uaca, Neurog2, Neurod1, Ezr, Ier2 
+##     Nrn1, Baz2b, Pdzrn3, Btg2, Egr1, Mfap2, Loxl1, H2afv, Hbp1, Nnat 
+## Negative:  Gap43, Sybu, Dync1i1, Meg3, Mef2c, Map1b, Fezf2, Camk2b, Ina, Stmn2 
+##     Cdh13, Thra, Nin, Rac3, Igfbp3, Ssbp2, Neto2, Cd200, Hmgcs1, Tuba1b 
+##     Syt1, Slc6a15, Mapre2, Plk2, Rprm, Atp1b1, Cadm2, Arpp21, Kitl, Ntrk2 
+## PC_ 3 
+## Positive:  Meg3, Smpdl3a, Slc9a3r1, Slc15a2, Timp3, Tmem47, Ndrg2, Apoe, Ttyh1, Fmo1 
+##     Mlc1, Scrg1, Islr2, Malat1, Gstm1, Gja1, Ndnf, Aldh1l1, Mt3, Sparc 
+##     Serpinh1, Paqr7, Asrgl1, Sepp1, S100a1, Atp1b1, Ctsl, Cpe, S100a16, Lhx5 
+## Negative:  Birc5, Top2a, Cenpm, Pbk, Tpx2, Cenpe, Mki67, Cdca8, Gmnn, Cks2 
+##     Ccnb1, Ccnb2, Spc24, Hmgb2, Cenpf, Tk1, Hmmr, Prc1, Kif11, Ccna2 
+##     2810417H13Rik, C330027C09Rik, Cdca2, Ect2, Nusap1, Cenpa, Uhrf1, Plk1, Spc25, Knstrn 
+## PC_ 4 
+## Positive:  Lhx5, Nhlh2, Snhg11, Reln, 1500016L03Rik, Trp73, Cacna2d2, Ndnf, Car10, Lhx1 
+##     Islr2, Pcp4, Meg3, RP24-351J24.2, Rcan2, Pnoc, Mab21l1, Zic1, E330013P04Rik, Emx2 
+##     Malat1, Ebf3, Nr2f2, Zcchc12, Zbtb20, Celf4, Tmem163, Ache, Calb2, Unc5b 
+## Negative:  Ptn, Satb2, 9130024F11Rik, Neurod6, Mef2c, Dab1, Limch1, Hs6st2, Abracl, Dok5 
+##     Gucy1a3, Nell2, Ptprz1, Syt4, Ttc28, Clmp, Macrod2, Fam19a2, Smpdl3a, Ndrg1 
+##     Gstm1, 4930506M07Rik, Paqr7, Aldh1l1, Myt1l, Hmgcs1, Slc15a2, Pdzrn4, Slc9a3r1, Aldoc 
+## PC_ 5 
+## Positive:  Fam210b, Sfrp1, Pax6, Enkur, Tubb3, Tuba1b, Mcm3, Veph1, Stmn1, Eif1b 
+##     Map1b, Hopx, Abracl, Cdk2ap2, Tfap2c, Rps27l, 2810025M15Rik, Slc14a2, Prdx1, Hells 
+##     Gap43, Sept11, Egln3, Gm1840, Ezr, Cpne2, 9130024F11Rik, Nes, Efnb2, Cux1 
+## Negative:  Serpine2, Id1, Olig1, Sparcl1, Igfbp3, Fam212b, Ccnb2, Ppic, Gng12, Ccnb1 
+##     Bcan, Cenpe, Pbk, Id3, Rasl11a, Plk1, Aqp4, Aspm, Hmmr, Slc6a1 
+##     Slc4a4, Malat1, Myo6, Timp3, Meg3, Cdk1, Prrx1, Npy, B2m, Cspg4</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">DimPlot</span>(E17, <span class="dt">reduction =</span> <span class="st">&quot;pca&quot;</span>)</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div id="test-usign-all-genes-normalized-by-seurat" class="section level2">
+<h2><span class="header-section-number">0.1</span> Test usign all genes normalized by Seurat</h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">all.genes &lt;-<span class="st"> </span><span class="kw">rownames</span>(E17)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">E17 &lt;-<span class="st"> </span><span class="kw">ScaleData</span>(E17, <span class="dt">features =</span> all.genes)</a></code></pre></div>
+<pre><code>## Centering and scaling data matrix</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">seurat.data =<span class="st"> </span><span class="kw">as.matrix</span>(E17[[<span class="st">&quot;RNA&quot;</span>]]<span class="op">@</span>data)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">datExpr0 =<span class="st"> </span><span class="kw">t</span>(seurat.data)</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">gsg =<span class="st"> </span><span class="kw">goodSamplesGenes</span>(datExpr0, <span class="dt">verbose =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>##  Flagging genes and samples with too many missing values...
+##   ..step 1</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">gsg<span class="op">$</span>allOK</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span>gsg<span class="op">$</span>allOK){</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">    <span class="co"># Optionally, print the gene and sample names that were removed:</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">    <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span>gsg<span class="op">$</span>goodGenes)<span class="op">&gt;</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">        <span class="kw">printFlush</span>(<span class="kw">paste</span>(<span class="st">&quot;Removing genes:&quot;</span>, <span class="kw">paste</span>(<span class="kw">names</span>(datExpr0)[<span class="op">!</span>gsg<span class="op">$</span>goodGenes], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)));</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">    <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span>gsg<span class="op">$</span>goodSamples)<span class="op">&gt;</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">        <span class="kw">printFlush</span>(<span class="kw">paste</span>(<span class="st">&quot;Removing samples:&quot;</span>, <span class="kw">paste</span>(<span class="kw">rownames</span>(datExpr0)[<span class="op">!</span>gsg<span class="op">$</span>goodSamples], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)));</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">    <span class="co"># Remove the offending genes and samples from the data:</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">    datExpr0 =<span class="st"> </span>datExpr0[gsg<span class="op">$</span>goodSamples, gsg<span class="op">$</span>goodGenes]</a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb49-12" data-line-number="12">sampleTree =<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(datExpr0), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb49-13" data-line-number="13"><span class="co"># Plot the sample tree: Open a graphic output window of size 12 by 9 inches</span></a>
+<a class="sourceLine" id="cb49-14" data-line-number="14"><span class="co"># The user should change the dimensions if the window is too large or too small.</span></a>
+<a class="sourceLine" id="cb49-15" data-line-number="15"><span class="kw">sizeGrWindow</span>(<span class="dv">12</span>,<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb49-16" data-line-number="16"><span class="co">#pdf(file = &quot;Plots/sampleClustering.pdf&quot;, width = 12, height = 9);</span></a>
+<a class="sourceLine" id="cb49-17" data-line-number="17"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">0.6</span>);</a>
+<a class="sourceLine" id="cb49-18" data-line-number="18"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb49-19" data-line-number="19"><span class="kw">plot</span>(sampleTree, <span class="dt">main =</span> <span class="st">&quot;Sample clustering to detect outliers&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb49-20" data-line-number="20">     <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.main =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p>No outlier detected.</p>
+<p>Automatic network construction and module detection Choose a set of soft-thresholding powers</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">powers =<span class="st"> </span><span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">10</span>, <span class="dt">to=</span><span class="dv">20</span>, <span class="dt">by=</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="co"># Call the network topology analysis function</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">sft =<span class="st"> </span><span class="kw">pickSoftThreshold</span>(datExpr0, <span class="dt">powerVector =</span> powers, <span class="dt">verbose =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## pickSoftThreshold: will use block size 3465.
+##  pickSoftThreshold: calculating connectivity for given powers...
+##    ..working on genes 1 through 3465 of 12909</code></pre>
+<pre><code>## Warning: executing %dopar% sequentially: no parallel backend registered</code></pre>
+<pre><code>##    ..working on genes 3466 through 6930 of 12909
+##    ..working on genes 6931 through 10395 of 12909
+##    ..working on genes 10396 through 12909 of 12909
+##    Power SFT.R.sq slope truncated.R.sq  mean.k. median.k.   max.k.
+## 1      1    0.688 -6.11          0.821 3.47e+02  3.48e+02 688.0000
+## 2      2    0.989 -4.74          0.993 1.72e+01  1.58e+01  88.6000
+## 3      3    0.993 -3.10          0.991 1.45e+00  1.09e+00  21.7000
+## 4      4    0.967 -2.36          0.963 2.10e-01  1.00e-01   7.9000
+## 5      5    0.473 -2.60          0.412 4.94e-02  1.16e-02   3.6000
+## 6      6    0.943 -1.78          0.934 1.65e-02  1.60e-03   1.8600
+## 7      7    0.467 -2.14          0.419 6.91e-03  2.55e-04   1.1200
+## 8      8    0.424 -2.36          0.346 3.34e-03  4.48e-05   0.8220
+## 9      9    0.434 -2.22          0.352 1.79e-03  8.48e-06   0.6260
+## 10    10    0.420 -2.34          0.297 1.04e-03  1.69e-06   0.4900
+## 11    10    0.420 -2.34          0.297 1.04e-03  1.69e-06   0.4900
+## 12    12    0.379 -2.01          0.210 4.13e-04  7.38e-08   0.3140
+## 13    14    0.359 -1.97          0.245 1.92e-04  3.47e-09   0.2090
+## 14    16    0.442 -2.15          0.285 9.92e-05  1.75e-10   0.1410
+## 15    18    0.454 -2.08          0.298 5.53e-05  9.02e-12   0.0968
+## 16    20    0.456 -2.03          0.301 3.26e-05  4.76e-13   0.0669</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># Plot the results:</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">sizeGrWindow</span>(<span class="dv">9</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>));</a>
+<a class="sourceLine" id="cb54-4" data-line-number="4">cex1 =<span class="st"> </span><span class="fl">0.9</span>;</a>
+<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="co"># Scale-free topology fit index as a function of the soft-thresholding power</span></a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"><span class="kw">plot</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], <span class="op">-</span><span class="kw">sign</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">3</span>])<span class="op">*</span>sft<span class="op">$</span>fitIndices[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb54-7" data-line-number="7">     <span class="dt">xlab=</span><span class="st">&quot;Soft Threshold (power)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Scale Free Topology Model Fit,signed R^2&quot;</span>,<span class="dt">type=</span><span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb54-8" data-line-number="8">     <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Scale independence&quot;</span>));</a>
+<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="kw">text</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], <span class="op">-</span><span class="kw">sign</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">3</span>])<span class="op">*</span>sft<span class="op">$</span>fitIndices[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb54-10" data-line-number="10">     <span class="dt">labels=</span>powers,<span class="dt">cex=</span>cex1,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>);</a>
+<a class="sourceLine" id="cb54-11" data-line-number="11"><span class="co"># this line corresponds to using an R^2 cut-off of h</span></a>
+<a class="sourceLine" id="cb54-12" data-line-number="12"><span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.90</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb54-13" data-line-number="13"><span class="co"># Mean connectivity as a function of the soft-thresholding power</span></a>
+<a class="sourceLine" id="cb54-14" data-line-number="14"><span class="kw">plot</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], sft<span class="op">$</span>fitIndices[,<span class="dv">5</span>],</a>
+<a class="sourceLine" id="cb54-15" data-line-number="15">     <span class="dt">xlab=</span><span class="st">&quot;Soft Threshold (power)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Mean Connectivity&quot;</span>, <span class="dt">type=</span><span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb54-16" data-line-number="16">     <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Mean connectivity&quot;</span>))</a>
+<a class="sourceLine" id="cb54-17" data-line-number="17"><span class="kw">text</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], sft<span class="op">$</span>fitIndices[,<span class="dv">5</span>], <span class="dt">labels=</span>powers, <span class="dt">cex=</span>cex1,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p>Thresholds tested: 2, 3, 6 The best is 2.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">net =<span class="st"> </span><span class="kw">blockwiseModules</span>(datExpr0, <span class="dt">power =</span> <span class="dv">2</span>, <span class="dt">maxBlockSize =</span> <span class="dv">20000</span>,</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2">                       <span class="dt">TOMType =</span> <span class="st">&quot;signed&quot;</span>, <span class="dt">minModuleSize =</span> <span class="dv">30</span>,</a>
+<a class="sourceLine" id="cb55-3" data-line-number="3">                       <span class="dt">reassignThreshold =</span> <span class="dv">0</span>, <span class="dt">mergeCutHeight =</span> <span class="fl">0.25</span>,</a>
+<a class="sourceLine" id="cb55-4" data-line-number="4">                       <span class="dt">numericLabels =</span> <span class="ot">TRUE</span>, <span class="dt">pamRespectsDendro =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">                       <span class="dt">saveTOMs =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6">                       <span class="dt">saveTOMFileBase =</span> <span class="st">&quot;E17.5&quot;</span>,</a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">                       <span class="dt">verbose =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>##  Calculating module eigengenes block-wise from all genes
+##    Flagging genes and samples with too many missing values...
+##     ..step 1
+##  ..Working on block 1 .
+##     TOM calculation: adjacency..
+##     ..will not use multithreading.
+##      Fraction of slow calculations: 0.000000
+##     ..connectivity..
+##     ..matrix multiplication (system BLAS)..
+##     ..normalization..
+##     ..done.
+##    ..saving TOM for block 1 into file E17.5-block.1.RData
+##  ....clustering..
+##  ....detecting modules..
+##  ....calculating module eigengenes..
+##  ....checking kME in modules..
+##      ..removing 762 genes from module 1 because their KME is too low.
+##      ..removing 308 genes from module 2 because their KME is too low.
+##      ..removing 115 genes from module 3 because their KME is too low.
+##      ..removing 61 genes from module 4 because their KME is too low.
+##      ..removing 86 genes from module 5 because their KME is too low.
+##      ..removing 63 genes from module 6 because their KME is too low.
+##      ..removing 22 genes from module 7 because their KME is too low.
+##      ..removing 28 genes from module 8 because their KME is too low.
+##      ..removing 12 genes from module 9 because their KME is too low.
+##      ..removing 15 genes from module 10 because their KME is too low.
+##      ..removing 14 genes from module 11 because their KME is too low.
+##      ..removing 1 genes from module 12 because their KME is too low.
+##      ..removing 6 genes from module 14 because their KME is too low.
+##      ..removing 5 genes from module 15 because their KME is too low.
+##      ..removing 3 genes from module 16 because their KME is too low.
+##      ..removing 3 genes from module 17 because their KME is too low.
+##      ..removing 2 genes from module 19 because their KME is too low.
+##      ..removing 3 genes from module 20 because their KME is too low.
+##      ..removing 5 genes from module 22 because their KME is too low.
+##      ..removing 1 genes from module 23 because their KME is too low.
+##      ..removing 4 genes from module 26 because their KME is too low.
+##      ..removing 4 genes from module 27 because their KME is too low.
+##      ..removing 1 genes from module 30 because their KME is too low.
+##  ..merging modules that are too close..
+##      mergeCloseModules: Merging modules whose distance is less than 0.25
+##        Calculating new MEs...</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># open a graphics window</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw">sizeGrWindow</span>(<span class="dv">12</span>, <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="co"># Convert labels to colors for plotting</span></a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">mergedColors =<span class="st"> </span><span class="kw">labels2colors</span>(net<span class="op">$</span>colors)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">primary.markers =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Reln&quot;</span>,<span class="st">&quot;Lhx5&quot;</span>,<span class="st">&quot;Cux1&quot;</span>,<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Rorb&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Fezf2&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>,<span class="st">&quot;Vim&quot;</span>,<span class="st">&quot;Hes1&quot;</span>)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">net<span class="op">$</span>colors[primary.markers]</a></code></pre></div>
+<pre><code>##   Reln   Lhx5   Cux1  Satb2   Rorb   Sox5  Fezf2 Bcl11b    Vim   Hes1 
+##     20     20      0      0      0      0      0      0      1      1</code></pre>
+<p>As we can see the primary markers are not well distributed: it detect layer I and progenitors but all other genes are in the same cluster (module).</p>
+<p>Plot the dendrogram and the module colors underneath</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">plotDendroAndColors</span>(net<span class="op">$</span>dendrograms[[<span class="dv">1</span>]], mergedColors[net<span class="op">$</span>blockGenes[[<span class="dv">1</span>]]],</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">                    <span class="st">&quot;Module colors&quot;</span>,</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3">                    <span class="dt">dendroLabels =</span> <span class="ot">FALSE</span>, <span class="dt">hang =</span> <span class="fl">0.03</span>,</a>
+<a class="sourceLine" id="cb60-4" data-line-number="4">                    <span class="dt">addGuide =</span> <span class="ot">TRUE</span>, <span class="dt">guideHang =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> primary.markers,</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="dt">networkType=</span><span class="st">&quot;unsigned&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an unsigned network&quot;</span>)</a></code></pre></div>
+<pre><code>## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">gene.sets.list =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;primary.markers&quot;</span>=primary.markers,</a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">                      <span class="st">&quot;NPGs&quot;</span>=<span class="kw">c</span>(<span class="st">&quot;Nes&quot;</span>,<span class="st">&quot;Vim&quot;</span>,<span class="st">&quot;Sox2&quot;</span>,<span class="st">&quot;Sox1&quot;</span>,<span class="st">&quot;Notch1&quot;</span>, <span class="st">&quot;Hes1&quot;</span>,<span class="st">&quot;Hes5&quot;</span>,<span class="st">&quot;Pax6&quot;</span>), </a>
+<a class="sourceLine" id="cb63-3" data-line-number="3">                      <span class="st">&quot;RG&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Vim&quot;</span>,<span class="st">&quot;Sox2&quot;</span>,<span class="st">&quot;Pax6&quot;</span>,<span class="st">&quot;Hes5&quot;</span>,<span class="st">&quot;Hes1&quot;</span>),</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4">                      <span class="st">&quot;IN&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Tubb3&quot;</span>,<span class="st">&quot;Tbr1&quot;</span>,<span class="st">&quot;Stmn1&quot;</span>,<span class="st">&quot;Neurod1&quot;</span>,<span class="st">&quot;Dcx&quot;</span>),</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5">                      <span class="st">&quot;PNGs&quot;</span>=<span class="kw">c</span>(<span class="st">&quot;Map2&quot;</span>,<span class="st">&quot;Tubb3&quot;</span>,<span class="st">&quot;Neurod1&quot;</span>,<span class="st">&quot;Nefm&quot;</span>,<span class="st">&quot;Nefl&quot;</span>,<span class="st">&quot;Dcx&quot;</span>,<span class="st">&quot;Tbr1&quot;</span>),</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6">                      <span class="st">&quot;constitutive&quot;</span> =<span class="kw">c</span>(<span class="st">&quot;Calm1&quot;</span>,<span class="st">&quot;Cox6b1&quot;</span>,<span class="st">&quot;Ppia&quot;</span>,<span class="st">&quot;Rpl18&quot;</span>,<span class="st">&quot;Cox7c&quot;</span>, <span class="st">&quot;Erh&quot;</span>,<span class="st">&quot;H3f3a&quot;</span>,<span class="st">&quot;Taf1b&quot;</span>,<span class="st">&quot;Taf2&quot;</span>,<span class="st">&quot;Gapdh&quot;</span>,<span class="st">&quot;Actb&quot;</span>, <span class="st">&quot;Golph3&quot;</span>, <span class="st">&quot;Mtmr12&quot;</span>, <span class="st">&quot;Zfr&quot;</span>, <span class="st">&quot;Sub1&quot;</span>, <span class="st">&quot;Tars&quot;</span>, <span class="st">&quot;Amacr&quot;</span>) )</a>
+<a class="sourceLine" id="cb63-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb63-8" data-line-number="8"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> <span class="kw">unique</span>(<span class="kw">unlist</span>(gene.sets.list)),</a>
+<a class="sourceLine" id="cb63-9" data-line-number="9"><span class="dt">networkType=</span><span class="st">&quot;unsigned&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb63-10" data-line-number="10"><span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an signed network&quot;</span>)</a></code></pre></div>
+<pre><code>## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> primary.markers,</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="dt">networkType=</span><span class="st">&quot;signed&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an signed network&quot;</span>)</a></code></pre></div>
+<pre><code>## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">gene.sets.list =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;primary.markers&quot;</span>=primary.markers,</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2">                      <span class="st">&quot;NPGs&quot;</span>=<span class="kw">c</span>(<span class="st">&quot;Nes&quot;</span>,<span class="st">&quot;Vim&quot;</span>,<span class="st">&quot;Sox2&quot;</span>,<span class="st">&quot;Sox1&quot;</span>,<span class="st">&quot;Notch1&quot;</span>, <span class="st">&quot;Hes1&quot;</span>,<span class="st">&quot;Hes5&quot;</span>,<span class="st">&quot;Pax6&quot;</span>), </a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">                      <span class="st">&quot;RG&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Vim&quot;</span>,<span class="st">&quot;Sox2&quot;</span>,<span class="st">&quot;Pax6&quot;</span>,<span class="st">&quot;Hes5&quot;</span>,<span class="st">&quot;Hes1&quot;</span>),</a>
+<a class="sourceLine" id="cb67-4" data-line-number="4">                      <span class="st">&quot;IN&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Tubb3&quot;</span>,<span class="st">&quot;Tbr1&quot;</span>,<span class="st">&quot;Stmn1&quot;</span>,<span class="st">&quot;Neurod1&quot;</span>,<span class="st">&quot;Dcx&quot;</span>),</a>
+<a class="sourceLine" id="cb67-5" data-line-number="5">                      <span class="st">&quot;PNGs&quot;</span>=<span class="kw">c</span>(<span class="st">&quot;Map2&quot;</span>,<span class="st">&quot;Tubb3&quot;</span>,<span class="st">&quot;Neurod1&quot;</span>,<span class="st">&quot;Nefm&quot;</span>,<span class="st">&quot;Nefl&quot;</span>,<span class="st">&quot;Dcx&quot;</span>,<span class="st">&quot;Tbr1&quot;</span>))<span class="co">#,</span></a>
+<a class="sourceLine" id="cb67-6" data-line-number="6">                      <span class="co">#&quot;constitutive&quot; =c(&quot;Calm1&quot;,&quot;Cox6b1&quot;,&quot;Ppia&quot;,&quot;Rpl18&quot;,&quot;Cox7c&quot;, &quot;Erh&quot;,&quot;H3f3a&quot;,&quot;Taf1b&quot;,&quot;Taf2&quot;,&quot;Gapdh&quot;,&quot;Actb&quot;, &quot;Golph3&quot;, &quot;Mtmr12&quot;, &quot;Zfr&quot;, &quot;Sub1&quot;, &quot;Tars&quot;, &quot;Amacr&quot;) )</span></a>
+<a class="sourceLine" id="cb67-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb67-8" data-line-number="8">genes =<span class="st"> </span><span class="kw">unique</span>(<span class="kw">unlist</span>(gene.sets.list))</a>
+<a class="sourceLine" id="cb67-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb67-10" data-line-number="10"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> genes, <span class="dt">networkType=</span><span class="st">&quot;signed&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb67-11" data-line-number="11">                   <span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an signed network&quot;</span>)</a></code></pre></div>
+<pre><code>## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">net<span class="op">$</span>colors[primary.markers]</a></code></pre></div>
+<pre><code>##   Reln   Lhx5   Cux1  Satb2   Rorb   Sox5  Fezf2 Bcl11b    Vim   Hes1 
+##     20     20      0      0      0      0      0      0      1      1</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">net<span class="op">$</span>colors[<span class="kw">unique</span>(<span class="kw">unlist</span>(gene.sets.list))]</a></code></pre></div>
+<pre><code>##    Reln    Lhx5    Cux1   Satb2    Rorb    Sox5   Fezf2  Bcl11b     Vim    Hes1 
+##      20      20       0       0       0       0       0       0       1       1 
+##     Nes    Sox2    Sox1  Notch1    Hes5    Pax6   Tubb3    Tbr1   Stmn1 Neurod1 
+##       1       1       0      13       1       1       1       0       0       0 
+##     Dcx    Map2    Nefm    Nefl 
+##       0       0       0       0</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="co"># Calculate topological overlap anew: this could be done more efficiently by saving the TOM</span></a>
+<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="co"># calculated during module detection, but let us do it again here.</span></a>
+<a class="sourceLine" id="cb73-3" data-line-number="3">dissTOM =<span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">TOMsimilarityFromExpr</span>(datExpr0, <span class="dt">power =</span> <span class="dv">2</span>);</a></code></pre></div>
+<pre><code>## TOM calculation: adjacency..
+## ..will not use multithreading.
+##  Fraction of slow calculations: 0.000000
+## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="co"># Transform dissTOM with a power to make moderately strong connections more visible in the heatmap</span></a>
+<a class="sourceLine" id="cb75-2" data-line-number="2">plotTOM =<span class="st"> </span>dissTOM<span class="op">^</span><span class="dv">7</span>;</a>
+<a class="sourceLine" id="cb75-3" data-line-number="3"><span class="co"># Set diagonal to NA for a nicer plot</span></a>
+<a class="sourceLine" id="cb75-4" data-line-number="4"><span class="kw">diag</span>(plotTOM) =<span class="st"> </span><span class="ot">NA</span>;</a>
+<a class="sourceLine" id="cb75-5" data-line-number="5"><span class="kw">rownames</span>(dissTOM)=<span class="kw">colnames</span>(datExpr0)</a>
+<a class="sourceLine" id="cb75-6" data-line-number="6"><span class="kw">colnames</span>(dissTOM)=<span class="kw">colnames</span>(datExpr0)</a>
+<a class="sourceLine" id="cb75-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb75-8" data-line-number="8">selectTOM =<span class="st"> </span>dissTOM[primary.markers, primary.markers]</a>
+<a class="sourceLine" id="cb75-9" data-line-number="9"><span class="co"># There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.</span></a>
+<a class="sourceLine" id="cb75-10" data-line-number="10">selectTree =<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">as.dist</span>(selectTOM), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb75-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb75-12" data-line-number="12">moduleColors =<span class="st"> </span>mergedColors</a>
+<a class="sourceLine" id="cb75-13" data-line-number="13"><span class="kw">names</span>(moduleColors) =<span class="st"> </span><span class="kw">rownames</span>(dissTOM)</a>
+<a class="sourceLine" id="cb75-14" data-line-number="14">selectColors =<span class="st"> </span>moduleColors[primary.markers]</a>
+<a class="sourceLine" id="cb75-15" data-line-number="15"><span class="co"># Open a graphical window</span></a>
+<a class="sourceLine" id="cb75-16" data-line-number="16"><span class="kw">sizeGrWindow</span>(<span class="dv">9</span>,<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb75-17" data-line-number="17"><span class="co"># Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing</span></a>
+<a class="sourceLine" id="cb75-18" data-line-number="18"><span class="co"># the color palette; setting the diagonal to NA also improves the clarity of the plot</span></a>
+<a class="sourceLine" id="cb75-19" data-line-number="19">plotDiss =<span class="st"> </span>selectTOM<span class="op">^</span><span class="dv">7</span>;</a>
+<a class="sourceLine" id="cb75-20" data-line-number="20"><span class="kw">diag</span>(plotDiss) =<span class="st"> </span><span class="ot">NA</span>;</a>
+<a class="sourceLine" id="cb75-21" data-line-number="21"><span class="kw">TOMplot</span>(plotDiss, selectTree, selectColors, <span class="dt">main =</span> <span class="st">&quot;Network heatmap plot, selected genes&quot;</span>,<span class="dt">col=</span>myheatcol)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw">plotDendroAndColors</span>(selectTree,selectColors,</a>
+<a class="sourceLine" id="cb76-2" data-line-number="2">                     <span class="st">&quot;Module colors&quot;</span>,</a>
+<a class="sourceLine" id="cb76-3" data-line-number="3">                     <span class="dt">dendroLabels =</span> <span class="ot">NULL</span>, <span class="dt">hang =</span> <span class="fl">0.03</span>,</a>
+<a class="sourceLine" id="cb76-4" data-line-number="4">                     <span class="dt">addGuide =</span> <span class="ot">TRUE</span>, <span class="dt">guideHang =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<pre><code>## Warning in pmin(objHeights[dendro$order][floor(positions)],
+## objHeights[dendro$order][ceiling(positions)]): an argument will be fractionally
+## recycled</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="wgcna-with-a-sub-sample-of-genes" class="section level1">
+<h1><span class="header-section-number">1</span> WGCNA with a sub-sample of genes</h1>
+</div>
+<div id="test-with-the-2000-most-varied-genes" class="section level1">
+<h1><span class="header-section-number">2</span> Test with the 2000 most varied genes</h1>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">Var.genes =<span class="st"> </span><span class="kw">VariableFeatures</span>(E17)[<span class="dv">1</span><span class="op">:</span><span class="dv">2000</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">datExpr0 =<span class="st"> </span><span class="kw">t</span>(seurat.data[<span class="kw">rownames</span>(seurat.data) <span class="op">%in%</span><span class="st"> </span>Var.genes,])</a>
+<a class="sourceLine" id="cb79-2" data-line-number="2">gsg =<span class="st"> </span><span class="kw">goodSamplesGenes</span>(datExpr0, <span class="dt">verbose =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>##  Flagging genes and samples with too many missing values...
+##   ..step 1</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">gsg<span class="op">$</span>allOK</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span>gsg<span class="op">$</span>allOK){</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2">    <span class="co"># Optionally, print the gene and sample names that were removed:</span></a>
+<a class="sourceLine" id="cb83-3" data-line-number="3">    <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span>gsg<span class="op">$</span>goodGenes)<span class="op">&gt;</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb83-4" data-line-number="4">        <span class="kw">printFlush</span>(<span class="kw">paste</span>(<span class="st">&quot;Removing genes:&quot;</span>, <span class="kw">paste</span>(<span class="kw">names</span>(datExpr0)[<span class="op">!</span>gsg<span class="op">$</span>goodGenes], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)));</a>
+<a class="sourceLine" id="cb83-5" data-line-number="5">    <span class="cf">if</span> (<span class="kw">sum</span>(<span class="op">!</span>gsg<span class="op">$</span>goodSamples)<span class="op">&gt;</span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb83-6" data-line-number="6">        <span class="kw">printFlush</span>(<span class="kw">paste</span>(<span class="st">&quot;Removing samples:&quot;</span>, <span class="kw">paste</span>(<span class="kw">rownames</span>(datExpr0)[<span class="op">!</span>gsg<span class="op">$</span>goodSamples], <span class="dt">collapse =</span> <span class="st">&quot;, &quot;</span>)));</a>
+<a class="sourceLine" id="cb83-7" data-line-number="7">    <span class="co"># Remove the offending genes and samples from the data:</span></a>
+<a class="sourceLine" id="cb83-8" data-line-number="8">    datExpr0 =<span class="st"> </span>datExpr0[gsg<span class="op">$</span>goodSamples, gsg<span class="op">$</span>goodGenes]</a>
+<a class="sourceLine" id="cb83-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb83-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb83-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb83-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb83-13" data-line-number="13">sampleTree =<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">dist</span>(datExpr0), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>);</a>
+<a class="sourceLine" id="cb83-14" data-line-number="14"><span class="co"># Plot the sample tree: Open a graphic output window of size 12 by 9 inches</span></a>
+<a class="sourceLine" id="cb83-15" data-line-number="15"><span class="co"># The user should change the dimensions if the window is too large or too small.</span></a>
+<a class="sourceLine" id="cb83-16" data-line-number="16"><span class="kw">sizeGrWindow</span>(<span class="dv">12</span>,<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb83-17" data-line-number="17"><span class="co">#pdf(file = &quot;Plots/sampleClustering.pdf&quot;, width = 12, height = 9);</span></a>
+<a class="sourceLine" id="cb83-18" data-line-number="18"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">0.6</span>);</a>
+<a class="sourceLine" id="cb83-19" data-line-number="19"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb83-20" data-line-number="20"><span class="kw">plot</span>(sampleTree, <span class="dt">main =</span> <span class="st">&quot;Sample clustering to detect outliers&quot;</span>, <span class="dt">sub=</span><span class="st">&quot;&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;&quot;</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>,</a>
+<a class="sourceLine" id="cb83-21" data-line-number="21">     <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.main =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb83-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb83-23" data-line-number="23"><span class="co"># Plot a line to show the cut</span></a>
+<a class="sourceLine" id="cb83-24" data-line-number="24"><span class="co">#abline(h = 400, col = &quot;red&quot;)</span></a></code></pre></div>
+<p>No outliner detected</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="co"># Automatic network construction and module detection</span></a>
+<a class="sourceLine" id="cb84-2" data-line-number="2"><span class="co"># Choose a set of soft-thresholding powers</span></a>
+<a class="sourceLine" id="cb84-3" data-line-number="3">powers =<span class="st"> </span><span class="kw">c</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">10</span>, <span class="dt">to=</span><span class="dv">25</span>, <span class="dt">by=</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb84-4" data-line-number="4"><span class="co"># Call the network topology analysis function</span></a>
+<a class="sourceLine" id="cb84-5" data-line-number="5">sft =<span class="st"> </span><span class="kw">pickSoftThreshold</span>(datExpr0, <span class="dt">powerVector =</span> powers, <span class="dt">verbose =</span> <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## pickSoftThreshold: will use block size 2000.
+##  pickSoftThreshold: calculating connectivity for given powers...
+##    ..working on genes 1 through 2000 of 2000
+##    Power SFT.R.sq slope truncated.R.sq  mean.k. median.k.   max.k.
+## 1      1    0.882 -3.43         0.9270 6.29e+01  5.70e+01 188.0000
+## 2      2    0.961 -2.50         0.9600 4.90e+00  3.12e+00  41.8000
+## 3      3    0.961 -1.95         0.9610 7.87e-01  2.95e-01  14.4000
+## 4      4    0.927 -1.76         0.9140 2.04e-01  4.01e-02   6.2800
+## 5      5    0.361 -2.33         0.2680 7.08e-02  6.98e-03   3.1400
+## 6      6    0.368 -2.21         0.2850 2.95e-02  1.40e-03   1.7100
+## 7      7    0.345 -2.61         0.2930 1.39e-02  2.82e-04   0.9890
+## 8      8    0.342 -2.47         0.3070 7.12e-03  6.31e-05   0.5930
+## 9      9    0.366 -1.89         0.3020 3.91e-03  1.49e-05   0.3660
+## 10    10    0.311 -1.68         0.1190 2.27e-03  3.43e-06   0.2310
+## 11    10    0.311 -1.68         0.1190 2.27e-03  3.43e-06   0.2310
+## 12    12    0.280 -1.93         0.0743 8.63e-04  2.01e-07   0.1270
+## 13    14    0.379 -2.36         0.3690 3.74e-04  1.25e-08   0.0821
+## 14    16    0.436 -2.70         0.3160 1.79e-04  7.91e-10   0.0545
+## 15    18    0.433 -2.58         0.3590 9.31e-05  5.07e-11   0.0367
+## 16    20    0.468 -2.57         0.3160 5.17e-05  3.32e-12   0.0249
+## 17    22    0.490 -2.45         0.4020 3.02e-05  2.16e-13   0.0170
+## 18    24    0.498 -2.36         0.4110 1.84e-05  1.47e-14   0.0117</code></pre>
+<p>Plot the results:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">sizeGrWindow</span>(<span class="dv">9</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>));</a>
+<a class="sourceLine" id="cb86-3" data-line-number="3">cex1 =<span class="st"> </span><span class="fl">0.9</span>;</a>
+<a class="sourceLine" id="cb86-4" data-line-number="4"><span class="co"># Scale-free topology fit index as a function of the soft-thresholding power</span></a>
+<a class="sourceLine" id="cb86-5" data-line-number="5"><span class="kw">plot</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], <span class="op">-</span><span class="kw">sign</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">3</span>])<span class="op">*</span>sft<span class="op">$</span>fitIndices[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb86-6" data-line-number="6">     <span class="dt">xlab=</span><span class="st">&quot;Soft Threshold (power)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Scale Free Topology Model Fit,signed R^2&quot;</span>,<span class="dt">type=</span><span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb86-7" data-line-number="7">     <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Scale independence&quot;</span>));</a>
+<a class="sourceLine" id="cb86-8" data-line-number="8"><span class="kw">text</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], <span class="op">-</span><span class="kw">sign</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">3</span>])<span class="op">*</span>sft<span class="op">$</span>fitIndices[,<span class="dv">2</span>],</a>
+<a class="sourceLine" id="cb86-9" data-line-number="9">     <span class="dt">labels=</span>powers,<span class="dt">cex=</span>cex1,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>);</a>
+<a class="sourceLine" id="cb86-10" data-line-number="10"><span class="co"># this line corresponds to using an R^2 cut-off of h</span></a>
+<a class="sourceLine" id="cb86-11" data-line-number="11"><span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.90</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb86-12" data-line-number="12"><span class="co"># Mean connectivity as a function of the soft-thresholding power</span></a>
+<a class="sourceLine" id="cb86-13" data-line-number="13"><span class="kw">plot</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], sft<span class="op">$</span>fitIndices[,<span class="dv">5</span>],</a>
+<a class="sourceLine" id="cb86-14" data-line-number="14">     <span class="dt">xlab=</span><span class="st">&quot;Soft Threshold (power)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Mean Connectivity&quot;</span>, <span class="dt">type=</span><span class="st">&quot;n&quot;</span>,</a>
+<a class="sourceLine" id="cb86-15" data-line-number="15">     <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Mean connectivity&quot;</span>))</a>
+<a class="sourceLine" id="cb86-16" data-line-number="16"><span class="kw">text</span>(sft<span class="op">$</span>fitIndices[,<span class="dv">1</span>], sft<span class="op">$</span>fitIndices[,<span class="dv">5</span>], <span class="dt">labels=</span>powers, <span class="dt">cex=</span>cex1,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p>Tested with 5, 3 and 2 and 4. The best seems 2</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">net =<span class="st"> </span><span class="kw">blockwiseModules</span>(datExpr0, <span class="dt">power =</span> <span class="dv">2</span>, <span class="dt">maxBlockSize =</span> <span class="dv">20000</span>,</a>
+<a class="sourceLine" id="cb87-2" data-line-number="2">                       <span class="dt">TOMType =</span> <span class="st">&quot;signed&quot;</span>, <span class="dt">minModuleSize =</span> <span class="dv">30</span>,</a>
+<a class="sourceLine" id="cb87-3" data-line-number="3">                       <span class="dt">reassignThreshold =</span> <span class="dv">0</span>, <span class="dt">mergeCutHeight =</span> <span class="fl">0.25</span>,</a>
+<a class="sourceLine" id="cb87-4" data-line-number="4">                       <span class="dt">numericLabels =</span> <span class="ot">TRUE</span>, <span class="dt">pamRespectsDendro =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb87-5" data-line-number="5">                       <span class="dt">saveTOMs =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb87-6" data-line-number="6">                       <span class="dt">saveTOMFileBase =</span> <span class="st">&quot;E17.5&quot;</span>,</a>
+<a class="sourceLine" id="cb87-7" data-line-number="7">                       <span class="dt">verbose =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>##  Calculating module eigengenes block-wise from all genes
+##    Flagging genes and samples with too many missing values...
+##     ..step 1
+##  ..Working on block 1 .
+##     TOM calculation: adjacency..
+##     ..will not use multithreading.
+##      Fraction of slow calculations: 0.000000
+##     ..connectivity..
+##     ..matrix multiplication (system BLAS)..
+##     ..normalization..
+##     ..done.
+##    ..saving TOM for block 1 into file E17.5-block.1.RData
+##  ....clustering..
+##  ....detecting modules..
+##  ....calculating module eigengenes..
+##  ....checking kME in modules..
+##      ..removing 552 genes from module 1 because their KME is too low.
+##      ..removing 154 genes from module 2 because their KME is too low.
+##      ..removing 86 genes from module 3 because their KME is too low.
+##      ..removing 42 genes from module 4 because their KME is too low.
+##      ..removing 20 genes from module 5 because their KME is too low.
+##  ..merging modules that are too close..
+##      mergeCloseModules: Merging modules whose distance is less than 0.25
+##        Calculating new MEs...</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="co"># open a graphics window</span></a>
+<a class="sourceLine" id="cb89-2" data-line-number="2"><span class="kw">sizeGrWindow</span>(<span class="dv">12</span>, <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3"><span class="co"># Convert labels to colors for plotting</span></a>
+<a class="sourceLine" id="cb89-4" data-line-number="4">mergedColors =<span class="st"> </span><span class="kw">labels2colors</span>(net<span class="op">$</span>colors)</a>
+<a class="sourceLine" id="cb89-5" data-line-number="5"><span class="co"># Plot the dendrogram and the module colors underneath</span></a>
+<a class="sourceLine" id="cb89-6" data-line-number="6"><span class="kw">plotDendroAndColors</span>(net<span class="op">$</span>dendrograms[[<span class="dv">1</span>]], mergedColors[net<span class="op">$</span>blockGenes[[<span class="dv">1</span>]]],</a>
+<a class="sourceLine" id="cb89-7" data-line-number="7">                    <span class="st">&quot;Module colors&quot;</span>,</a>
+<a class="sourceLine" id="cb89-8" data-line-number="8">                    <span class="dt">dendroLabels =</span> <span class="ot">FALSE</span>, <span class="dt">hang =</span> <span class="fl">0.03</span>,</a>
+<a class="sourceLine" id="cb89-9" data-line-number="9">                    <span class="dt">addGuide =</span> <span class="ot">TRUE</span>, <span class="dt">guideHang =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> <span class="kw">unique</span>(<span class="kw">unlist</span>(gene.sets.list)),</a>
+<a class="sourceLine" id="cb90-2" data-line-number="2"><span class="dt">networkType=</span><span class="st">&quot;signed&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb90-3" data-line-number="3"><span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an signed network&quot;</span>)</a></code></pre></div>
+<pre><code>## Warning: Not all gene names were recognized. Only the following genes were recognized. 
+##     Reln,     Lhx5,     Cux1,     Satb2,     Rorb,     Sox5,     Fezf2,     Bcl11b,     Vim,     Hes1,     Nes,     Sox2,     Sox1,     Hes5,     Pax6,     Tubb3,     Stmn1,     Neurod1,     Nefm,     Nefl
+## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">plotNetworkHeatmap</span>(datExpr0, <span class="dt">plotGenes =</span> primary.markers,</a>
+<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="dt">networkType=</span><span class="st">&quot;signed&quot;</span>, <span class="dt">useTOM=</span><span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb92-3" data-line-number="3"><span class="dt">power=</span><span class="dv">2</span>, <span class="dt">main=</span><span class="st">&quot;D. TOM in an signed network&quot;</span>)</a></code></pre></div>
+<pre><code>## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="co"># Calculate topological overlap anew: this could be done more efficiently by saving the TOM</span></a>
+<a class="sourceLine" id="cb94-2" data-line-number="2"><span class="co"># calculated during module detection, but let us do it again here.</span></a>
+<a class="sourceLine" id="cb94-3" data-line-number="3">dissTOM =<span class="st"> </span><span class="dv">1</span><span class="op">-</span><span class="kw">TOMsimilarityFromExpr</span>(datExpr0, <span class="dt">power =</span> <span class="dv">2</span>);</a></code></pre></div>
+<pre><code>## TOM calculation: adjacency..
+## ..will not use multithreading.
+##  Fraction of slow calculations: 0.000000
+## ..connectivity..
+## ..matrix multiplication (system BLAS)..
+## ..normalization..
+## ..done.</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># Transform dissTOM with a power to make moderately strong connections more visible in the heatmap</span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">plotTOM =<span class="st"> </span>dissTOM<span class="op">^</span><span class="dv">7</span>;</a>
+<a class="sourceLine" id="cb96-3" data-line-number="3"><span class="co"># Set diagonal to NA for a nicer plot</span></a>
+<a class="sourceLine" id="cb96-4" data-line-number="4"><span class="kw">diag</span>(plotTOM) =<span class="st"> </span><span class="ot">NA</span>;</a>
+<a class="sourceLine" id="cb96-5" data-line-number="5"><span class="kw">rownames</span>(dissTOM)=<span class="kw">colnames</span>(datExpr0)</a>
+<a class="sourceLine" id="cb96-6" data-line-number="6"><span class="kw">colnames</span>(dissTOM)=<span class="kw">colnames</span>(datExpr0)</a>
+<a class="sourceLine" id="cb96-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb96-8" data-line-number="8">selectTOM =<span class="st"> </span>dissTOM[primary.markers, primary.markers];</a>
+<a class="sourceLine" id="cb96-9" data-line-number="9"><span class="co"># There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.</span></a>
+<a class="sourceLine" id="cb96-10" data-line-number="10">selectTree =<span class="st"> </span><span class="kw">hclust</span>(<span class="kw">as.dist</span>(selectTOM), <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)</a>
+<a class="sourceLine" id="cb96-11" data-line-number="11">moduleColors =<span class="st"> </span>mergedColors</a>
+<a class="sourceLine" id="cb96-12" data-line-number="12"><span class="kw">names</span>(moduleColors) =<span class="st"> </span><span class="kw">rownames</span>(dissTOM)</a>
+<a class="sourceLine" id="cb96-13" data-line-number="13">selectColors =<span class="st"> </span>moduleColors[primary.markers]</a>
+<a class="sourceLine" id="cb96-14" data-line-number="14"><span class="co"># Open a graphical window</span></a>
+<a class="sourceLine" id="cb96-15" data-line-number="15"><span class="kw">sizeGrWindow</span>(<span class="dv">9</span>,<span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb96-16" data-line-number="16"><span class="co"># Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing</span></a>
+<a class="sourceLine" id="cb96-17" data-line-number="17"><span class="co"># the color palette; setting the diagonal to NA also improves the clarity of the plot</span></a>
+<a class="sourceLine" id="cb96-18" data-line-number="18">plotDiss =<span class="st"> </span>selectTOM<span class="op">^</span><span class="dv">7</span>;</a>
+<a class="sourceLine" id="cb96-19" data-line-number="19"><span class="kw">diag</span>(plotDiss) =<span class="st"> </span><span class="ot">NA</span>;</a>
+<a class="sourceLine" id="cb96-20" data-line-number="20"><span class="kw">TOMplot</span>(plotDiss, selectTree, selectColors, <span class="dt">main =</span> <span class="st">&quot;Network heatmap plot, selected genes&quot;</span>,<span class="dt">col=</span>myheatcol)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw">plotDendroAndColors</span>(selectTree,selectColors,</a>
+<a class="sourceLine" id="cb97-2" data-line-number="2">                     <span class="st">&quot;Module colors&quot;</span>,</a>
+<a class="sourceLine" id="cb97-3" data-line-number="3">                     <span class="dt">dendroLabels =</span> <span class="ot">NULL</span>, <span class="dt">hang =</span> <span class="fl">0.03</span>,</a>
+<a class="sourceLine" id="cb97-4" data-line-number="4">                     <span class="dt">addGuide =</span> <span class="ot">TRUE</span>, <span class="dt">guideHang =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<pre><code>## Warning in pmin(objHeights[dendro$order][floor(positions)],
+## objHeights[dendro$order][ceiling(positions)]): an argument will be fractionally
+## recycled</code></pre>
+<p><img src="WGCNA_experiments_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">net<span class="op">$</span>colors[primary.markers]</a></code></pre></div>
+<pre><code>##   Reln   Lhx5   Cux1  Satb2   Rorb   Sox5  Fezf2 Bcl11b    Vim   Hes1 
+##      4      4      0      0      0      0      0      0      1      1</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">net<span class="op">$</span>colors[genes]</a></code></pre></div>
+<pre><code>##    Reln    Lhx5    Cux1   Satb2    Rorb    Sox5   Fezf2  Bcl11b     Vim    Hes1 
+##       4       4       0       0       0       0       0       0       1       1 
+##     Nes    Sox2    Sox1    &lt;NA&gt;    Hes5    Pax6   Tubb3    &lt;NA&gt;   Stmn1 Neurod1 
+##       1       1       0      NA       1       1       1      NA       1       0 
+##    &lt;NA&gt;    &lt;NA&gt;    Nefm    Nefl 
+##      NA      NA       0       0</code></pre>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 4.0.4 (2021-02-15)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 18.04.5 LTS
+## 
+## Matrix products: default
+## BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
+## LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] graphics utils    methods  stats    base    
+## 
+## other attached packages:
+##  [1] gplots_3.1.1          patchwork_1.1.1       dplyr_1.0.4          
+##  [4] SeuratObject_4.0.0    Seurat_4.0.0          Matrix_1.3-2         
+##  [7] data.table_1.13.6     cluster_2.1.1         WGCNA_1.70-3         
+## [10] fastcluster_1.1.25    dynamicTreeCut_1.63-1
+## 
+## loaded via a namespace (and not attached):
+##   [1] backports_1.2.1       Hmisc_4.5-0           plyr_1.8.6           
+##   [4] igraph_1.2.6          lazyeval_0.2.2        splines_4.0.4        
+##   [7] listenv_0.8.0         scattermore_0.7       ggplot2_3.3.3        
+##  [10] digest_0.6.27         foreach_1.5.1         htmltools_0.5.1.1    
+##  [13] GO.db_3.12.1          magrittr_2.0.1        checkmate_2.0.0      
+##  [16] memoise_2.0.0         tensor_1.5            doParallel_1.0.16    
+##  [19] ROCR_1.0-11           globals_0.14.0        matrixStats_0.58.0   
+##  [22] R.utils_2.10.1        jpeg_0.1-8.1          colorspace_2.0-0     
+##  [25] blob_1.2.1            ggrepel_0.9.1         xfun_0.20            
+##  [28] crayon_1.4.0          jsonlite_1.7.2        spatstat_1.64-1      
+##  [31] spatstat.data_2.0-0   impute_1.64.0         survival_3.2-7       
+##  [34] zoo_1.8-8             iterators_1.0.13      glue_1.4.2           
+##  [37] polyclip_1.10-0       gtable_0.3.0          leiden_0.3.7         
+##  [40] future.apply_1.7.0    BiocGenerics_0.36.0   abind_1.4-5          
+##  [43] scales_1.1.1          DBI_1.1.1             miniUI_0.1.1.1       
+##  [46] Rcpp_1.0.6            viridisLite_0.3.0     xtable_1.8-4         
+##  [49] htmlTable_2.1.0       reticulate_1.18       foreign_0.8-81       
+##  [52] bit_4.0.4             preprocessCore_1.52.1 Formula_1.2-4        
+##  [55] stats4_4.0.4          htmlwidgets_1.5.3     httr_1.4.2           
+##  [58] RColorBrewer_1.1-2    ellipsis_0.3.1        ica_1.0-2            
+##  [61] farver_2.0.3          R.methodsS3_1.8.1     pkgconfig_2.0.3      
+##  [64] uwot_0.1.10           nnet_7.3-15           sass_0.3.1           
+##  [67] deldir_0.2-10         labeling_0.4.2        tidyselect_1.1.0     
+##  [70] rlang_0.4.10          reshape2_1.4.4        later_1.1.0.1        
+##  [73] AnnotationDbi_1.52.0  munsell_0.5.0         tools_4.0.4          
+##  [76] cachem_1.0.3          generics_0.1.0        RSQLite_2.2.3        
+##  [79] ggridges_0.5.3        evaluate_0.14         stringr_1.4.0        
+##  [82] fastmap_1.1.0         yaml_2.2.1            goftest_1.2-2        
+##  [85] grDevices_4.0.4       knitr_1.31            bit64_4.0.5          
+##  [88] fitdistrplus_1.1-3    caTools_1.18.1        purrr_0.3.4          
+##  [91] RANN_2.6.1            pbapply_1.4-3         future_1.21.0        
+##  [94] nlme_3.1-152          mime_0.9              R.oo_1.24.0          
+##  [97] compiler_4.0.4        rstudioapi_0.13       plotly_4.9.3         
+## [100] png_0.1-7             spatstat.utils_2.0-0  tibble_3.0.6         
+## [103] bslib_0.2.4           stringi_1.5.3         highr_0.8            
+## [106] lattice_0.20-41       vctrs_0.3.6           pillar_1.4.7         
+## [109] lifecycle_0.2.0       lmtest_0.9-38         jquerylib_0.1.3      
+## [112] RcppAnnoy_0.0.18      bitops_1.0-6          cowplot_1.1.1        
+## [115] irlba_2.3.3           httpuv_1.5.5          R6_2.5.0             
+## [118] latticeExtra_0.6-29   promises_1.1.1        KernSmooth_2.23-18   
+## [121] gridExtra_2.3         IRanges_2.24.1        parallelly_1.23.0    
+## [124] codetools_0.2-18      gtools_3.8.2          MASS_7.3-53.1        
+## [127] assertthat_0.2.1      withr_2.4.1           sctransform_0.3.2    
+## [130] S4Vectors_0.28.1      datasets_4.0.4        mgcv_1.8-33          
+## [133] parallel_4.0.4        grid_4.0.4            rpart_4.1-15         
+## [136] tidyr_1.1.2           rmarkdown_2.7         Rtsne_0.15           
+## [139] Biobase_2.50.0        shiny_1.6.0           base64enc_0.1-3</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
