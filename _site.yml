@@ -1,6 +1,6 @@
 name: COTAN paper
 navbar:
-  title: "Documentation for COTAN paper"
+  title: "COTAN paper"
   left:
   - text: Datasets
     menu:

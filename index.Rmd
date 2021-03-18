@@ -1,5 +1,5 @@
 ---
- title: "COTAN"
+ title: "COTAN documentation"
  output:
    html_document:
      css: html-md-01.css
@@ -16,7 +16,7 @@
  #pdf.options(useDingbats = TRUE)
 ```
 
-# COTAN documentation
+# Overview
 
 This web page contains all data regarding the COTAN paper. Here can be found
 
