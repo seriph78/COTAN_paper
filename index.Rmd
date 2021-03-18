@@ -12,7 +12,7 @@
 
 ```{r set-options, echo=FALSE}
  options(width = 105)
- knitr::opts_chunk$set(dev='png', dpi=300, cache=TRUE)
+ knitr::opts_chunk$set(dev='png', dpi=300, cache=T)
  #pdf.options(useDingbats = TRUE)
 ```
 

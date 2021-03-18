@@ -1,6 +1,6 @@
 name: COTAN paper
 navbar:
-  title: "COTAN paper"
+  title: "Documentation for COTAN paper"
   left:
   - text: Datasets
     menu:
@@ -8,8 +8,7 @@ navbar:
       href: P0_cortex_analysis.nb.html
     - text: E16.5 mouse cortex
       href: E16_analysis.nb.html
-      
-  center:
+  #left:
   - text: Test
     menu:
     - text: Correlation vs COTAN coex
@@ -18,8 +17,8 @@ navbar:
       href: Loo_et_all_markers.nb.html
     - text: WGCNA experiments
       href: WGCNA_experiments.nb.html
-  right:
-  - text: Negative datasets 
+  #right:
+  - text: Negative dataset 
     href: Negative_dataset_analysis.nb.html
 output:
   html_document:
