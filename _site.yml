@@ -8,6 +8,11 @@ navbar:
       href: P0_cortex_analysis.nb.html
     - text: E16.5 mouse cortex
       href: E16_analysis.nb.html
+    - text: E17.5 mouse cortex
+      href: 
+    - text: E17.5 gene clustering
+      href: Gene_clustering.nb.html
+    
   #left:
   - text: Test
     menu:

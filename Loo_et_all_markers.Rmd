@@ -14,6 +14,13 @@ output:
     df_print: paged
     toc: yes
 ---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
 
 ```{r}
 library(COTAN)

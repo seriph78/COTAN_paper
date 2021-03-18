@@ -2,6 +2,14 @@
 title: "Seurat correlation vs cotan heatmap"
 output: html_notebook
 ---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
 ```{r setup, include=FALSE}
 # Comparition between COTAN and Seurat
 library(dplyr)
