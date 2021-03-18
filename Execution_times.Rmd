@@ -1,0 +1,35 @@
+---
+title: "Execution times"
+output:
+    html_notebook:
+      css: html-md-01.css
+      fig_caption: yes
+      highlight: haddock
+      number_sections: yes
+      theme: spacelab
+      toc: yes
+      toc_float: true
+      collapsed: no
+---
+
+```{r}
+tot.file = read.csv("Data/Tot_times.csv")
+library(ggplot2)
+
+```
+
+
+The following data and plot analyse the execution time of COTAN tool using the automatic.COTAN.object.creation function.
+
+```{r}
+ggplot(tot.file, aes(x = n.cells, y = times)) + 
+  geom_line(aes(color = type)) + 
+  scale_color_manual(values = c("darkred", "steelblue","pink"))
+```
+
+```{r}
+ggplot(tot.file, aes(x = n.genes, y = times)) + 
+  geom_line(aes(color = type)) + 
+  scale_color_manual(values = c("darkred", "steelblue","pink"))
+```
+

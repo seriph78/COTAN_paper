@@ -1,5 +1,5 @@
 ---
- title: "COTAN paper documentation"
+ title: "COTAN"
  output:
    html_document:
      css: html-md-01.css
@@ -8,7 +8,7 @@
      toc: no
      toc_float: false
      collapsed: no
- ---
+---
 
 ```{r set-options, echo=FALSE}
  options(width = 105)
@@ -16,10 +16,12 @@
  #pdf.options(useDingbats = TRUE)
 ```
 
-Project web page for COTAN *WGCNA experiments* ##
+# COTAN documentation
 
-Topics covered here include:
+This web page contains all data regarding the COTAN paper. Here can be found
 
- - An introduction to the project
- - A simple example of plotting a raster slice
- - (more to come…)
+- All datasets analysis 
+- The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA
+- The comparition of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contain the comparition with the WGCNA approach.
+- The negative dataset analysis.
+

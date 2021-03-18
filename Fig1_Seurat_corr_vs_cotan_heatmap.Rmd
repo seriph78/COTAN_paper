@@ -1,0 +1,205 @@
+---
+title: "Seurat correlation vs cotan heatmap"
+output: html_notebook
+---
+```{r setup, include=FALSE}
+# Comparition between COTAN and Seurat
+library(dplyr)
+#source("cotan_output_functions.R")
+library(Seurat)
+library(Matrix)
+library(fitdistrplus)
+library("ggsci")
+library("ggplot2")
+library(ggrepel)
+library("gridExtra")
+library(ggpubr)
+library(COTAN)
+
+hk = c("Calm1","Cox6b1","Ppia","Rpl18","Cox7c","Erh","H3f3a","Taf1","Taf2","Gapdh","Actb","Golph3",
+       "Mtmr12","Zfr","Sub1","Tars","Amacr")
+tf1 = c("Nes","Vim","Sox2","Sox1","Notch1", "Hes1","Hes5","Pax6")
+tf2 = c("Map2","Tubb3","Neurod1","Nefm","Nefl","Dcx","Tbr1")
+layer = c("Reln","Lhx5","Cux1","Satb2","Tle1","Mef2c","Rorb","Sox5","Bcl11b","Fezf2","Foxp2")
+```
+```{r}
+input_dir = "Data/mouse_dentate_gyrus/"
+ 
+E16.5_cotan = readRDS("Data/E16.5_cleaned.cotan.RDS")
+
+t = "E16.5"
+
+pbmc.data  =  read.csv("Data/mouse_dentate_gyrus/separation_age/E16.5.csv", header = T, row.names = 1)
+
+#cells = read.csv(paste(input_dir,"cells_",t,".csv", sep = ""), header = T, row.names = 1)
+
+#out_dir = "../results/2019.12.14/"
+#load_files(imput_dir = input_dir,t="E16.5",s="H1")
+#colnames(pbmc.data)=paste("E",t,"_",colnames(pbmc.data), sep = "")
+pbmc.data = pbmc.data[, colnames(E16.5_cotan@raw)]
+
+rownames(pbmc.data)[grep("_",rownames(pbmc.data))] =  gsub("_","-",rownames(pbmc.data)[grep("_",rownames(pbmc.data))]) 
+#colnames(pbmc.data)=stringr::str_remove(colnames(pbmc.data), "\\.$")
+#colnames(pbmc.data)[grep(".",colnames(pbmc.data))] =  gsub("."," ",colnames(pbmc.data)[grep(".",colnames(pbmc.data))]) 
+pbmc.data = as(as.matrix(pbmc.data), "sparseMatrix")
+lib.size = colSums(pbmc.data)
+hist(lib.size, prob=TRUE, breaks=145)
+```
+```{r}
+fit <- fitdist(lib.size, "nbinom")
+prob.treshold = qnbinom((1-0.001), size=fit$estimate[1], mu=fit$estimate[2])
+pbmc.data = pbmc.data[,names(lib.size[lib.size<prob.treshold])]
+lib.size = colSums(pbmc.data)
+hist(lib.size, prob=TRUE, breaks=145)
+```
+
+```{r }
+pbmc <- CreateSeuratObject(counts = pbmc.data, project = "hipp_1_E16.5", min.cells = 3, min.features = 200)
+pbmc
+```
+
+```{r}
+pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^mt-")
+VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+
+```{r}
+plot1 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt")
+plot2 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+CombinePlots(plots = list(plot1, plot2))
+```
+```{r}
+subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 4000 & percent.mt < 7.5)
+length(pbmc$nFeature_RNA)
+```
+
+```{r}
+plot1 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt")
+plot2 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+CombinePlots(plots = list(plot1, plot2))
+```
+```{r}
+pbmc <- NormalizeData(pbmc)
+```
+
+```{r}
+pbmc[["RNA"]]@data[1:10,1:10]
+```
+
+Code to produce the heatmap of Seurat correlation matrix vs cotan heatmap on selected genes.
+```{r}
+seurat.data = pbmc[["RNA"]]@data
+seurat.data.cor.pearson = cor(t(as.matrix(seurat.data)), method = "pearson")
+#write.csv(seurat.data.cor, file = "../results/2019.12.16/E16.5_hipp_Seurat_correlations.csv" )
+
+partial.coex.pearson = seurat.data.cor.pearson[rownames(seurat.data.cor.pearson) %in% c(tf1,tf2,hk),colnames(seurat.data.cor.pearson) %in% c(tf1,tf2,hk)]
+diag(partial.coex.pearson) = 0
+
+seurat.data.cor.spearman = cor(t(as.matrix(seurat.data)), method = "spearman")
+#write.csv(seurat.data.cor, file = "../results/2019.12.16/E16.5_hipp_Seurat_correlations.csv" )
+
+partial.coex.spearman = seurat.data.cor.spearman[rownames(seurat.data.cor.spearman) %in% c(tf1,tf2,hk),colnames(seurat.data.cor.spearman) %in% c(tf1,tf2,hk)]
+diag(partial.coex.spearman) = 0
+
+
+```
+
+```{r}
+partial.coex.pearson = reshape2::melt(partial.coex.pearson)
+colnames(partial.coex.pearson) = c("g1","g2","corr")
+
+partial.coex.pearson$g1 <- factor(partial.coex.pearson$g1, c(tf1,hk,tf2))
+partial.coex.pearson$g2 <- factor(partial.coex.pearson$g2, c(tf1,hk,tf2))
+
+  P = ggplot(partial.coex.pearson) + 
+  geom_tile(aes(x=g1,y=g2, fill = corr),colour = "black", show.legend = TRUE) +
+#  facet_grid( g1 ~ g2  ,scales = "free", space = "free") + 
+    scale_fill_gradient2(mid = "white",limits=c(-1, 1),low = "#DC0000B2", high = "#3C5488B2")+
+  #scale_fill_gradient2(low = "darkred", mid = "white",  high = "darkblue", midpoint = 0,na.value = "grey80", space = "Lab", guide = "colourbar", aesthetics = "fill", limits = lim_coex, oob=scales::squish)+ theme(legend.position="bottom")+
+  theme(#legend.title = element_blank(),
+    #strip.text.x = element_text(color = "red"),
+    #axis.text.y = element_text(color = ),
+    axis.text.x = element_text(angle=45,hjust=1,vjust=1.0),
+    legend.position="bottom"
+  ) #+geom_text(aes(label=ifelse(t_hk == "hk", "H","")), color="grey", size=3)
+  P
+```
+
+```{r}
+partial.coex.spearman = reshape2::melt(partial.coex.spearman)
+colnames(partial.coex.spearman) = c("g1","g2","corr")
+
+partial.coex.spearman$g1 <- factor(partial.coex.spearman$g1, c(tf1,hk,tf2))
+partial.coex.spearman$g2 <- factor(partial.coex.spearman$g2, c(tf1,hk,tf2))
+
+  S = ggplot(partial.coex.spearman) + 
+  geom_tile(aes(x=g1,y=g2, fill = corr),colour = "black", show.legend = TRUE) +
+#  facet_grid( g1 ~ g2  ,scales = "free", space = "free") + 
+    scale_fill_gradient2(mid = "white",limits=c(-1, 1),low = "#DC0000B2", high = "#3C5488B2")+
+  #scale_fill_gradient2(low = "darkred", mid = "white",  high = "darkblue", midpoint = 0,na.value = "grey80", space = "Lab", guide = "colourbar", aesthetics = "fill", limits = lim_coex, oob=scales::squish)+ theme(legend.position="bottom")+
+  theme(#legend.title = element_blank(),
+    #strip.text.x = element_text(color = "red"),
+    #axis.text.y = element_text(color = ),
+    axis.text.x = element_text(angle=45,hjust=1,vjust=1.0),
+    legend.position="bottom"
+  ) #+geom_text(aes(label=ifelse(t_hk == "hk", "H","")), color="grey", size=3)
+  S
+```
+
+```{r}
+#load_data3.0(input_dir, cond = t, genes = c(tf1,tf2,hk), prefix = "p_value_")
+
+# COTAN: after loading in memeory the coex matrix 
+p_value_E16.5 = get.pval(object = E16.5_cotan, gene.set.col = c(tf1,tf2,hk),
+                         gene.set.row = c(tf1,tf2,hk))
+
+partial.coex.cotan = E16.5_cotan@coex[rownames(E16.5_cotan@coex) %in% c(tf1,tf2,hk),colnames(E16.5_cotan@coex) %in% c(tf1,tf2,hk)]
+
+#partial.pval.cotan = p_value_E16.5[rownames(p_value_E16.5) %in% c(tf1,tf2,hk),colnames(p_value_E16.5) %in% c(tf1,tf2,hk)]
+partial.pval.cotan =p_value_E16.5
+#partial.pval.cotan = partial.pval.cotan <= 0.05
+#partial.coex.cotan[!partial.pval.cotan] <- 0
+
+  partial.coex.cotan = reshape2::melt(as.matrix(partial.coex.cotan))
+  colnames(partial.coex.cotan) = c("g1","g2","coex")
+  for (n in c(1:nrow(partial.coex.cotan))) {
+    if (partial.coex.cotan[n,"g1"] == partial.coex.cotan[n,"g2"]) {
+      partial.coex.cotan[n,"coex"]=0
+    }
+      
+  }
+  
+  partial.coex.cotan$g1 <- factor(partial.coex.cotan$g1, c(tf1,hk,tf2))
+  partial.coex.cotan$g2 <- factor(partial.coex.cotan$g2, c(tf1,hk,tf2))
+  
+C = ggplot(partial.coex.cotan) + 
+    geom_tile(aes(x=g1,y=g2, fill = coex),colour = "black", show.legend = TRUE) +
+    #  facet_grid( g1 ~ g2  ,scales = "free", space = "free") + 
+    scale_fill_gradient2(mid = "white",limits=c(round(min(partial.coex.cotan$coex),digits = 0), round(max(partial.coex.cotan$coex),digits = 0)),low = "#DC0000B2", high = "#3C5488B2")+
+    #scale_fill_gradient2(low = "darkred", mid = "white",  high = "darkblue", midpoint = 0,na.value = "grey80", space = "Lab", guide = "colourbar", aesthetics = "fill", limits = lim_coex, oob=scales::squish)+ theme(legend.position="bottom")+
+    theme(#legend.title = element_blank(),
+      #strip.text.x = element_text(color = "red"),
+      #axis.text.y = element_text(color = ),
+      axis.text.x = element_text(angle=45,hjust=1,vjust=1.0),
+      legend.position="bottom"
+    )#+geom_text(aes(label=ifelse(t_hk == "hk", "H","")), color="grey", size=3)
+  
+
+#figure <- ggarrange(C, S,
+ #                   labels = c("Co.", "Sp."),
+ #                   ncol = 2, nrow = 1)
+#figure
+C
+
+```
+```{r}
+figure <- ggarrange(C, P,
+                    labels = c("Co.", "Pe."),
+                    ncol = 2, nrow = 1)
+figure
+```
+
+```{r}
+sessionInfo()
+```
+

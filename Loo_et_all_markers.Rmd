@@ -1,18 +1,34 @@
 ---
 title: "Loo et all markers"
 output:
-     html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_document:
+    df_print: paged
+    toc: yes
 ---
+
 ```{r}
-input_dir = "../../Cotan_paper/Data/"
+library(COTAN)
+library(ggplot2)
+library(data.table)
+library(Matrix)
+library(factoextra)
+library(ggrepel)
+```
+
+
+# Gene clustering using COTAN
+
+```{r}
+input_dir = "Data/"
 layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
 #objE17 = readRDS(file = paste(input_dir,"E17.5_cortex.cotan.RDS", sep = ""))
 objE17 = readRDS(file = paste(input_dir,"E17.5_cortex_cleaned.cotan.RDS", sep = ""))
@@ -20,8 +36,7 @@ objE17 = readRDS(file = paste(input_dir,"E17.5_cortex_cleaned.cotan.RDS", sep = 
 
 ```{r}
 g.space = get.gene.coexpression.space(objE17, 
-                                      n.genes.for.marker = 28,  
-                                      primary.markers = unlist(layers))
+                                      n.genes.for.marker = 28,  primary.markers = unlist(layers))
 ```
 ```{r}
 g.space = as.data.frame(as.matrix(g.space))
@@ -33,7 +48,9 @@ coex.pca.genes <- prcomp(t(g.space),
 fviz_eig(coex.pca.genes, addlabels=TRUE,ncp = 10)
 #fviz_eig(coex.pca.genes, choice = "eigenvalue", addlabels=TRUE)
 ```
-Hierarchical clustering
+
+## Hierarchical clustering
+
 ```{r}
 
 # clustering usign Ward method
@@ -66,7 +83,7 @@ set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% unli
 plot(horiz=F, axes=T,ylim = c(0,80))
 ```
 
-
+## Import of markers from Loo et al. paper
 
 ```{r}
 Markers_Loo = read.csv("Data/Markers_Loo.csv")
@@ -117,6 +134,7 @@ names(layers.cluster) = unique(cut[unlist(layers)])
 layers.cluster
 ```
 
+## Comparition between Loo et al. markers and COTAN markers
 
 ```{r}
 groups = list("L.I"=5,"L.II.III"=4,"L.IV"=7,"L.V.VI"=6,"PROG"=2)
@@ -164,6 +182,285 @@ set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% spec
     plot(horiz=T, axes=T,xlim = c(0,80),cex = 1)
 
 ```
+
+# WGCNA 
+
+```{r}
+library(WGCNA)
+library(cluster)
+library(data.table)
+library(Matrix)
+library(Seurat)
+library(utils)
+library(dplyr)
+library(patchwork)
+library(graphics)
+options(stringsAsFactors = FALSE)
+data_dir = "Data/"
+library(gplots)
+myheatcol = colorpanel(250,'red',"orange",'lemonchiffon')
+```
+
+
+## Test with the 2000 most varied genes
+
+This seems the best option for the analysis with WGCNA.
+
+```{r}
+data = as.data.frame(fread(paste(input_dir,"E175_only_cortical_cells.txt.gz", sep = "/"),sep = "\t"))
+data = as.data.frame(data)
+rownames(data) = data$V1
+data = data[,2:ncol(data)]
+data[1:10,1:10]
+```
+
+```{r}
+E17 <- CreateSeuratObject(counts = data, project = "Cortex E17.5", min.cells = 3, min.features = 200)
+E17[["percent.mt"]] <- PercentageFeatureSet(E17, pattern = "^mt-")
+VlnPlot(E17, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+```
+```{r}
+hist(E17$nFeature_RNA/E17$nCount_RNA, breaks = 100)
+```
+```{r}
+plot1 <- FeatureScatter(E17, feature1 = "nCount_RNA", feature2 = "percent.mt")
+plot2 <- FeatureScatter(E17, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
+plot1 + plot2
+```
+```{r}
+E17 <- NormalizeData(E17, normalization.method = "LogNormalize", scale.factor = 10000)
+E17 <- FindVariableFeatures(E17, selection.method = "vst", nfeatures = 2000)
+
+# Identify the 10 most highly variable genes
+top10 <- head(VariableFeatures(E17), 10)
+
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(E17)
+plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
+plot2
+```
+```{r}
+all.genes <- rownames(E17)
+E17 <- ScaleData(E17, features = all.genes)
+E17 <- RunPCA(E17, features = VariableFeatures(object = E17))
+DimPlot(E17, reduction = "pca")
+```
+
+
+```{r}
+all.genes <- rownames(E17)
+E17 <- ScaleData(E17, features = all.genes)
+
+seurat.data = as.matrix(E17[["RNA"]]@data)
+
+Var.genes = VariableFeatures(E17)[1:2000]
+
+```
+
+
+```{r}
+datExpr0 = t(seurat.data[rownames(seurat.data) %in% Var.genes,])
+gsg = goodSamplesGenes(datExpr0, verbose = 3)
+gsg$allOK
+if (!gsg$allOK){
+    # Optionally, print the gene and sample names that were removed:
+    if (sum(!gsg$goodGenes)>0)
+        printFlush(paste("Removing genes:", paste(names(datExpr0)[!gsg$goodGenes], collapse = ", ")));
+    if (sum(!gsg$goodSamples)>0)
+        printFlush(paste("Removing samples:", paste(rownames(datExpr0)[!gsg$goodSamples], collapse = ", ")));
+    # Remove the offending genes and samples from the data:
+    datExpr0 = datExpr0[gsg$goodSamples, gsg$goodGenes]
+}
+
+
+
+sampleTree = hclust(dist(datExpr0), method = "average");
+# Plot the sample tree: Open a graphic output window of size 12 by 9 inches
+# The user should change the dimensions if the window is too large or too small.
+sizeGrWindow(12,9)
+
+par(cex = 0.6);
+par(mar = c(0,4,2,0))
+plot(sampleTree, main = "Sample clustering to detect outliers", sub="", xlab="", cex.lab = 1.5,
+     cex.axis = 1.5, cex.main = 2)
+
+# Plot a line to show the cut
+#abline(h = 400, col = "red")
+```
+No outliner detected
+
+```{r}
+# Automatic network construction and module detection
+# Choose a set of soft-thresholding powers
+powers = c(c(1:10), seq(from = 10, to=25, by=2))
+# Call the network topology analysis function
+sft = pickSoftThreshold(datExpr0, powerVector = powers, verbose = 5)
+```
+Plot the results:
+```{r}
+sizeGrWindow(9, 5)
+par(mfrow = c(1,2));
+cex1 = 0.9;
+# Scale-free topology fit index as a function of the soft-thresholding power
+plot(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+     xlab="Soft Threshold (power)",ylab="Scale Free Topology Model Fit,signed R^2",type="n",
+     main = paste("Scale independence"));
+text(sft$fitIndices[,1], -sign(sft$fitIndices[,3])*sft$fitIndices[,2],
+     labels=powers,cex=cex1,col="red");
+# this line corresponds to using an R^2 cut-off of h
+abline(h=0.90,col="red")
+# Mean connectivity as a function of the soft-thresholding power
+plot(sft$fitIndices[,1], sft$fitIndices[,5],
+     xlab="Soft Threshold (power)",ylab="Mean Connectivity", type="n",
+     main = paste("Mean connectivity"))
+text(sft$fitIndices[,1], sft$fitIndices[,5], labels=powers, cex=cex1,col="red")
+```
+Tested with 5, 3 and 2 and 4. The best seems 2
+```{r}
+net = blockwiseModules(datExpr0, power = 2, maxBlockSize = 20000,
+                       TOMType = "signed", minModuleSize = 30,
+                       reassignThreshold = 0, mergeCutHeight = 0.25,
+                       numericLabels = TRUE, pamRespectsDendro = FALSE,
+                       saveTOMs = TRUE,
+                       saveTOMFileBase = "E17.5",
+                       verbose = 3)
+
+```
+```{r}
+# open a graphics window
+sizeGrWindow(12, 9)
+# Convert labels to colors for plotting
+mergedColors = labels2colors(net$colors)
+# Plot the dendrogram and the module colors underneath
+plotDendroAndColors(net$dendrograms[[1]], mergedColors[net$blockGenes[[1]]],
+                    "Module colors",
+                    dendroLabels = FALSE, hang = 0.03,
+                    addGuide = TRUE, guideHang = 0.05)
+
+```
+```{r}
+plotNetworkHeatmap(datExpr0, plotGenes = unique(unlist(layers)),
+networkType="signed", useTOM=TRUE,
+power=2, main="D. TOM in an signed network")
+
+```
+```{r}
+plotNetworkHeatmap(datExpr0, plotGenes = unique(unlist(layers)),
+networkType="signed", useTOM=TRUE,
+power=2, main="D. TOM in an signed network")
+
+```
+```{r}
+# Calculate topological overlap anew: this could be done more efficiently by saving the TOM
+# calculated during module detection, but let us do it again here.
+dissTOM = 1-TOMsimilarityFromExpr(datExpr0, power = 2);
+# Transform dissTOM with a power to make moderately strong connections more visible in the heatmap
+plotTOM = dissTOM^7;
+# Set diagonal to NA for a nicer plot
+diag(plotTOM) = NA;
+rownames(dissTOM)=colnames(datExpr0)
+colnames(dissTOM)=colnames(datExpr0)
+
+selectTOM = dissTOM[unique(unlist(layers)), unique(unlist(layers))];
+# There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
+selectTree = hclust(as.dist(selectTOM), method = "average")
+moduleColors = mergedColors
+names(moduleColors) = rownames(dissTOM)
+selectColors = moduleColors[unique(unlist(layers))]
+# Open a graphical window
+sizeGrWindow(9,9)
+# Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
+# the color palette; setting the diagonal to NA also improves the clarity of the plot
+plotDiss = selectTOM^7;
+diag(plotDiss) = NA;
+TOMplot(plotDiss, selectTree, selectColors, main = "Network heatmap plot, selected genes",col=myheatcol)
+
+```
+
+```{r}
+plotDendroAndColors(selectTree,selectColors,
+                     "Module colors",
+                     dendroLabels = NULL, hang = 0.03,
+                     addGuide = TRUE, guideHang = 0.05)
+```
+
+## Comparition between Loo et al. markers and WGCNA markers
+```{r}
+net$colors[unique(unlist(layers))]
+```
+```{r}
+net$colors[genes]
+```
+```{r}
+Markers_Loo = read.csv("Data/Markers_Loo.csv")
+
+Markers_Loo
+```
+
+```{r}
+tableMarkersWGCNA = as.data.frame(matrix(nrow = 4,ncol = 4))
+colnames(tableMarkersWGCNA)=c("Loo.L.I","Loo.L.II.IV","Loo.L.V.VI","Loo.PROG")
+rownames(tableMarkersWGCNA)=c("WGCNA.L.I","WGCNA.L.II.VI","WGCNA.PROG","WGCNA.Not Groupped")
+
+net$colors[unique(unlist(layers))]
+```
+
+
+```{r}
+groups = list("L.I"=4,"L.II.VI"=0,"PROG"=1)
+
+for(layer1 in c("L.I","L.II.VI","PROG")){
+    for(layer2 in c("L.I","L.II.IV", "L.V.VI","PROG")){
+    tableMarkersWGCNA[paste0("WGCNA.",layer1),paste0("Loo.",layer2)] =
+        sum(names(net$colors[net$colors %in% groups[[layer1]]]) %in% Markers_Loo[[layer2]])
+    tableMarkersWGCNA[paste0("WGCNA.","Not Groupped"),paste0("Loo.",layer2)] =
+        sum(names(net$colors[!net$colors %in% unlist(groups)]) %in% Markers_Loo[[layer2]])
+    }
+}
+
+tableMarkersWGCNA
+```
+```{r}
+selectTOM = dissTOM[rownames(dissTOM) %in% unlist(Markers_Loo),colnames(dissTOM) %in%  unlist(Markers_Loo)]
+# There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
+selectTree = hclust(as.dist(selectTOM), method = "average")
+moduleColors = mergedColors
+names(moduleColors) = rownames(dissTOM)
+selectColors = moduleColors[names(moduleColors) %in% unlist(Markers_Loo)]
+# Open a graphical window
+sizeGrWindow(9,9)
+# Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
+# the color palette; setting the diagonal to NA also improves the clarity of the plot
+plotDiss = selectTOM^7;
+diag(plotDiss) = NA;
+TOMplot(plotDiss, selectTree, selectColors, main = "Network heatmap plot, markers from Loo et al.",col=myheatcol)
+```
+```{r}
+plotDendroAndColors(selectTree,selectColors,
+                     "Module colors",
+                     dendroLabels = NULL, hang = 0.03,
+                     addGuide = TRUE, guideHang = 0.05)
+```
+
+```{r fig.width= 10, fig.height= 50}
+
+dend %>%
+set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% unlist(Markers_Loo)], labels(dend), "")) %>%
+  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
+    set("labels_cex"=0.1) %>%
+    set("branches_lwd", 0.5) %>%
+plot_horiz.dendrogram(horiz=T, axes=T,xlim = c(0,80), dLeaf = -15,text_pos = 3)
+
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
+
+
 
 
 

@@ -27,7 +27,11 @@ options(stringsAsFactors = FALSE)
 data_dir = "Data/"
 library(gplots)
 myheatcol = colorpanel(250,'red',"orange",'lemonchiffon')
+
 ```
+
+# Seurat analysis and normalization
+
 ```{r eval=FALSE, include=FALSE}
 download.file("ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2861nnn/GSM2861514/suppl/GSM2861514_E175_Only_Cortical_Cells_DGE.txt.gz",
               "Data/E175_only_cortical_cells.txt.gz",method = "wget", quiet = F)
@@ -71,6 +75,8 @@ E17 <- ScaleData(E17, features = all.genes)
 E17 <- RunPCA(E17, features = VariableFeatures(object = E17))
 DimPlot(E17, reduction = "pca")
 ```
+
+# WGCNA
 
 ## Test usign all genes normalized by Seurat
 
@@ -171,19 +177,7 @@ networkType="unsigned", useTOM=TRUE,
 power=2, main="D. TOM in an unsigned network")
 ```
 
-```{r}
-gene.sets.list = list("primary.markers"=primary.markers,
-                      "NPGs"=c("Nes","Vim","Sox2","Sox1","Notch1", "Hes1","Hes5","Pax6"), 
-                      "RG" = c("Vim","Sox2","Pax6","Hes5","Hes1"),
-                      "IN" = c("Tubb3","Tbr1","Stmn1","Neurod1","Dcx"),
-                      "PNGs"=c("Map2","Tubb3","Neurod1","Nefm","Nefl","Dcx","Tbr1"),
-                      "constitutive" =c("Calm1","Cox6b1","Ppia","Rpl18","Cox7c", "Erh","H3f3a","Taf1b","Taf2","Gapdh","Actb", "Golph3", "Mtmr12", "Zfr", "Sub1", "Tars", "Amacr") )
 
-plotNetworkHeatmap(datExpr0, plotGenes = unique(unlist(gene.sets.list)),
-networkType="unsigned", useTOM=TRUE,
-power=2, main="D. TOM in an signed network")
-
-```
 ```{r}
 plotNetworkHeatmap(datExpr0, plotGenes = primary.markers,
 networkType="signed", useTOM=TRUE,
@@ -247,9 +241,8 @@ plotDendroAndColors(selectTree,selectColors,
                      addGuide = TRUE, guideHang = 0.05)
 ```
 
-# WGCNA with a sub-sample of genes
 
-# Test with the 2000 most varied genes
+## Test with the 2000 most varied genes
 
 ```{r}
 Var.genes = VariableFeatures(E17)[1:2000]
@@ -383,6 +376,7 @@ plotDendroAndColors(selectTree,selectColors,
                      addGuide = TRUE, guideHang = 0.05)
 ```
 
+## Comparition with Loo et al. markers
 
 ```{r}
 net$colors[primary.markers]
@@ -390,6 +384,58 @@ net$colors[primary.markers]
 ```{r}
 net$colors[genes]
 ```
+```{r}
+Markers_Loo = read.csv("Data/Markers_Loo.csv")
+
+Markers_Loo
+```
+
+```{r}
+tableMarkersWGCNA = as.data.frame(matrix(nrow = 4,ncol = 4))
+colnames(tableMarkersWGCNA)=c("Loo.L.I","Loo.L.II.IV","Loo.L.V.VI","Loo.PROG")
+rownames(tableMarkersWGCNA)=c("WGCNA.L.I","WGCNA.L.II.VI","WGCNA.PROG","WGCNA.Not Groupped")
+
+net$colors[primary.markers]
+```
+
+
+```{r}
+groups = list("L.I"=4,"L.II.VI"=0,"PROG"=1)
+
+for(layer1 in c("L.I","L.II.VI","PROG")){
+    for(layer2 in c("L.I","L.II.IV", "L.V.VI","PROG")){
+    tableMarkersWGCNA[paste0("WGCNA.",layer1),paste0("Loo.",layer2)] =
+        sum(names(net$colors[net$colors %in% groups[[layer1]]]) %in% Markers_Loo[[layer2]])
+    tableMarkersWGCNA[paste0("WGCNA.","Not Groupped"),paste0("Loo.",layer2)] =
+        sum(names(net$colors[!net$colors %in% unlist(groups)]) %in% Markers_Loo[[layer2]])
+    }
+}
+
+tableMarkersWGCNA
+```
+```{r}
+selectTOM = dissTOM[rownames(dissTOM) %in% unlist(Markers_Loo),colnames(dissTOM) %in%  unlist(Markers_Loo)]
+# There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
+selectTree = hclust(as.dist(selectTOM), method = "average")
+moduleColors = mergedColors
+names(moduleColors) = rownames(dissTOM)
+selectColors = moduleColors[names(moduleColors) %in% unlist(Markers_Loo)]
+# Open a graphical window
+sizeGrWindow(9,9)
+# Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
+# the color palette; setting the diagonal to NA also improves the clarity of the plot
+plotDiss = selectTOM^7;
+diag(plotDiss) = NA;
+TOMplot(plotDiss, selectTree, selectColors, main = "Network heatmap plot, markers from Loo et al.",col=myheatcol)
+```
+```{r}
+plotDendroAndColors(selectTree,selectColors,
+                     "Module colors",
+                     dendroLabels = NULL, hang = 0.03,
+                     addGuide = TRUE, guideHang = 0.05)
+```
+
+
 ```{r}
 sessionInfo()
 ```
