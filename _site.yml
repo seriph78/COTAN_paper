@@ -4,14 +4,26 @@ navbar:
   left:
   - text: Datasets
     menu:
+    - text: E14.5 mouse cortex
+      href: 
     - text: P0 mouse cortex
       href: P0_cortex_analysis.nb.html
-    - text: E16.5 mouse cortex
+    - text: E16.5 mouse dentate gyrus
       href: E16_analysis.nb.html
-    - text: E17.5 mouse cortex
+    - text: P0 mouse dentate gyrus
       href: 
+    - text: E11.5 mouse cortex
+      href: 
+    - text: E13.5 mouse cortex
+      href: 
+    - text: E15.5 mouse cortex
+      href: 
+    - text: E17.5 mouse cortex
+      href: E17.5_cortex_analysis.nb.html
     - text: E17.5 gene clustering
       href: Gene_clustering.nb.html
+    - text: E17.5 general heatmap
+      href: General_heatmap.nb.html
     
   #left:
   - text: Test

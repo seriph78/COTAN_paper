@@ -32,6 +32,8 @@ library(tidyverse)
 library(htmlwidgets)
 library(MASS)
 library(dendextend)
+library(grid)
+library(ggpubr)
 ```
 
 To demostrate how to do the gene clustering usign COTAN we begin importing the COTAN object that stores all elaborated data and, in this case, regarding a mouse embrionic cortex dataset (developmental stage E17.5).
@@ -40,12 +42,12 @@ To demostrate how to do the gene clustering usign COTAN we begin importing the C
 input_dir = "Data/"
 layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
 #objE17 = readRDS(file = paste(input_dir,"E17.5_cortex.cotan.RDS", sep = ""))
-objE17 = readRDS(file = paste(input_dir,"E17.5_cortex.cotan.RDS", sep = ""))
+objE17 = readRDS(file = paste(input_dir,"E17_cortex_cl2.cotan.RDS", sep = ""))
 ```
 
 ```{r}
 g.space = get.gene.coexpression.space(objE17, 
-                                      n.genes.for.marker = 28, 
+                                      n.genes.for.marker = 25,
                                       primary.markers = unlist(layers))
 ```
 ```{r}
@@ -59,45 +61,217 @@ fviz_eig(coex.pca.genes, addlabels=TRUE,ncp = 10)
 #fviz_eig(coex.pca.genes, choice = "eigenvalue", addlabels=TRUE)
 ```
 Hierarchical clustering
-```{r}
 
-# clustering usign Ward method
+```{r include=FALSE}
 hc.norm = hclust(dist(g.space), method = "ward.D2")
 
-# and cut the tree into 5 clusters (for example)
-cut = cutree(hc.norm, k = 7, order_clusters_as_data = F)
-
-# It crates the tree
 dend <- as.dendrogram(hc.norm)
 
-# I can use a dataframe from the pca to store some data regarding the clustering
-pca_1 = as.data.frame(coex.pca.genes$rotation[,1:5])
+pca_1 = as.data.frame(coex.pca.genes$rotation[,1:10])
 pca_1 = pca_1[order.dendrogram(dend),]
 
+cut = cutree(hc.norm, k = 7, order_clusters_as_data = F)
 
-mycolours <- c("genes related to L5/6" = "#3C5488FF","genes related to L2/3"="#F39B7FFF","genes related to Prog"="#4DBBD5FF","genes related to L1"="#E64B35FF","genes related to L4" = "#91D1C2FF", "not marked"="#B09C85FF")
+#- Next lines are only to color and plot the secondary markers
 
-# save the cluster number into the dataframe
+tmp = get.pval(object = objE17,gene.set.col =unlist(layers),gene.set.row = colnames(g.space))
+for (m in unlist(layers)) {
+  tmp = as.data.frame(tmp[order(tmp[,m]),])
+  tmp$rank = c(1:nrow(tmp))
+  colnames(tmp)[ncol(tmp)] = paste("rank",m,sep = ".")
+  }
+rank.genes = tmp[,(length(unlist(layers))+1):ncol(tmp)]
+for (c in c(1:length(colnames(rank.genes)))) {
+  colnames(rank.genes)[c] =strsplit(colnames(rank.genes)[c], split='.',fixed = T)[[1]][2]
+}
+
+L1 = rowSums(rank.genes[,layers[[1]]])
+L1[layers[[1]]] = 1
+L2 = rowSums(rank.genes[,layers[[2]]])
+L2[layers[[2]]] = 1
+L4 = rowSums(rank.genes[,layers[[3]]])
+L4[layers[[3]]] = 1
+L5 =rowSums(rank.genes[,layers[[4]]])
+L5[layers[[4]]] = 1
+P = rowSums(rank.genes[,layers[[5]]])
+P[layers[[5]]] = 1
+col.secondary = merge(L1,L2,by="row.names",all.x=TRUE)
+colnames(col.secondary)[2:3] = c("L1","L2")
+rownames(col.secondary) = col.secondary$Row.names
+col.secondary = col.secondary[,2:ncol(col.secondary)]
+col.secondary = merge(col.secondary,L4,by="row.names",all.x=TRUE)
+colnames(col.secondary)[ncol(col.secondary)] = "L4"
+rownames(col.secondary) = col.secondary$Row.names
+col.secondary = col.secondary[,2:ncol(col.secondary)]
+col.secondary = merge(col.secondary,L5,by="row.names",all.x=TRUE)
+colnames(col.secondary)[ncol(col.secondary)] = "L5"
+rownames(col.secondary) = col.secondary$Row.names
+col.secondary = col.secondary[,2:ncol(col.secondary)]
+col.secondary = merge(col.secondary,P,by="row.names",all.x=TRUE)
+colnames(col.secondary)[ncol(col.secondary)] = "P"
+rownames(col.secondary) = col.secondary$Row.names
+col.secondary = col.secondary[,2:ncol(col.secondary)]
+
+#  this part is to check that we will color as secondary markers only the genes linked to the
+# primary with positive coex
+temp.coex = as.matrix(objE17@coex[rownames(objE17@coex) %in% rownames(col.secondary),
+                          colnames(objE17@coex) %in% unlist(layers)])
+for (n in rownames(col.secondary)) {
+  if(any(temp.coex[n,c("Reln","Lhx5")] < 0)){
+    col.secondary[n,"L1"] = 100000
+  }
+  if(any(temp.coex[n,c("Cux1","Satb2")] < 0)){
+    col.secondary[n,"L2"] = 100000
+  }
+  if(any(temp.coex[n,c("Rorb","Sox5")] < 0)){
+    col.secondary[n,"L4"] = 100000
+  }
+  if(any(temp.coex[n,c("Bcl11b","Fezf2")] < 0)){
+    col.secondary[n,"L5"] = 100000
+  }
+  if(any(temp.coex[n,c("Vim","Hes1")] < 0)){
+    col.secondary[n,"P"] = 100000
+  }
+}
+
+mylist.names <- c("L1", "L2", "L4","L5","P")
+pos.link  <- vector("list", length(mylist.names))
+names(pos.link) <- mylist.names
+for (g in rownames(col.secondary)) {
+  if(length( which(col.secondary[g,] == min(col.secondary[g,]))) == 1 ){
+  pos.link[[which(col.secondary[g,] == min(col.secondary[g,])) ]] = 
+    c(pos.link[[which(col.secondary[g,] == min(col.secondary[g,])) ]], g)
+  }
+}
+# ----
+
+
+pca_1$highlight = with(pca_1, 
+          ifelse(rownames(pca_1) %in% pos.link$L5, "genes related to L5/6",
+          ifelse(rownames(pca_1) %in% pos.link$L2 , "genes related to L2/3",
+          ifelse(rownames(pca_1) %in% pos.link$P , "genes related to Prog" ,
+          ifelse(rownames(pca_1) %in% pos.link$L1 , "genes related to L1" ,
+          ifelse(rownames(pca_1) %in% pos.link$L4 ,"genes related to L4" ,
+      "not marked"))))))
+
+# But sort them based on their order in dend:
+#colors_to_use <- pca_1$highlight[order.dendrogram(dend)]
+
+#mycolours <- c("genes related to L5/6" = "#3C5488FF","genes related to L2/3"="#F39B7FFF","genes related to Prog"="#4DBBD5FF","genes related to L1"="#E64B35FF","genes related to L4" = "#91D1C2FF", "not marked"="#B09C85FF")
 pca_1$hclust = cut
 
-dend =branches_color(dend,k=7,col=c("#4DBBD5FF","#91D1C2FF","#F39B7FFF","#E64B35FF","#3C5488FF","#91D1C2FF","#B09C85FF" ),groupLabels = T)
-#dend =color_labels(dend,k=5,labels = rownames(pca_1),col=pca_1$colors)
+pca_1$colors = NA
+pca_1[pca_1$highlight == "genes related to L5/6", "colors"] = "#3C5488FF"
+pca_1[pca_1$highlight == "genes related to L2/3","colors"] = "#F39B7FFF"
+pca_1[pca_1$highlight == "genes related to Prog","colors"] = "#4DBBD5FF"
+pca_1[pca_1$highlight == "genes related to L1","colors"] = "#E64B35FF"
+pca_1[pca_1$highlight == "genes related to L4","colors"] = "#91D1C2FF"
+pca_1[pca_1$highlight == "not marked","colors"] = "#B09C85FF"
 
 
 
-# plot the dendrogram with all anmes for secondary markers
+#library(tidyverse)
+#library(dendextend)
+
+dend =branches_color(dend,k=7,col=c("#4DBBD5FF","#91D1C2FF","#E64B35FF","gray80","#3C5488FF","#F39B7FFF","gray80" ),groupLabels = T)
+dend =color_labels(dend,k=7,labels = rownames(pca_1),col=pca_1$colors)
+
+
 dend %>%
-  set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% colnames(as.matrix(g.space))], labels(dend), "")) %>%
+  set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% colnames(g.space)] ,labels(dend),"")) %>%
   #  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
- plot(horiz=F, axes=T)#,ylim = c(0,80))
+ plot(horiz=F, axes=T,ylim = c(0,80))
+```
+```{r include=FALSE}
+cluster = cut
+cluster[cluster == 1] = "#4DBBD5FF"
+cluster[cluster == 2] = "#91D1C2FF"
+cluster[cluster == 3] =  "#E64B35FF"
+cluster[cluster == 4] = "#B09C85FF"
+cluster[cluster == 5] = "#3C5488FF"
+cluster[cluster == 6] = "#F39B7FFF"
+cluster[cluster == 7] = "#B09C85FF"
+
+
+plot.new()
+plot(dend,horiz=T, axes=T,xlim = c(100,0),leaflab = "none")
+abline(v = 47, lty = 2)
+colored_bars(cluster,dend,horiz = T,sort_by_labels_order = F,y_shift = 1,
+               rowLabels= "" )
+gridGraphics::grid.echo()
+tree <- grid.grab()
+```
+```{r fig.height=10, fig.width=7}
+par_pca = pca_1[colnames(g.space)[colnames(g.space) %in% rownames(pca_1)],]
+#plot N 1
+p1 <- ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == par_pca["Fezf2","hclust"],]), collapse = ", "), 
+                  face = "italic", 
+                  size =10, 
+                  color = "#3C5488FF")
+
+#plot N 2
+p2 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == unique(par_pca$hclust)[!unique(par_pca$hclust) %in% unique(par_pca[unlist(layers),"hclust"])][1],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = "gray")
+
+#plot N 3
+p3 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == unique(par_pca$hclust)[!unique(par_pca$hclust) %in% unique(par_pca[unlist(layers),"hclust"])][2],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = "gray")
+#plot N 4
+p4 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == par_pca["Reln","hclust"],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = "#E64B35FF")
+
+#plot N 5
+p5 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == par_pca["Cux1","hclust"],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = par_pca["Cux1","colors"])
+#plot N 6
+p6 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == par_pca["Rorb","hclust"],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = par_pca["Rorb","colors"])
+#plot N 7
+p7 = ggparagraph(text = paste0(rownames(par_pca[par_pca$hclust == par_pca["Vim","hclust"],]), collapse = ", "), 
+                 face = "italic", 
+                 size =10, 
+                 color = par_pca["Vim","colors"])
+
+w = ggparagraph(text = " ", 
+                 face = "italic", 
+                 size =10, 
+                 color = "white")
+
+pp =ggarrange(p3,p5,p1,p2,p4,p6,p7,w,
+          ncol = 1, nrow = 8,
+          heights = c(0.1,0.15,0.23, 0.1, 0.2, 0.2, 0.1, 0.35))
+
+
+    
+lay <- rbind(c(1,NA),
+             c(1,2.5),
+             c(1,2.5),
+             c(1,2.5),
+             c(1,2.5),
+             c(1,2.5),
+             c(1,NA))
+
+gridExtra::grid.arrange(tree, pp, layout_matrix = lay)
 
 ```
+
 or just with primary markers
 
 ```{r fig.width= 10}
-
+# some more genes as landmarks
+controls =list("genes related to L5/6"=c("Foxp2","Tbr1"), "genes related to L2/3"=c("Mef2c"), "genes related to Prog"=c("Nes","Sox2") , "genes related to L1"=c() , "genes related to L4"=c()) 
 dend %>%
-set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% unlist(layers)], labels(dend), "")) %>%
+set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% c(unlist(layers),unlist(controls))], labels(dend), "")) %>%
   set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
 plot(horiz=F, axes=T,ylim = c(0,100))
 
@@ -105,9 +279,6 @@ plot(horiz=F, axes=T,ylim = c(0,100))
 
 Now we can plot the PCA
 ```{r}
-# some more genes as landmarks
-controls =list("genes related to L5/6"=c("Foxp2","Tbr1"), "genes related to L2/3"=c("Mef2c"), "genes related to Prog"=c("Nes","Sox2") , "genes related to L1"=c() , "genes related to L4"=c()) 
-
 # dataframe to be able to label only primary markers and control genes
 textdf <- pca_1[rownames(pca_1) %in% c(unlist(layers),unlist(controls)) , ]
 
@@ -316,7 +487,26 @@ f2 = f1 + geom_point(data = subset(fit.genes, hclust %in% unique(cut[unlist(laye
 
 f2 #+ geom_encircle(data = fit.genes, aes(group=`5_clusters`)) 
 ```
+```{r eval=FALSE, include=FALSE}
+library("AnnotationDbi")
+library("org.Mm.eg.db")
+library("GO.db")
 
+```
+```{r eval=FALSE, include=FALSE}
+GO = "GO:0003676" #nucleic acid binding
+library(org.Mm.eg.db)
+list = select(org.Mm.eg.db, keys = rownames(pca_1),
+              columns=c("SYMBOL","GOALL"),keytype="SYMBOL") #[fit.genes$hclust %in% c(7,4,1,2,3),]),
+list = list[list$GOALL == GO,]
+list = list[complete.cases(list),]
+not.useful = c("NAS","TAS","IEA","IC","ND")
+list1 = list[!list$EVIDENCEALL %in% not.useful,]
+list1 = unique(list1$SYMBOL)
+pca_1$GO = NA
+pca_1[list1,]$GO = "nucleic acid binding"
+pca_1[list1,c(11:ncol(pca_1))]
+```
 ```{r}
 sessionInfo()
 ```

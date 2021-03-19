@@ -37,7 +37,7 @@ my_theme = theme(axis.text.x = element_text(size = 14, angle = 0, hjust = .5, vj
 ```
 
 
-Download the dataset for mouse cortex E17.5.
+Download the dataset for mouse cortex P0.
 ```{r}
 data_dir = "Data/Mouse2/"
 ```

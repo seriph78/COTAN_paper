@@ -29,6 +29,7 @@ library(data.table)
 library(Matrix)
 library(factoextra)
 library(ggrepel)
+library(dendextend)
 ```
 
 
@@ -37,13 +38,12 @@ library(ggrepel)
 ```{r}
 input_dir = "Data/"
 layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
-#objE17 = readRDS(file = paste(input_dir,"E17.5_cortex.cotan.RDS", sep = ""))
-objE17 = readRDS(file = paste(input_dir,"E17.5_cortex_cleaned.cotan.RDS", sep = ""))
+objE17 = readRDS(file = "Data/E17_cortex_cl2.cotan.RDS")
 ```
 
 ```{r}
 g.space = get.gene.coexpression.space(objE17, 
-                                      n.genes.for.marker = 28,  primary.markers = unlist(layers))
+                                      n.genes.for.marker = 25,  primary.markers = unlist(layers))
 ```
 ```{r}
 g.space = as.data.frame(as.matrix(g.space))
@@ -58,8 +58,8 @@ fviz_eig(coex.pca.genes, addlabels=TRUE,ncp = 10)
 
 ## Hierarchical clustering
 
-```{r}
-
+```{r fig.width=10}
+controls =list("genes related to L5/6"=c("Foxp2","Tbr1"), "genes related to L2/3"=c("Mef2c"), "genes related to Prog"=c("Nes","Sox2") , "genes related to L1"=c() , "genes related to L4"=c())
 # clustering usign Ward method
 hc.norm = hclust(dist(g.space), method = "ward.D2")
 
@@ -85,18 +85,16 @@ dend =branches_color(dend,k=7,col=c("#4DBBD5FF","#91D1C2FF","#F39B7FFF","#E64B35
 
 
 dend %>%
-set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% unlist(layers)], labels(dend), "")) %>%
+set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% c(unlist(layers),unlist(controls))], labels(dend), "")) %>%
   set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
-plot(horiz=F, axes=T,ylim = c(0,80))
+plot(horiz=F, axes=T,ylim = c(0,100))
 ```
 
 ## Import of markers from Loo et al. paper
 
 ```{r}
 Markers_Loo = read.csv("Data/Markers_Loo.csv")
-```
 
-```{r}
 genes_detected = pca_1[rownames(pca_1) %in% unlist(Markers_Loo)[!unlist(Markers_Loo) == ""],]
 
 ```
@@ -128,13 +126,20 @@ for (i in names(Markers_Loo)) {
 }
 Markers_Loo
 ```
+Primary markers also used by Loo et al.
+```{r}
+unlist(layers)[unlist(layers) %in% unique(unlist(Markers_Loo))]
+```
+
+
 
 Table
 
 ```{r}
 tableMarkersCOTAN = as.data.frame(matrix(nrow = 6,ncol = 4))
 colnames(tableMarkersCOTAN)=c("Loo.L.I","Loo.L.II.IV","Loo.L.V.VI","Loo.PROG")
-rownames(tableMarkersCOTAN)=c("COTAN.L.I","COTAN.L.II.III","COTAN.L.IV","COTAN.L.V.VI","COTAN.PROG","COTAN.Not Groupped")
+rownames(tableMarkersCOTAN)=c("COTAN.L.I","COTAN.L.II.III","COTAN.L.IV","COTAN.L.V.VI","COTAN.PROG","COTAN.Not Grouped")
+tableMarkersCOTAN_no_sec = tableMarkersCOTAN
 
 layers.cluster = c("Reln","Satb2","Rorb","Bcl11b","Vim")
 names(layers.cluster) = unique(cut[unlist(layers)])
@@ -144,18 +149,39 @@ layers.cluster
 ## Comparition between Loo et al. markers and COTAN markers
 
 ```{r}
-groups = list("L.I"=5,"L.II.III"=4,"L.IV"=7,"L.V.VI"=6,"PROG"=2)
+groups = list("L.I"=names(which(layers.cluster == "Reln"))
+              ,"L.II.III"=names(which(layers.cluster == "Satb2")),
+              "L.IV"=names(which(layers.cluster == "Rorb")),
+              "L.V.VI"=names(which(layers.cluster == "Bcl11b")),
+              "PROG"=names(which(layers.cluster == "Vim")))
 
 for(layer1 in c("L.I","L.II.III", "L.IV","L.V.VI","PROG")){
     for(layer2 in c("L.I","L.II.IV","L.V.VI","PROG")){
     tableMarkersCOTAN[paste0("COTAN.",layer1),paste0("Loo.",layer2)] =
         sum(rownames(pca_1[pca_1$hclust %in% groups[[layer1]],]) %in% Markers_Loo[[layer2]])
-    tableMarkersCOTAN[paste0("COTAN.","Not Groupped"),paste0("Loo.",layer2)] =
+    tableMarkersCOTAN[paste0("COTAN.","Not Grouped"),paste0("Loo.",layer2)] =
         sum(rownames(pca_1[!pca_1$hclust %in% unlist(groups),]) %in% Markers_Loo[[layer2]])
     }
 }
 
 tableMarkersCOTAN
+```
+Without secondary markers
+
+```{r}
+pca_2 = pca_1[! rownames(pca_1) %in% colnames(g.space),]
+
+
+for(layer1 in c("L.I","L.II.III", "L.IV","L.V.VI","PROG")){
+    for(layer2 in c("L.I","L.II.IV","L.V.VI","PROG")){
+    tableMarkersCOTAN_no_sec[paste0("COTAN.",layer1),paste0("Loo.",layer2)] =
+        sum(rownames(pca_2[pca_2$hclust %in% groups[[layer1]],]) %in% Markers_Loo[[layer2]])
+    tableMarkersCOTAN_no_sec[paste0("COTAN.","Not Grouped"),paste0("Loo.",layer2)] =
+        sum(rownames(pca_2[!pca_2$hclust %in% unlist(groups),]) %in% Markers_Loo[[layer2]])
+    }
+}
+
+tableMarkersCOTAN_no_sec
 ```
 
 
@@ -173,7 +199,7 @@ for(layer1 in c("L.I","L.II.III", "L.IV","L.V.VI","PROG")){
     tt2 = data.frame("genes"= 
         rownames(pca_1[!pca_1$hclust %in% unlist(groups),])[rownames(pca_1[!pca_1$hclust %in%                   unlist(groups),]) %in% Markers_Loo[[layer2]]])
     if (dim(tt2)[1] > 0) {
-        tt2 = cbind(tt2, "COTAN"= "Not Groupped", "Loo."=layer2)
+        tt2 = cbind(tt2, "COTAN"= "Not Grouped", "Loo."=layer2)
     }
     specific.genes.table = rbind(specific.genes.table,tt1,tt2)
     }
@@ -186,7 +212,7 @@ specific.genes.table[!(duplicated(specific.genes.table)) , ]
 dend %>%
 set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% specific.genes.table$genes], labels(dend), "")) %>%
   set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
-    plot(horiz=T, axes=T,xlim = c(0,80),cex = 1)
+    plot(horiz=T, axes=T,xlim = c(0,80),cex = 10, dLeaf = -7)
 
 ```
 
@@ -345,6 +371,21 @@ plotDendroAndColors(net$dendrograms[[1]], mergedColors[net$blockGenes[[1]]],
                     addGuide = TRUE, guideHang = 0.05)
 
 ```
+## Comparition between Loo et al. markers and WGCNA markers
+
+```{r}
+plotNetworkHeatmap(datExpr0, plotGenes = unlist(Markers_Loo),
+networkType="signed", useTOM=TRUE,
+power=2, main="D. TOM in an signed network")
+
+```
+```{r}
+plotNetworkHeatmap(datExpr0, plotGenes = unlist(Markers_Loo),
+networkType="unsigned", useTOM=TRUE,
+power=2, main="D. TOM in an unsigned network")
+
+```
+
 ```{r}
 plotNetworkHeatmap(datExpr0, plotGenes = unique(unlist(layers)),
 networkType="signed", useTOM=TRUE,
@@ -353,10 +394,11 @@ power=2, main="D. TOM in an signed network")
 ```
 ```{r}
 plotNetworkHeatmap(datExpr0, plotGenes = unique(unlist(layers)),
-networkType="signed", useTOM=TRUE,
-power=2, main="D. TOM in an signed network")
+networkType="unsigned", useTOM=TRUE,
+power=2, main="D. TOM in an unsigned network")
 
 ```
+
 ```{r}
 # Calculate topological overlap anew: this could be done more efficiently by saving the TOM
 # calculated during module detection, but let us do it again here.
@@ -368,12 +410,12 @@ diag(plotTOM) = NA;
 rownames(dissTOM)=colnames(datExpr0)
 colnames(dissTOM)=colnames(datExpr0)
 
-selectTOM = dissTOM[unique(unlist(layers)), unique(unlist(layers))];
+selectTOM = dissTOM[rownames(dissTOM) %in% unlist(Markers_Loo),colnames(dissTOM) %in% unlist(Markers_Loo)];
 # There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
 selectTree = hclust(as.dist(selectTOM), method = "average")
 moduleColors = mergedColors
 names(moduleColors) = rownames(dissTOM)
-selectColors = moduleColors[unique(unlist(layers))]
+selectColors = moduleColors[names(moduleColors) %in% unlist(Markers_Loo)]
 # Open a graphical window
 sizeGrWindow(9,9)
 # Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
@@ -391,63 +433,43 @@ plotDendroAndColors(selectTree,selectColors,
                      addGuide = TRUE, guideHang = 0.05)
 ```
 
-## Comparition between Loo et al. markers and WGCNA markers
 ```{r}
-net$colors[unique(unlist(layers))]
+net$colors[names(net$colors) %in% unlist(Markers_Loo)]
 ```
-```{r}
-net$colors[genes]
-```
-```{r}
-Markers_Loo = read.csv("Data/Markers_Loo.csv")
 
-Markers_Loo
+WGCNA using the 2000 genes most varied by Seurat, detects the following number of markers.
+
+```{r}
+length(net$colors[names(net$colors) %in% unlist(Markers_Loo)])
 ```
 
 ```{r}
-tableMarkersWGCNA = as.data.frame(matrix(nrow = 4,ncol = 4))
+tableMarkersWGCNA = as.data.frame(matrix(nrow = 5,ncol = 4))
 colnames(tableMarkersWGCNA)=c("Loo.L.I","Loo.L.II.IV","Loo.L.V.VI","Loo.PROG")
-rownames(tableMarkersWGCNA)=c("WGCNA.L.I","WGCNA.L.II.VI","WGCNA.PROG","WGCNA.Not Groupped")
+rownames(tableMarkersWGCNA)=c("WGCNA.L.I","WGCNA.Not Grouped","WGCNA.PROG","WGCNA.unknown1", "WGCNA.unknown2")
 
 net$colors[unique(unlist(layers))]
 ```
 
 
 ```{r}
-groups = list("L.I"=4,"L.II.VI"=0,"PROG"=1)
+# Attention! The next list need to be updated by hand!
+groups = list("L.I"=4,"unknown1"=3,"PROG"=1, "unknown2"=2 , "Not Grouped"=0 )
 
-for(layer1 in c("L.I","L.II.VI","PROG")){
+for(layer1 in c("L.I","unknown1","PROG","unknown2","Not Grouped")){
     for(layer2 in c("L.I","L.II.IV", "L.V.VI","PROG")){
     tableMarkersWGCNA[paste0("WGCNA.",layer1),paste0("Loo.",layer2)] =
         sum(names(net$colors[net$colors %in% groups[[layer1]]]) %in% Markers_Loo[[layer2]])
-    tableMarkersWGCNA[paste0("WGCNA.","Not Groupped"),paste0("Loo.",layer2)] =
-        sum(names(net$colors[!net$colors %in% unlist(groups)]) %in% Markers_Loo[[layer2]])
+    #tableMarkersWGCNA[paste0("WGCNA.","Not Grouped"),paste0("Loo.",layer2)] =
+     #   sum(names(net$colors[!net$colors %in% unlist(groups)]) %in% Markers_Loo[[layer2]])
     }
 }
 
 tableMarkersWGCNA
 ```
-```{r}
-selectTOM = dissTOM[rownames(dissTOM) %in% unlist(Markers_Loo),colnames(dissTOM) %in%  unlist(Markers_Loo)]
-# There’s no simple way of restricting a clustering tree to a subset of genes, so we must re-cluster.
-selectTree = hclust(as.dist(selectTOM), method = "average")
-moduleColors = mergedColors
-names(moduleColors) = rownames(dissTOM)
-selectColors = moduleColors[names(moduleColors) %in% unlist(Markers_Loo)]
-# Open a graphical window
-sizeGrWindow(9,9)
-# Taking the dissimilarity to a power, say 10, makes the plot more informative by effectively changing
-# the color palette; setting the diagonal to NA also improves the clarity of the plot
-plotDiss = selectTOM^7;
-diag(plotDiss) = NA;
-TOMplot(plotDiss, selectTree, selectColors, main = "Network heatmap plot, markers from Loo et al.",col=myheatcol)
-```
-```{r}
-plotDendroAndColors(selectTree,selectColors,
-                     "Module colors",
-                     dendroLabels = NULL, hang = 0.03,
-                     addGuide = TRUE, guideHang = 0.05)
-```
+
+
+
 
 ```{r fig.width= 10, fig.height= 50}
 

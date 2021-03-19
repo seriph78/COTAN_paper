@@ -1,0 +1,131 @@
+---
+title: "General heatmap of mouse cortex E17.5"
+output:
+    html_notebook:
+      css: html-md-01.css
+      fig_caption: yes
+      highlight: haddock
+      number_sections: yes
+      theme: spacelab
+      toc: yes
+      toc_float: true
+      collapsed: no
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+```{r setup}
+library(COTAN)
+library(ggplot2)
+library(ComplexHeatmap)
+library(circlize)
+library(cowplot)
+#library(data.table)
+#library(Matrix)
+#library(ggrepel)
+#library(latex2exp)
+```
+
+```{r}
+input_dir = "Data/"
+#layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
+```
+
+The general heatmap can be done by the automatic function or extracting the information. In the first case we can plot a simmetric plot or an asymmetric one.
+
+```{r}
+gen.heatmap = plot.general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = T)
+```
+
+```{r}
+gen.heatmap = plot.general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),markers.list =c("Grm3","Abracl","Tox") ,dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = F)
+```
+
+
+```{r}
+obj17 =  readRDS(file = paste(input_dir,"E17_cortex_cl2.cotan.RDS", sep = ""))
+p_value_17 = get.pval(object = obj17,gene.set.col = c("Satb2","Bcl11b","Sox5","Reln"))
+p_value_17 = as.data.frame(as.matrix(p_value_17))
+obj17@coex = Matrix::forceSymmetric(obj17@coex, uplo="L" )
+coex_17 = as.data.frame(as.matrix(obj17@coex[,colnames(obj17@coex) %in% c("Satb2","Bcl11b","Sox5","Reln")]))
+```
+
+
+```{r}
+pos.link.Satb2 = rownames(p_value_17[p_value_17$Satb2 < 0.0001,])[rownames(p_value_17[p_value_17$Satb2 < 0.0001,]) %in% rownames(coex_17[coex_17$Satb2 > 0,])] 
+pos.link.Bcl11b = rownames(p_value_17[p_value_17$Bcl11b < 0.001,])[rownames(p_value_17[p_value_17$Bcl11b < 0.001,]) %in% rownames(coex_17[coex_17$Bcl11b > 0,])] 
+pos.link.Reln = rownames(p_value_17[p_value_17$Reln < 0.0001,])[rownames(p_value_17[p_value_17$Reln < 0.0001,]) %in% rownames(coex_17[coex_17$Reln > 0,])]
+
+pos.link.Sox5 = rownames(p_value_17[p_value_17$Sox5 < 0.0001,])[rownames(p_value_17[p_value_17$Sox5 < 0.0001,]) %in% rownames(coex_17[coex_17$Sox5 > 0,])] 
+
+cl.genes = data.frame("gene"=pos.link.Reln,"cl"="Reln")
+
+cl.genes = rbind(cl.genes,data.frame("gene"=pos.link.Satb2,"cl"="Satb2"),data.frame("gene"=pos.link.Sox5,"cl"="Sox5"),
+                 data.frame("gene"=pos.link.Bcl11b,"cl"="Bcl11b"))
+
+cl.genes$gene = as.vector(cl.genes$gene)
+length(c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2))
+```
+
+This is the number of total secondary markers extracted.
+
+```{r}
+dupl.genes = c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2)[duplicated(c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2))]
+
+all.genes.to.plot = c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2)
+all.genes.to.plot = all.genes.to.plot[!all.genes.to.plot %in% dupl.genes]
+paste0("Duplicated genes: ",length(unique(dupl.genes))," Plotted genes: ",length(all.genes.to.plot))
+```
+ 
+
+```{r}
+coex_17.2 = as.data.frame(as.matrix(obj17@coex[rownames(coex_17) %in% all.genes.to.plot,colnames(obj17@coex) %in% all.genes.to.plot]))
+
+cl.genes = cl.genes[cl.genes$gene %in% colnames(coex_17.2),]
+
+reorder_idx_col <- match(cl.genes$gene,colnames(coex_17.2))
+reorder_idx_row <- match(cl.genes$gene,rownames(coex_17.2))
+
+to.plot <- coex_17.2[reorder_idx_row,reorder_idx_col]
+
+diag(to.plot) = 0
+
+rg = max(c(abs(c(round(quantile(as.matrix(to.plot),probs =0.001),digits = 1))), 0, round(quantile(as.matrix(to.plot),probs =0.999),digits = 1)))
+
+
+col_fun = colorRamp2(c(-rg, 0, rg), c("#E64B35FF", "gray93", "#3C5488FF"))
+#col_fun = colorRamp2(c(-0.4, 0, +0.4), c("#E64B35FF", "gray93", "#3C5488FF"))
+
+part1 = Heatmap(as.matrix(to.plot),cluster_rows = FALSE, cluster_columns = F ,row_split = cl.genes$cl, column_split = cl.genes$cl ,col = col_fun, show_row_names = FALSE, show_column_names = F, column_title_gp = gpar(fill = "#8491B44C", font = 3, col= "#3C5488FF"),row_title_gp = gpar(fill = "#8491B44C",font = 3, col= "#3C5488FF"))#, heatmap_legend_param = list(title = "coex" )
+
+lgd = Legend(col_fun = col_fun, title = "coex",grid_width = unit(0.3, "cm"),direction = "horizontal", title_position = "topcenter",title_gp = gpar(fontsize = 10, fontface = "bold",col="#3C5488FF"),labels_gp = gpar(col = "#3C5488FF", font = 3) )
+
+#part1 = draw(part1,show_heatmap_legend = FALSE,  annotation_legend_list = lgd,annotation_legend_side = "bottom") #ht_gap = unit(7, "mm"), row_km = 2,
+
+require(png)
+img<-readPNG("prova_layers.png")
+
+gb = grid.grabExpr(draw(part1,
+                        show_heatmap_legend = FALSE,  
+                        annotation_legend_list = lgd,annotation_legend_side = "bottom"))
+gb2 = grid.grabExpr(grid.raster(img, 0.5, .5, width=0.95))
+
+
+
+fig2_part1 = ggdraw() +
+  draw_plot(gb2, x = .0, y = 0, width = .35, height = 1) +
+  draw_plot(gb, x = .4, y = 0.01, width = .60, height = 0.95) +
+  draw_plot_label(label = c("A", "B"), size = 14,
+                  x = c(0, 0.38), y = c(0.95, 0.95)) 
+
+fig2_part1
+```
+```{r}
+sessionInfo()
+```
