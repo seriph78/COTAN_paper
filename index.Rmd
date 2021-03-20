@@ -18,10 +18,24 @@
 
 # Overview
 
-This web page contains all data regarding the COTAN paper. Here can be found
-
+This web page contains all data regarding the COTAN paper. Here can be found:
 - All datasets analysis 
 - The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA
-- The comparition of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contain the comparition with the WGCNA approach.
+- The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contain the comparison with the WGCNA approach.
 - The negative dataset analysis.
+
+
+# Datasets
+
+In this work where use the following public datasets:
+
+- Mouse embryonic cortex dataset with four time points of development: E11.5 (GSM2861510), E13.5 (GSM2861511), E15.5 (GSE107122), E17.5 (GSM2861514). This study was performed by the Drop-seq scRNAseq technology.
+- Mouse dentate gyrus dataset (GSE104323) with many different time points of development but, for this study, only the E16.5 was used. This study was performed using the 10X platform.
+- Mouse embryonic cortex dataset (GSE123335) with two time points of development: E14.5 and P0. In this case the method used was Drop-seq.
+
+# Timing 
+The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the coex matrix calculation (last step), while the time for the analysis (a minimization) depend greatly on how many cores are devolved (we tested with 11 cores).
+The number of genes detected does not seems to impact much on the execution time.
+For example, a dataset with around 1000 cells was analysed in around 10 minutes. The machine used had RAM 128GiB and a CPU Intel(R) Xeon(R) W-2295 CPU @ 3.00GHz.
+
 

@@ -170,15 +170,13 @@ pca_1[pca_1$highlight == "not marked","colors"] = "#B09C85FF"
 
 
 
-#library(tidyverse)
-#library(dendextend)
 
 dend =branches_color(dend,k=7,col=c("#4DBBD5FF","#91D1C2FF","#E64B35FF","gray80","#3C5488FF","#F39B7FFF","gray80" ),groupLabels = T)
 dend =color_labels(dend,k=7,labels = rownames(pca_1),col=pca_1$colors)
 
 
 dend %>%
-  set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% colnames(g.space)] ,labels(dend),"")) %>%
+  dendextend::set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% colnames(g.space)] ,labels(dend),"")) %>%
   #  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
  plot(horiz=F, axes=T,ylim = c(0,80))
 ```
@@ -271,8 +269,8 @@ or just with primary markers
 # some more genes as landmarks
 controls =list("genes related to L5/6"=c("Foxp2","Tbr1"), "genes related to L2/3"=c("Mef2c"), "genes related to Prog"=c("Nes","Sox2") , "genes related to L1"=c() , "genes related to L4"=c()) 
 dend %>%
-set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% c(unlist(layers),unlist(controls))], labels(dend), "")) %>%
-  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
+dendextend::set("labels", ifelse(labels(dend) %in% rownames(pca_1)[rownames(pca_1) %in% c(unlist(layers),unlist(controls))], labels(dend), "")) %>%
+  dendextend::set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
 plot(horiz=F, axes=T,ylim = c(0,100))
 
 ```
@@ -437,6 +435,9 @@ fit.genes$names = rownames(fit.genes)
 
 mycolours3 <- c("cluster L5/6 markers" = "#3C5488FF","cluster L2/3 markers"="#F39B7FFF","cluster Prog markers"="#4DBBD5FF","cluster L1 markers"="#E64B35FF","cluster L4 markers" = "#91D1C2FF", "not identified cluster"="#B09C85FF")
 
+#mycolours3 <- c("cluster layer V-VI markers" = "#3C5488FF","cluster layer II-III markers"="#F39B7FFF","cluster progenitor markers"="#4DBBD5FF","cluster layer I markers"="#E64B35FF","cluster layer IV markers" = "#91D1C2FF", "not identified cluster"="#B09C85FF")
+
+
 #fit.genes$hclust = factor(cutree(hc.norm, 7))
 used = vector()
 for (k in c(1:length(layers))) {
@@ -454,7 +455,11 @@ textdf <- fit.genes[rownames(fit.genes) %in% c(unlist(layers),unlist(controls)),
 
 f2 = f1 + geom_point(data = subset(fit.genes, hclust %in% unique(cut[unlist(layers)]) ), 
                      aes(x=V1, y=V2, colour=cluster), size=1,alpha = 0.5) +
-  scale_color_manual("Status", values = mycolours3)  +
+  scale_color_manual("Status", values = mycolours3,
+                     labels = c("Layer I cluster ","Layers II/III cluster",
+                                "Layer IV cluster",
+                                "Layers V/VI cluster",
+                                "Progenitors cluster") )  +
   scale_fill_manual("Status", values = mycolours3)  + 
   xlab("") + ylab("")+
   geom_label_repel(data =textdf , aes(x = V1, y = V2, label = rownames(textdf),fill=cluster),
@@ -485,7 +490,7 @@ f2 = f1 + geom_point(data = subset(fit.genes, hclust %in% unique(cut[unlist(laye
         legend.position = "bottom")  # titl)
 
 
-f2 #+ geom_encircle(data = fit.genes, aes(group=`5_clusters`)) 
+f2 + scale_y_reverse()+ scale_x_reverse()#+ geom_encircle(data = fit.genes, aes(group=`5_clusters`)) 
 ```
 ```{r eval=FALSE, include=FALSE}
 library("AnnotationDbi")

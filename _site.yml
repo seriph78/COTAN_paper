@@ -5,7 +5,7 @@ navbar:
   - text: Datasets
     menu:
     - text: E14.5 mouse cortex
-      href: 
+      href: E14.5_cortex_analysis.nb.html
     - text: P0 mouse cortex
       href: P0_cortex_analysis.nb.html
     - text: E16.5 mouse dentate gyrus
@@ -15,7 +15,7 @@ navbar:
     - text: E11.5 mouse cortex
       href: 
     - text: E13.5 mouse cortex
-      href: 
+      href: E13.5_cortex_analysis.nb.html
     - text: E15.5 mouse cortex
       href: 
     - text: E17.5 mouse cortex
@@ -34,9 +34,15 @@ navbar:
       href: Loo_et_all_markers.nb.html
     - text: WGCNA experiments
       href: WGCNA_experiments.nb.html
+    
   #right:
   - text: Negative dataset 
     href: Negative_dataset_analysis.nb.html
+  
+  - text: Others
+    menu:
+    - text: Execution times
+      href: Execution_times.nb.html
 output:
   html_document:
     theme: spacelab

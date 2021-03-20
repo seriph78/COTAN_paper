@@ -26,15 +26,12 @@ library(ggplot2)
 library(ComplexHeatmap)
 library(circlize)
 library(cowplot)
-#library(data.table)
-#library(Matrix)
-#library(ggrepel)
-#library(latex2exp)
+
 ```
 
 ```{r}
 input_dir = "Data/"
-#layers = list("L1"=c("Reln","Lhx5"), "L2/3"=c("Satb2","Cux1"), "L4"=c("Rorb","Sox5") , "L5/6"=c("Bcl11b","Fezf2") , "Prog"=c("Vim","Hes1"))
+
 ```
 
 The general heatmap can be done by the automatic function or extracting the information. In the first case we can plot a simmetric plot or an asymmetric one.
@@ -78,8 +75,11 @@ This is the number of total secondary markers extracted.
 ```{r}
 dupl.genes = c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2)[duplicated(c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2))]
 
-all.genes.to.plot = c(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2)
+all.genes.to.plot = c(pos.link.Reln,pos.link.Satb2,pos.link.Bcl11b,pos.link.Sox5)
 all.genes.to.plot = all.genes.to.plot[!all.genes.to.plot %in% dupl.genes]
+
+cl.genes= cl.genes[!cl.genes$gene %in% dupl.genes,]
+
 paste0("Duplicated genes: ",length(unique(dupl.genes))," Plotted genes: ",length(all.genes.to.plot))
 ```
  
@@ -99,8 +99,12 @@ diag(to.plot) = 0
 rg = max(c(abs(c(round(quantile(as.matrix(to.plot),probs =0.001),digits = 1))), 0, round(quantile(as.matrix(to.plot),probs =0.999),digits = 1)))
 
 
+
 col_fun = colorRamp2(c(-rg, 0, rg), c("#E64B35FF", "gray93", "#3C5488FF"))
 #col_fun = colorRamp2(c(-0.4, 0, +0.4), c("#E64B35FF", "gray93", "#3C5488FF"))
+
+#The next line is to set the columns and raws order
+cl.genes$cl =factor(cl.genes$cl,c("Reln","Satb2","Sox5","Bcl11b"))
 
 part1 = Heatmap(as.matrix(to.plot),cluster_rows = FALSE, cluster_columns = F ,row_split = cl.genes$cl, column_split = cl.genes$cl ,col = col_fun, show_row_names = FALSE, show_column_names = F, column_title_gp = gpar(fill = "#8491B44C", font = 3, col= "#3C5488FF"),row_title_gp = gpar(fill = "#8491B44C",font = 3, col= "#3C5488FF"))#, heatmap_legend_param = list(title = "coex" )
 
