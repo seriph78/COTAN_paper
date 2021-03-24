@@ -4,6 +4,18 @@ navbar:
   left:
   - text: Datasets
     menu:
+    - text: E11.5 mouse cortex
+      href: E11.5_cortex_analysis.nb.html
+    - text: E13.5 mouse cortex
+      href: E13.5_cortex_analysis.nb.html
+    - text: E15.5 mouse cortex
+      href: E15.5_cortex_analysis.nb.html
+    - text: E17.5 mouse cortex
+      href: E17.5_cortex_analysis.nb.html
+    - text: E17.5 gene clustering
+      href: Gene_clustering.nb.html
+    - text: E17.5 general heatmap
+      href: General_heatmap.nb.html
     - text: E14.5 mouse cortex
       href: E14.5_cortex_analysis.nb.html
     - text: P0 mouse cortex
@@ -12,19 +24,6 @@ navbar:
       href: E16_analysis.nb.html
     - text: P0 mouse dentate gyrus
       href: 
-    - text: E11.5 mouse cortex
-      href: 
-    - text: E13.5 mouse cortex
-      href: E13.5_cortex_analysis.nb.html
-    - text: E15.5 mouse cortex
-      href: 
-    - text: E17.5 mouse cortex
-      href: E17.5_cortex_analysis.nb.html
-    - text: E17.5 gene clustering
-      href: Gene_clustering.nb.html
-    - text: E17.5 general heatmap
-      href: General_heatmap.nb.html
-    
   #left:
   - text: Test
     menu:
@@ -41,8 +40,10 @@ navbar:
   
   - text: Others
     menu:
-    - text: Execution times
+    - text: Execution time
       href: Execution_times.nb.html
+    - text: Synthetic dataset analysis
+      href: Syntetic_dataset_analysis.nb.html
 output:
   html_document:
     theme: spacelab

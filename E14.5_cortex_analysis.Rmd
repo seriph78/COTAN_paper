@@ -15,11 +15,13 @@ output:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  warning = FALSE,
+  tidy = TRUE, tidy.opts=list(width.cutoff=40)
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
-
 ```{r setup}
 library(COTAN)
 library(data.table)
@@ -316,13 +318,13 @@ COTAN analysis: in this part all the contingency tables are computed and used to
 To storage efficincy of all the observed tables only the yes_yes is stored. 
 Note that if will be necessary re-coputing the yes-yes table, the yes-yes table should be cancelled before running cotan_analysis.
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 # obj@yes_yes = c()
 obj = cotan_analysis(obj)
 ```
 
 COEX evaluation and storing 
-```{r}
+```{r eval=FALSE, include=TRUE}
 saveRDS(obj,file = paste(out_dir,t,".cotan.RDS", sep = ""))
 
 obj = get.coex(obj)
@@ -338,6 +340,7 @@ saveRDS(obj,file = paste(out_dir,t,".cotan.RDS", sep = ""))
 The next function can directly plot the GDI for the dataset with the 1.5 threshold (in red) and the two higher quantiles (in blue). 
 
 ```{r}
+obj = readRDS(paste(out_dir,t,".cotan.RDS", sep = ""))
 plot.GDI(obj, cond = "P0")
 ```
 
@@ -409,7 +412,7 @@ To do so we need to define, in a list, the different gene sets (list.genes). The
 ```{r}
 list.genes = list("Ref.col"= PNGs, "NPGs"=NPGs, "Const."=hk )
 
-plot.heatmap(df_genes = list.genes,sets = c(1:3),conditions = "P0_cortex",dir = "Data/")
+plot_heatmap(df_genes = list.genes,sets = c(1:3),conditions = "P0_cortex",dir = "Data/")
 ```
 
 

@@ -34,8 +34,9 @@ In this work where use the following public datasets:
 - Mouse embryonic cortex dataset (GSE123335) with two time points of development: E14.5 and P0. In this case the method used was Drop-seq.
 
 # Timing 
-The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the coex matrix calculation (last step), while the time for the analysis (a minimization) depend greatly on how many cores are devolved (we tested with 11 cores).
-The number of genes detected does not seems to impact much on the execution time.
-For example, a dataset with around 1000 cells was analysed in around 10 minutes. The machine used had RAM 128GiB and a CPU Intel(R) Xeon(R) W-2295 CPU @ 3.00GHz.
+The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the analysis step when a is minimized for each gene. This step is done by a multicore function (that is not supported under windows architecture). By default, and during tests it was fixed to 11 cores.
+For example, a dataset with around 5000 cells was analysed in around 3 minutes. The machine used had RAM 64GiB and an Intel(R) Dual Xeon(R) Silver 4214 CPU @ 2.20GHz. 
+For more details see the [specific page](https://seriph78.github.io/Cotan_paper/Execution_times.nb.html).
+
 
 

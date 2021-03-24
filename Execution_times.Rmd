@@ -21,7 +21,7 @@ options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 ```{r}
-tot.file = read.csv("Data/Tot_times.csv")
+tot.file = read.csv("Data/Tot_times_genes_20000.csv")
 library(ggplot2)
 
 ```
@@ -30,16 +30,12 @@ library(ggplot2)
 The following data and plot analyse the execution time of COTAN tool using the automatic.COTAN.object.creation function.
 
 
-
 ```{r}
 ggplot(tot.file, aes(x = n.cells, y = times)) + 
-  geom_line(aes(color = type)) + facet_grid(. ~ machine,scales = "free") +
+  geom_line(aes(color = type)) + 
   scale_color_manual(values = c("darkred", "steelblue","pink"))
 ```
 
-```{r}
-ggplot(tot.file, aes(x = n.genes, y = times)) + 
-  geom_line(aes(color = type)) + facet_grid(. ~ machine,scales = "free") +
-  scale_color_manual(values = c("darkred", "steelblue","pink"))
-```
+The scale for times are minutes.
+
 

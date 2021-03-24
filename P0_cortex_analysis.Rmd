@@ -1,21 +1,27 @@
 ---
 title: "P0 cortex"
 output:
-    html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_document:
+    df_print: paged
+    toc: yes
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  warning = FALSE,
+  tidy = TRUE, tidy.opts=list(width.cutoff=40)
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
@@ -273,6 +279,7 @@ dev.off()
 
 plot.ude
 ```
+
 We also save the defined treshold in the metadata and re run the estimation
 ```{r}
 obj@meta[(nrow(obj@meta)+1),1:2] = c("Threshold low UDE cells:",yset)
@@ -312,17 +319,18 @@ dev.off()
 
 plot.nu
 ```
+
 COTAN analysis: in this part all the contingency tables are computed and used to get the statistics (S)
 To storage efficincy of all the observed tables only the yes_yes is stored. 
 Note that if will be necessary re-coputing the yes-yes table, the yes-yes table should be cancelled before running cotan_analysis.
 
-```{r}
+```{r eval=FALSE, include=TRUE}
 # obj@yes_yes = c()
 obj = cotan_analysis(obj)
 ```
 
 COEX evaluation and storing 
-```{r}
+```{r eval=FALSE, include=TRUE}
 saveRDS(obj,file = paste(out_dir,t,".cotan.RDS", sep = ""))
 
 obj = get.coex(obj)
@@ -338,6 +346,7 @@ saveRDS(obj,file = paste(out_dir,t,".cotan.RDS", sep = ""))
 The next function can directly plot the GDI for the dataset with the 1.5 threshold (in red) and the two higher quantiles (in blue). 
 
 ```{r}
+obj = readRDS(paste(out_dir,t,".cotan.RDS", sep = ""))
 plot.GDI(obj, cond = "P0")
 ```
 
@@ -347,6 +356,7 @@ quant.p = get.GDI(obj)
 
 head(quant.p)
 ```
+
 In the third column of this dataframe is reported the percentage of cells expressing the gene.
 
 ```{r echo=TRUE}

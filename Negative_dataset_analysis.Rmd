@@ -14,13 +14,16 @@ output:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  warning = FALSE,
+  tidy = TRUE, tidy.opts=list(width.cutoff=40)
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
 
-```{r include=FALSE}
+```{r }
 library(ggplot2)
 library(ggrepel)
 library(COTAN)
@@ -37,8 +40,6 @@ p_value_plot <-function(p_values, obj){
     p_values2 = p_values2[complete.cases(p_values2),]
     p_values2 = p_values2[order(p_values2$Freq, decreasing = F),]
     p_values2$n = c(1:nrow(p_values2))/nrow(p_values2)
-    #p_values2$type =rep(strsplit(ta, "\\/| ")[[1]][5],nrow(p_values2)) 
-    #}
     
     p_values = get.pval(obj,type_stat = "G")
     p_values[lower.tri(p_values,diag=TRUE)] <- NA
@@ -63,14 +64,11 @@ p_value_plot <-function(p_values, obj){
       theme(axis.text.x = element_text(size = 12, angle = 0, hjust = .5, vjust = .5, face = "plain"),
             axis.text.y = element_text( size = 12, angle = 0, hjust = 0, vjust = .5, face = "plain"),  
             axis.title.x = element_text( size = 12, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-            axis.title.y = element_text( size = 12, angle = 90, hjust = .5, vjust = .5, face = "plain")) + labs(x = "p-value", y = "percentile" ) +
+            axis.title.y = element_text( size = 12, angle = 90, hjust = .5, vjust = .5, face = "plain")) + 
+      labs(x = "p-value", y = "percentile" ) +
       geom_line(size = 1.5) 
-
     return(plot_p)
-  
 }
-
-
 
 plot.GDI.density <- function(GDI.df){
   si=11
@@ -88,7 +86,6 @@ plot.GDI.density <- function(GDI.df){
       themey = theme(axis.text.y = 
                        element_text( size = si, angle = 0, hjust = .5, vjust = .5, face = "plain", 
                                      colour ="#3C5488FF"),
-                     #axis.text.y = element_blank(),  
                      axis.title.x = 
                        element_text( size = si, angle = 0, hjust = .5, vjust = .5, face = "plain", 
                                      colour ="#3C5488FF"),
@@ -101,8 +98,6 @@ plot.GDI.density <- function(GDI.df){
       
       
       GDI.df_lin = f1 + 
-        #geom_hline(yintercept=quantile(GDI$GDI)[4], linetype="dashed", color = "darkblue") +
-        #geom_hline(yintercept=quantile(GDI$GDI)[3], linetype="dashed", color = "darkblue") +
         geom_hline(yintercept=1.5, linetype="dotted", color = "red", size= 1) +
         scale_color_manual("Status", values = mycolours)  +
         scale_fill_manual("Status", values = mycolours)  +
@@ -117,7 +112,7 @@ plot.GDI.density <- function(GDI.df){
                 element_text( size = si, angle = 90, hjust = .5, vjust = .5, face = "plain", colour ="#3C5488FF"),
               legend.title = element_blank(),
               legend.text = element_text(color = "#3C5488FF",face ="italic" ),
-              legend.position = "none")  # titl)
+              legend.position = "none") 
       
         xdensityGDI.df <- ggplot(GDI.df, aes(sum.raw.norm)) + 
           geom_density(alpha=.5, fill = "#8491B4B2", colour ="#8491B4B2" ) +
@@ -135,10 +130,10 @@ plot.GDI.density <- function(GDI.df){
 ```
 
 # Technical negative dataset: ERCC 10x
-```{r echo=FALSE}
+```{r echo=TRUE}
 ERCC = readRDS("Data/negative_datasets/ERCC.cotan.RDS")
 ```
-```{r echo=FALSE}
+```{r echo=TRUE}
 p_values_ERCC = get.pval(ERCC)
 
 Plot_ERCC = p_value_plot(p_values_ERCC, ERCC)
@@ -162,10 +157,10 @@ plot.GDI.density(GDI_ercc)
 
 
 # Biological negative dataset: CD14+
-```{r echo=FALSE}
+```{r echo=TRUE}
 CD14 = readRDS("Data/negative_datasets/CD14.cotan.RDS")
 ```
-```{r echo=FALSE}
+```{r echo=TRUE}
 p_values_CD14 = get.pval(CD14)
 
 Plot_CD14 = p_value_plot(p_values_CD14,obj = CD14)
@@ -192,11 +187,14 @@ plot.heatmap(df_genes = genes,sets = 1,conditions = "CD14",dir = "Data/negative_
 ```
 
 
+
+
+
 # Syntetic negative dataset: 4000 cells
-```{r echo=FALSE}
+```{r }
 CE4000 = readRDS("Data/negative_datasets/SymE17_1cl_4000cs.cotan.RDS")
 ```
-```{r echo=FALSE}
+```{r }
 p_values_CE4000 = get.pval(CE4000)
 
 Plot_CE4000 = p_value_plot(p_values_CE4000, obj = CE4000)
@@ -218,10 +216,10 @@ plot.GDI.density(GDI_CE4000)
 
 
 # Syntetic negative dataset: 800 cells
-```{r echo=FALSE}
+```{r echo=TRUE}
 CE800 = readRDS("Data/negative_datasets/SymE17_1cl_800cs.cotan.RDS")
 ```
-```{r echo=FALSE}
+```{r echo=TRUE}
 p_values_CE800 = get.pval(CE800)
 
 Plot_CE800 = p_value_plot(p_values_CE800, obj = CE800)
