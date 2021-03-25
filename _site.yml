@@ -5,38 +5,36 @@ navbar:
   - text: Datasets
     menu:
     - text: E11.5 mouse cortex
-      href: E11.5_cortex_analysis.nb.html
+      href: E11.5_cortex_analysis.html
     - text: E13.5 mouse cortex
-      href: E13.5_cortex_analysis.nb.html
+      href: E13.5_cortex_analysis.html
     - text: E15.5 mouse cortex
-      href: E15.5_cortex_analysis.nb.html
+      href: E15.5_cortex_analysis.html
     - text: E17.5 mouse cortex
-      href: E17.5_cortex_analysis.nb.html
+      href: E17.5_cortex_analysis.html
     - text: E17.5 gene clustering
-      href: Gene_clustering.nb.html
+      href: Gene_clustering.html
     - text: E17.5 general heatmap
-      href: General_heatmap.nb.html
+      href: General_heatmap.html
     - text: E14.5 mouse cortex
-      href: E14.5_cortex_analysis.nb.html
+      href: E14.5_cortex_analysis.html
     - text: P0 mouse cortex
-      href: P0_cortex_analysis.nb.html
+      href: P0_cortex_analysis.html
     - text: E16.5 mouse dentate gyrus
-      href: E16_analysis.nb.html
+      href: E16_analysis.html
     - text: P0 mouse dentate gyrus
-      href: 
-  #left:
+      href: P0_dentate_gyrus_analysis.html
+
   - text: Test
     menu:
     - text: Correlation vs COTAN coex
       href: Fig1_Seurat_corr_vs_cotan_heatmap.nb.html
-    - text: Comparision with Loo et al. markers
+    - text: Comparison with Loo et al. markers
       href: Loo_et_all_markers.nb.html
     - text: WGCNA experiments
       href: WGCNA_experiments.nb.html
-    
-  #right:
-  - text: Negative dataset 
-    href: Negative_dataset_analysis.nb.html
+    - text: Negative dataset 
+      href: Negative_dataset_analysis.nb.html
   
   - text: Others
     menu:
@@ -44,6 +42,7 @@ navbar:
       href: Execution_times.nb.html
     - text: Synthetic dataset analysis
       href: Syntetic_dataset_analysis.nb.html
+      
 output:
   html_document:
     theme: spacelab

@@ -21,9 +21,10 @@
 This web page contains all data regarding the COTAN paper. Here can be found:
 - All datasets analysis 
 - The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA
-- The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contain the comparison with the WGCNA approach.
+- The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contains the comparison with the WGCNA approach.
 - The negative dataset analysis.
 
+The repository for the package tool is the [gitHub](https://github.com/seriph78/COTAN).
 
 # Datasets
 

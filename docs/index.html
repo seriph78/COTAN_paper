@@ -237,33 +237,35 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="E11.5_cortex_analysis.nb.html">E11.5 mouse cortex</a>
+      <a href="E11.5_cortex_analysis.html">E11.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E13.5_cortex_analysis.nb.html">E13.5 mouse cortex</a>
+      <a href="E13.5_cortex_analysis.html">E13.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E15.5_cortex_analysis.nb.html">E15.5 mouse cortex</a>
+      <a href="E15.5_cortex_analysis.html">E15.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E17.5_cortex_analysis.nb.html">E17.5 mouse cortex</a>
+      <a href="E17.5_cortex_analysis.html">E17.5 mouse cortex</a>
     </li>
     <li>
-      <a href="Gene_clustering.nb.html">E17.5 gene clustering</a>
+      <a href="Gene_clustering.html">E17.5 gene clustering</a>
     </li>
     <li>
-      <a href="General_heatmap.nb.html">E17.5 general heatmap</a>
+      <a href="General_heatmap.html">E17.5 general heatmap</a>
     </li>
     <li>
-      <a href="E14.5_cortex_analysis.nb.html">E14.5 mouse cortex</a>
+      <a href="E14.5_cortex_analysis.html">E14.5 mouse cortex</a>
     </li>
     <li>
-      <a href="P0_cortex_analysis.nb.html">P0 mouse cortex</a>
+      <a href="P0_cortex_analysis.html">P0 mouse cortex</a>
     </li>
     <li>
-      <a href="E16_analysis.nb.html">E16.5 mouse dentate gyrus</a>
+      <a href="E16_analysis.html">E16.5 mouse dentate gyrus</a>
     </li>
-    <li class="dropdown-header">P0 mouse dentate gyrus</li>
+    <li>
+      <a href="P0_dentate_gyrus_analysis.html">P0 mouse dentate gyrus</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -277,15 +279,15 @@ $(document).ready(function () {
       <a href="Fig1_Seurat_corr_vs_cotan_heatmap.nb.html">Correlation vs COTAN coex</a>
     </li>
     <li>
-      <a href="Loo_et_all_markers.nb.html">Comparision with Loo et al. markers</a>
+      <a href="Loo_et_all_markers.nb.html">Comparison with Loo et al. markers</a>
     </li>
     <li>
       <a href="WGCNA_experiments.nb.html">WGCNA experiments</a>
     </li>
+    <li>
+      <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
+    </li>
   </ul>
-</li>
-<li>
-  <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -321,7 +323,8 @@ $(document).ready(function () {
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This web page contains all data regarding the COTAN paper. Here can be found: - All datasets analysis - The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA - The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contain the comparison with the WGCNA approach. - The negative dataset analysis.</p>
+<p>This web page contains all data regarding the COTAN paper. Here can be found: - All datasets analysis - The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA - The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contains the comparison with the WGCNA approach. - The negative dataset analysis.</p>
+<p>The repository for the package tool is the <a href="https://github.com/seriph78/COTAN">gitHub</a>.</p>
 </div>
 <div id="datasets" class="section level1">
 <h1>Datasets</h1>
@@ -334,7 +337,7 @@ $(document).ready(function () {
 </div>
 <div id="timing" class="section level1">
 <h1>Timing</h1>
-<p>The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the coex matrix calculation (last step), while the time for the analysis (a minimization) depend greatly on how many cores are devolved (we tested with 11 cores). The number of genes detected does not seems to impact much on the execution time. For example, a dataset with around 1000 cells was analysed in around 10 minutes. The machine used had RAM 128GiB and a CPU Intel(R) Xeon(R) W-2295 CPU @ 3.00GHz.</p>
+<p>The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the analysis step when a is minimized for each gene. This step is done by a multicore function (that is not supported under windows architecture). By default, and during tests it was fixed to 11 cores. For example, a dataset with around 5000 cells was analysed in around 3 minutes. The machine used had RAM 64GiB and an Intel(R) Dual Xeon(R) Silver 4214 CPU @ 2.20GHz. For more details see the <a href="https://seriph78.github.io/Cotan_paper/Execution_times.nb.html">specific page</a>.</p>
 </div>
 
 

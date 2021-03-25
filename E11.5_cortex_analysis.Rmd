@@ -2,8 +2,14 @@
 title: "E11.5 cortex"
 output:
   html_document:
-    df_print: paged
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
     toc: yes
+    toc_float: yes
   html_notebook:
     collapsed: no
     css: html-md-01.css
@@ -18,7 +24,10 @@ output:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  warning = FALSE,
+  tidy = TRUE, tidy.opts=list(width.cutoff=40)
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
@@ -56,9 +65,9 @@ Define a directory where the ouput will be stored.
 out_dir = "Data/"
 ```
 
-# Analitical pipeline
+# Analytical pipeline
 
-Inizialise the COTAN object with the row count table and the metadata for the experiment.
+Initialize the COTAN object with the row count table and the metadata for the experiment.
 
 ```{r}
 obj = new("scCOTAN",raw = data)
@@ -67,7 +76,7 @@ obj = initRaw(obj,GEO="GSM2861510" ,sc.method="DropSeq",cond = "mouse cortex E11
 
 Now we can start the cleaning. Analysis requires and starts from a matrix of raw UMI counts after removing possible cell doublets or multiplets and low quality or dying cells (with too high mtRNA percentage, easily done with Seurat or other tools).
 
-If we do not want to consider the mithocondrial genes we can remove them before starting the analysis.
+If we do not want to consider the mitochondrial genes we can remove them before starting the analysis.
 ```{r}
 genes_to_rem = rownames(obj@raw[grep('^mt', rownames(obj@raw)),]) #genes to remove : mithocondrial
 obj@raw = obj@raw[!rownames(obj@raw) %in% genes_to_rem,]
@@ -89,7 +98,7 @@ n_it = 1
 #obj@raw = obj@raw[rownames(cells), colnames(cells)]
 ```
 # Data cleaning
-First we create the directory to store all information regardin the data cleaning.
+First, we create the directory to store all information regarding the data cleaning.
 ```{r}
 if(!file.exists(out_dir)){
   dir.create(file.path(out_dir))
@@ -174,7 +183,8 @@ ttm$pca.cell.2
 
 ```
 
-Run this only in the last iteration, instead the previus code, when B cells group has not to be removed
+Run this only in the last iteration, instead the previous code, when B cells group has not to be removed.
+
 ```{r}
 pdf(paste(out_dir,"cleaning/",t,"_",n_it,"_plots_before_cells_exlusion.pdf", sep = ""))
 ttm$pca.cell.2
@@ -192,6 +202,7 @@ ggplot(ttm$D, aes(x=n,y=means)) + geom_point() +
 
 dev.off()
 ```
+
 To color the pca based on nu_j (so the cells' efficiency)
 
 ```{r}
@@ -215,7 +226,9 @@ dev.off()
 
 plot.nu
 ```
+
 The next part is use to remove the cells with efficiency too low.
+
 ```{r}
 nu_df = data.frame("nu"= sort(obj@nu), "n"=c(1:length(obj@nu)))
 
@@ -226,6 +239,7 @@ ggplot(nu_df, aes(x = n, y=nu)) +
 ```
 
 We can zoom on the smalest values and, if we detect a clear elbow, we can decide to remove the cells.
+
 ```{r}
 yset = 0.21#threshold to remove low UDE cells
 plot.ude <- ggplot(nu_df, aes(x = n, y=nu)) + 
@@ -243,7 +257,9 @@ dev.off()
 
 plot.ude
 ```
-We also save the defined treshold in the metadata and re run the estimation
+
+We also save the defined threshold in the metadata and re run the estimation
+
 ```{r}
 obj@meta[(nrow(obj@meta)+1),1:2] = c("Threshold low UDE cells:",yset)
 
@@ -282,8 +298,9 @@ dev.off()
 
 plot.nu
 ```
-COTAN analysis: in this part all the contingency tables are computed and used to get the statistics (S)
-To storage efficincy of all the observed tables only the yes_yes is stored. 
+
+COTAN analysis: in this part all the contingency tables are computed and used to get the statistics (S).
+To storage efficiency of all the observed tables only the yes_yes is stored. 
 Note that if will be necessary re-coputing the yes-yes table, the yes-yes table should be cancelled before running cotan_analysis.
 
 ```{r eval=FALSE, include=TRUE}
@@ -302,6 +319,7 @@ saveRDS(obj,file = paste(out_dir,t,".cotan.RDS", sep = ""))
 ```
 
 Automatic data elaboration (without cleaning)
+
 ```{r}
 obj2 = automatic.COTAN.object.creation(df = data,GEO="GSM2861510" ,sc.method="Drop-seq",cond = "E11_cortex",
                                        out_dir =  "Data/")
@@ -337,7 +355,7 @@ quant.p = get.GDI(obj)
 
 head(quant.p)
 ```
-In the third column of this dataframe is reported the percentage of cells expressing the gene.
+In the third column of this data frame is reported the percentage of cells expressing the gene.
 
 ```{r echo=TRUE}
 NPGs=c("Nes","Vim","Sox2","Sox1","Notch1", "Hes1","Hes5","Pax6") #,"Hes3"
@@ -396,7 +414,8 @@ quant.p = get.GDI(obj2)
 
 head(quant.p)
 ```
-In the third column of this dataframe is reported the percentage of cells expressing the gene.
+
+In the third column of this data frame is reported the percentage of cells expressing the gene.
 
 ```{r echo=TRUE}
 NPGs=c("Nes","Vim","Sox2","Sox1","Notch1", "Hes1","Hes5","Pax6") #,"Hes3"
@@ -451,7 +470,7 @@ GDI_plot
 ## Heatmaps with cleaning
 
 For the Gene Pair Analysis, we can plot an heatmap with the coex values between two genes sets.
-To do so we need to define, in a list, the different gene sets (list.genes). Then in the function parameter sets we can decide which sets need to be considered (in the example from 1 to 3). In the condition parameter we should insert an array with each file name prefix to be considered (in the example, the file names is "E17.5_cortex").
+To do so we need to define, in a list, the different gene sets (list.genes). Then in the function parameter sets we can decide which sets need to be considered (in the example from 1 to 3). In the condition parameter we should insert an array with each file name prefix to be considered (in the example, the file names is "E11_cortex_clean").
 
 
 ```{r}
