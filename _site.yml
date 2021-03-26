@@ -39,9 +39,9 @@ navbar:
   - text: Others
     menu:
     - text: Execution time
-      href: Execution_times.nb.html
+      href: Execution_times.html
     - text: Synthetic dataset analysis
-      href: Syntetic_dataset_analysis.nb.html
+      href: Syntetic_dataset_analysis.html
       
 output:
   html_document:
