@@ -3228,33 +3228,35 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="E11.5_cortex_analysis.nb.html">E11.5 mouse cortex</a>
+      <a href="E11.5_cortex_analysis.html">E11.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E13.5_cortex_analysis.nb.html">E13.5 mouse cortex</a>
+      <a href="E13.5_cortex_analysis.html">E13.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E15.5_cortex_analysis.nb.html">E15.5 mouse cortex</a>
+      <a href="E15.5_cortex_analysis.html">E15.5 mouse cortex</a>
     </li>
     <li>
-      <a href="E17.5_cortex_analysis.nb.html">E17.5 mouse cortex</a>
+      <a href="E17.5_cortex_analysis.html">E17.5 mouse cortex</a>
     </li>
     <li>
-      <a href="Gene_clustering.nb.html">E17.5 gene clustering</a>
+      <a href="Gene_clustering.html">E17.5 gene clustering</a>
     </li>
     <li>
-      <a href="General_heatmap.nb.html">E17.5 general heatmap</a>
+      <a href="General_heatmap.html">E17.5 general heatmap</a>
     </li>
     <li>
-      <a href="E14.5_cortex_analysis.nb.html">E14.5 mouse cortex</a>
+      <a href="E14.5_cortex_analysis.html">E14.5 mouse cortex</a>
     </li>
     <li>
-      <a href="P0_cortex_analysis.nb.html">P0 mouse cortex</a>
+      <a href="P0_cortex_analysis.html">P0 mouse cortex</a>
     </li>
     <li>
-      <a href="E16_analysis.nb.html">E16.5 mouse dentate gyrus</a>
+      <a href="E16_analysis.html">E16.5 mouse dentate gyrus</a>
     </li>
-    <li class="dropdown-header">P0 mouse dentate gyrus</li>
+    <li>
+      <a href="P0_dentate_gyrus_analysis.html">P0 mouse dentate gyrus</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -3268,15 +3270,15 @@ div.tocify {
       <a href="Fig1_Seurat_corr_vs_cotan_heatmap.nb.html">Correlation vs COTAN coex</a>
     </li>
     <li>
-      <a href="Loo_et_all_markers.nb.html">Comparision with Loo et al. markers</a>
+      <a href="Loo_et_all_markers.nb.html">Comparison with Loo et al. markers</a>
     </li>
     <li>
       <a href="WGCNA_experiments.nb.html">WGCNA experiments</a>
     </li>
+    <li>
+      <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
+    </li>
   </ul>
-</li>
-<li>
-  <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -3346,8 +3348,15 @@ div.tocify {
 <!-- rnb-text-begin -->
 <p>The scale for times are minutes.</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoc2Vzc2lvbkluZm8oKSlcbmBgYCJ9 -->
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">print</span>(<span class="kw">sessionInfo</span>())</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlY3V0aW9uIHRpbWVzIgpvdXRwdXQ6CiAgICBodG1sX25vdGVib29rOgogICAgICBjc3M6IGh0bWwtbWQtMDEuY3NzCiAgICAgIGZpZ19jYXB0aW9uOiB5ZXMKICAgICAgaGlnaGxpZ2h0OiBoYWRkb2NrCiAgICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgICAgIHRoZW1lOiBzcGFjZWxhYgogICAgICB0b2M6IHllcwogICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgY29sbGFwc2VkOiBubwotLS0KCmBgYHtyLCBpbmNsdWRlID0gRkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldCgKICBjb2xsYXBzZSA9IFRSVUUsCiAgY29tbWVudCA9ICIjPiIKKQpvcHRpb25zKHJtYXJrZG93bi5odG1sX3ZpZ25ldHRlLmNoZWNrX3RpdGxlID0gRkFMU0UpCmBgYAoKYGBge3J9CnRvdC5maWxlID0gcmVhZC5jc3YoIkRhdGEvVG90X3RpbWVzX2dlbmVzXzIwMDAwLmNzdiIpCmxpYnJhcnkoZ2dwbG90MikKCmBgYAoKClRoZSBmb2xsb3dpbmcgZGF0YSBhbmQgcGxvdCBhbmFseXNlIHRoZSBleGVjdXRpb24gdGltZSBvZiBDT1RBTiB0b29sIHVzaW5nIHRoZSBhdXRvbWF0aWMuQ09UQU4ub2JqZWN0LmNyZWF0aW9uIGZ1bmN0aW9uLgoKCmBgYHtyfQpnZ3Bsb3QodG90LmZpbGUsIGFlcyh4ID0gbi5jZWxscywgeSA9IHRpbWVzKSkgKyAKICBnZW9tX2xpbmUoYWVzKGNvbG9yID0gdHlwZSkpICsgCiAgc2NhbGVfY29sb3JfbWFudWFsKHZhbHVlcyA9IGMoImRhcmtyZWQiLCAic3RlZWxibHVlIiwicGluayIpKQpgYGAKClRoZSBzY2FsZSBmb3IgdGltZXMgYXJlIG1pbnV0ZXMuCgoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXhlY3V0aW9uIHRpbWVzIgpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGNvbGxhcHNlZDogbm8KICAgIGNzczogaHRtbC1tZC0wMS5jc3MKICAgIGZpZ19jYXB0aW9uOiB5ZXMKICAgIGhpZ2hsaWdodDogaGFkZG9jawogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKICAgIHRoZW1lOiBzcGFjZWxhYgogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCiAgaHRtbF9ub3RlYm9vazoKICAgIGNvbGxhcHNlZDogbm8KICAgIGNzczogaHRtbC1tZC0wMS5jc3MKICAgIGZpZ19jYXB0aW9uOiB5ZXMKICAgIGhpZ2hsaWdodDogaGFkZG9jawogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKICAgIHRoZW1lOiBzcGFjZWxhYgogICAgdG9jOiB5ZXMKICAgIHRvY19mbG9hdDogeWVzCi0tLQoKYGBge3IsIGluY2x1ZGUgPSBGQUxTRX0Ka25pdHI6Om9wdHNfY2h1bmskc2V0KAogIGNvbGxhcHNlID0gVFJVRSwKICBjb21tZW50ID0gIiM+IgopCm9wdGlvbnMocm1hcmtkb3duLmh0bWxfdmlnbmV0dGUuY2hlY2tfdGl0bGUgPSBGQUxTRSkKYGBgCgpgYGB7cn0KdG90LmZpbGUgPSByZWFkLmNzdigiRGF0YS9Ub3RfdGltZXNfZ2VuZXNfMjAwMDAuY3N2IikKbGlicmFyeShnZ3Bsb3QyKQoKYGBgCgoKVGhlIGZvbGxvd2luZyBkYXRhIGFuZCBwbG90IGFuYWx5c2UgdGhlIGV4ZWN1dGlvbiB0aW1lIG9mIENPVEFOIHRvb2wgdXNpbmcgdGhlIGF1dG9tYXRpYy5DT1RBTi5vYmplY3QuY3JlYXRpb24gZnVuY3Rpb24uCgoKYGBge3J9CmdncGxvdCh0b3QuZmlsZSwgYWVzKHggPSBuLmNlbGxzLCB5ID0gdGltZXMpKSArIAogIGdlb21fbGluZShhZXMoY29sb3IgPSB0eXBlKSkgKyAKICBzY2FsZV9jb2xvcl9tYW51YWwodmFsdWVzID0gYygiZGFya3JlZCIsICJzdGVlbGJsdWUiLCJwaW5rIikpCmBgYAoKVGhlIHNjYWxlIGZvciB0aW1lcyBhcmUgbWludXRlcy4KCmBgYHtyfQpwcmludChzZXNzaW9uSW5mbygpKQpgYGAKCg==</div>
 
 
 </div>

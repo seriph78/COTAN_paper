@@ -1,15 +1,24 @@
 ---
 title: "Negative dataset analysis"
 output:
+  html_document:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
   html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -130,6 +139,7 @@ plot.GDI.density <- function(GDI.df){
 ```
 
 # Technical negative dataset: ERCC 10x
+
 ```{r echo=TRUE}
 ERCC = readRDS("Data/negative_datasets/ERCC.cotan.RDS")
 ```
@@ -183,7 +193,7 @@ plot.GDI.density(GDI_CD14)
 ```
 ```{r}
 genes = list("genes"=rownames(GDI_CD14[GDI_CD14$GDI>1.5 & GDI_CD14$sum.raw.norm > 5 & GDI_CD14$exp.cells > 2.5,]))
-plot.heatmap(df_genes = genes,sets = 1,conditions = "CD14",dir = "Data/negative_datasets/")
+plot_heatmap(df_genes = genes,sets = 1,conditions = "CD14",dir = "Data/negative_datasets/")
 ```
 
 

@@ -323,8 +323,13 @@ $(document).ready(function () {
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This web page contains all data regarding the COTAN paper. Here can be found: - All datasets analysis - The analysis done on the E16.5 mouse hippocampal dataset done using WGCNA - The comparison of our gene clustering and the gene markers found with the markers found in Loo et al. paper. This part also contains the comparison with the WGCNA approach. - The negative dataset analysis.</p>
-<p>The repository for the package tool is the <a href="https://github.com/seriph78/COTAN">gitHub</a>.</p>
+<p>This web page contains all data regarding the COTAN paper. Here can be found:</p>
+<ul>
+<li><p>All datasets analysis, some of which with and whitout initial cleaning step.</p></li>
+<li><p>The comparison of our gene clustering to detect cortex layer markers, with the markers found in Loo et al. paper. This part also contains the comparison with a WGCNA approach.</p></li>
+<li><p>The negative dataset analysis.\</p></li>
+<li><p><strong>The repository for the package tool is the <a href="https://github.com/seriph78/COTAN">gitHub</a>.</strong></p></li>
+</ul>
 </div>
 <div id="datasets" class="section level1">
 <h1>Datasets</h1>
@@ -335,9 +340,12 @@ $(document).ready(function () {
 <li>Mouse embryonic cortex dataset (GSE123335) with two time points of development: E14.5 and P0. In this case the method used was Drop-seq.</li>
 </ul>
 </div>
-<div id="timing" class="section level1">
-<h1>Timing</h1>
-<p>The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the analysis step when a is minimized for each gene. This step is done by a multicore function (that is not supported under windows architecture). By default, and during tests it was fixed to 11 cores. For example, a dataset with around 5000 cells was analysed in around 3 minutes. The machine used had RAM 64GiB and an Intel(R) Dual Xeon(R) Silver 4214 CPU @ 2.20GHz. For more details see the <a href="https://seriph78.github.io/Cotan_paper/Execution_times.nb.html">specific page</a>.</p>
+<div id="computation-time" class="section level1">
+<h1>Computation time</h1>
+<p>The COTAN analysis time is approximatively proportional to the cell number in the dataset. In particular, the most demanding step is the analysis step when a is minimized for each gene. This step is done by a multicore function (that is not supported under windows architecture). By default, and during tests it was fixed to 11 cores. For example, a dataset with around 5000 cells was analysed in around 3 minutes. The machine used had RAM 64GiB and an Intel(R) Dual Xeon(R) Silver 4214 CPU @ 2.20GHz.</p>
+<ul>
+<li>For more details see the <a href="https://seriph78.github.io/Cotan_paper/Execution_times.nb.html">specific page</a>.</li>
+</ul>
 </div>
 
 

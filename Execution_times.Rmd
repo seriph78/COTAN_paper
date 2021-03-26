@@ -1,15 +1,24 @@
 ---
 title: "Execution times"
 output:
-    html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+  html_document:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r, include = FALSE}
@@ -38,4 +47,7 @@ ggplot(tot.file, aes(x = n.cells, y = times)) +
 
 The scale for times are minutes.
 
+```{r}
+print(sessionInfo())
+```
 
