@@ -1,11 +1,32 @@
 ---
 title: "Seurat correlation vs cotan heatmap"
-output: html_notebook
+output:
+  html_document:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = TRUE,
+  warning = FALSE,
+  tidy = TRUE, tidy.opts=list(width.cutoff=40)
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
@@ -39,16 +60,11 @@ t = "E16.5"
 
 pbmc.data  =  read.csv("Data/mouse_dentate_gyrus/separation_age/E16.5.csv", header = T, row.names = 1)
 
-#cells = read.csv(paste(input_dir,"cells_",t,".csv", sep = ""), header = T, row.names = 1)
 
-#out_dir = "../results/2019.12.14/"
-#load_files(imput_dir = input_dir,t="E16.5",s="H1")
-#colnames(pbmc.data)=paste("E",t,"_",colnames(pbmc.data), sep = "")
 pbmc.data = pbmc.data[, colnames(E16.5_cotan@raw)]
 
 rownames(pbmc.data)[grep("_",rownames(pbmc.data))] =  gsub("_","-",rownames(pbmc.data)[grep("_",rownames(pbmc.data))]) 
-#colnames(pbmc.data)=stringr::str_remove(colnames(pbmc.data), "\\.$")
-#colnames(pbmc.data)[grep(".",colnames(pbmc.data))] =  gsub("."," ",colnames(pbmc.data)[grep(".",colnames(pbmc.data))]) 
+
 pbmc.data = as(as.matrix(pbmc.data), "sparseMatrix")
 lib.size = colSums(pbmc.data)
 hist(lib.size, prob=TRUE, breaks=145)
@@ -112,6 +128,8 @@ diag(partial.coex.spearman) = 0
 
 ```
 
+# Pearson correlation
+
 ```{r}
 partial.coex.pearson = reshape2::melt(partial.coex.pearson)
 colnames(partial.coex.pearson) = c("g1","g2","corr")
@@ -132,6 +150,8 @@ partial.coex.pearson$g2 <- factor(partial.coex.pearson$g2, c(tf1,hk,tf2))
   ) #+geom_text(aes(label=ifelse(t_hk == "hk", "H","")), color="grey", size=3)
   P
 ```
+
+# Spearman correlation
 
 ```{r}
 partial.coex.spearman = reshape2::melt(partial.coex.spearman)
@@ -154,6 +174,7 @@ partial.coex.spearman$g2 <- factor(partial.coex.spearman$g2, c(tf1,hk,tf2))
   S
 ```
 
+# COTAN coex
 ```{r}
 #load_data3.0(input_dir, cond = t, genes = c(tf1,tf2,hk), prefix = "p_value_")
 
