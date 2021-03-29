@@ -1,15 +1,24 @@
 ---
 title: "Gene_clustering"
 output:
-    html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+  html_document:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r, include = FALSE}
@@ -275,7 +284,11 @@ plot(horiz=F, axes=T,ylim = c(0,100))
 
 ```
 
+
+
+
 Now we can plot the PCA
+
 ```{r}
 # dataframe to be able to label only primary markers and control genes
 textdf <- pca_1[rownames(pca_1) %in% c(unlist(layers),unlist(controls)) , ]
