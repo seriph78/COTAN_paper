@@ -427,7 +427,9 @@ div.tocify {
     <li>
       <a href="E16_analysis.html">E16.5 mouse dentate gyrus</a>
     </li>
-    <li class="dropdown-header">P0 mouse dentate gyrus</li>
+    <li>
+      <a href="P0_dentate_gyrus_analysis.html">P0 mouse dentate gyrus</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -438,18 +440,18 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Fig1_Seurat_corr_vs_cotan_heatmap.nb.html">Correlation vs COTAN coex</a>
+      <a href="Fig1_Seurat_corr_vs_cotan_heatmap.html">Correlation vs COTAN coex</a>
     </li>
     <li>
-      <a href="Loo_et_all_markers.nb.html">Comparision with Loo et al. markers</a>
+      <a href="Loo_et_all_markers.html">Comparison with Loo et al. markers</a>
     </li>
     <li>
-      <a href="WGCNA_experiments.nb.html">WGCNA experiments</a>
+      <a href="WGCNA_experiments.html">WGCNA experiments</a>
+    </li>
+    <li>
+      <a href="Negative_dataset_analysis.html">Negative dataset</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="Negative_dataset_analysis.nb.html">Negative dataset</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -459,10 +461,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Execution_times.nb.html">Execution time</a>
+      <a href="Execution_times.html">Execution time</a>
     </li>
     <li>
-      <a href="Syntetic_dataset_analysis.nb.html">Synthetic dataset analysis</a>
+      <a href="Syntetic_dataset_analysis.html">Synthetic dataset analysis</a>
     </li>
   </ul>
 </li>
@@ -652,8 +654,8 @@ div.tocify {
 <a class="sourceLine" id="cb11-29" data-line-number="29"><span class="co"># %in% colnames(cells)]</span></a>
 <a class="sourceLine" id="cb11-30" data-line-number="30"><span class="kw">gc</span>()</a>
 <a class="sourceLine" id="cb11-31" data-line-number="31"><span class="co">#&gt;              used   (Mb) gc trigger    (Mb)   max used    (Mb)</span></a>
-<a class="sourceLine" id="cb11-32" data-line-number="32"><span class="co">#&gt; Ncells    3769252  201.3    6027295   321.9    6027295   321.9</span></a>
-<a class="sourceLine" id="cb11-33" data-line-number="33"><span class="co">#&gt; Vcells 1051938493 8025.7 1764698304 13463.6 1470511737 11219.2</span></a>
+<a class="sourceLine" id="cb11-32" data-line-number="32"><span class="co">#&gt; Ncells    3769210  201.3    6027342   321.9    6027342   321.9</span></a>
+<a class="sourceLine" id="cb11-33" data-line-number="33"><span class="co">#&gt; Vcells 1051938372 8025.7 1764697884 13463.6 1470511620 11219.2</span></a>
 <a class="sourceLine" id="cb11-34" data-line-number="34"></a>
 <a class="sourceLine" id="cb11-35" data-line-number="35">ttm =<span class="st"> </span><span class="kw">clean</span>(obj)</a>
 <a class="sourceLine" id="cb11-36" data-line-number="36"><span class="co">#&gt; [1] &quot;Start estimation mu with linear method&quot;</span></a>
@@ -714,8 +716,8 @@ div.tocify {
 <pre><code>#&gt; png 
 #&gt;   2
 #&gt;              used   (Mb) gc trigger    (Mb)   max used    (Mb)
-#&gt; Ncells    3769512  201.4    6027295   321.9    6027295   321.9
-#&gt; Vcells 1083135281 8263.7 2541341556 19388.9 2541334941 19388.9
+#&gt; Ncells    3769470  201.4    6027342   321.9    6027342   321.9
+#&gt; Vcells 1083135164 8263.7 2541340952 19388.9 2541334820 19388.9
 #&gt; [1] &quot;Start estimation mu with linear method&quot;
 #&gt; [1] 13718 11060
 #&gt;        rowname e14-WT10_AGGGCATTTGTG e14-WT10_CGTATGCACTCG
@@ -786,8 +788,8 @@ div.tocify {
 <pre><code>#&gt; png 
 #&gt;   2
 #&gt;              used   (Mb) gc trigger    (Mb)   max used    (Mb)
-#&gt; Ncells    3769743  201.4    6027295   321.9    6027295   321.9
-#&gt; Vcells 1082653658 8260.0 3049689867 23267.3 3049682591 23267.3
+#&gt; Ncells    3769701  201.4    6027342   321.9    6027342   321.9
+#&gt; Vcells 1082653537 8260.0 3049689142 23267.3 3049682474 23267.3
 #&gt; [1] &quot;Start estimation mu with linear method&quot;
 #&gt; [1] 13690 11049
 #&gt;       rowname e14-WT10_ATCGTAAGTTGA e14-WT10_CGTGCCTGAGCC e14-WT10_CGTGGAAAGTAC
@@ -986,74 +988,234 @@ div.tocify {
 <pre><code>#&gt; png 
 #&gt;   2
 #&gt;              used   (Mb) gc trigger    (Mb)   max used    (Mb)
-#&gt; Ncells    3769967  201.4    6027295   321.9    6027295   321.9
-#&gt; Vcells 1080752929 8245.5 3049689867 23267.3 3049682591 23267.3
+#&gt; Ncells    3769925  201.4    6027342   321.9    6027342   321.9
+#&gt; Vcells 1080752808 8245.5 3049689142 23267.3 3049682474 23267.3
 #&gt; [1] &quot;Start estimation mu with linear method&quot;
 #&gt; [1] 13686 11014
-#&gt;       rowname e14-WT10_CATGGTAAGACC e14-WT10_GGCACATCAGCG e14-WT10_TACATACAATGG
-#&gt; 7250     Meg3            119.947404            139.998257            120.466294
-#&gt; 7019   Malat1            119.947404            101.816914            102.750662
-#&gt; 11119  Snhg11             65.188807             25.454229              0.000000
-#&gt; 7046    Map1b              5.215105              6.363557              7.086253
-#&gt; 8082     Nnat             18.252866             12.727114              7.086253
-#&gt; 12530  Tuba1a             28.683075              0.000000             24.801884
-#&gt; 12492    Ttc3              0.000000              0.000000              3.543126
-#&gt; 5609    Gria2             13.037761              0.000000              7.086253
-#&gt; 6516    Kif1b              2.607552              0.000000              0.000000
-#&gt; 7050     Map2              2.607552              0.000000              3.543126
-#&gt; 7815     Nav1              2.607552              0.000000             10.629379
-#&gt; 972     Akap9             18.252866              0.000000              7.086253
-#&gt; 7703   Mycbp2              0.000000              0.000000              0.000000
-#&gt; 11374   Srrm2              5.215105              6.363557              0.000000
-#&gt; 11906    Tia1              5.215105              6.363557              3.543126
-#&gt;       e14-WT10_TACGACGAATTA e14-WT8-1_ACCCACACTATC e14-WT8-1_CCATAGTATTCG
-#&gt; 7250               131.6680             139.858973             128.085854
-#&gt; 7019               184.3352             110.922634              12.198653
-#&gt; 11119               13.1668              28.936339              12.198653
-#&gt; 7046                26.3336               4.822723              24.397306
-#&gt; 8082                16.4585               0.000000               6.099326
-#&gt; 12530               26.3336               4.822723               6.099326
-#&gt; 12492                6.5834              14.468170               6.099326
-#&gt; 5609                13.1668              28.936339               6.099326
-#&gt; 6516                13.1668               4.822723              42.695285
-#&gt; 7050                 3.2917               4.822723              12.198653
-#&gt; 7815                13.1668              14.468170               6.099326
-#&gt; 972                  9.8751               0.000000              12.198653
-#&gt; 7703                 6.5834              19.290893              24.397306
-#&gt; 11374                9.8751              14.468170              12.198653
-#&gt; 11906                6.5834               4.822723              12.198653
-#&gt;       e14-WT8-1_TACATGATCGAT e14-WT8-2_CCGACCTCATTG e14-WT8-2_GACCCTTTTCTA
-#&gt; 7250              211.276079             109.073479             140.242674
-#&gt; 7019               28.998678             167.505700              99.137062
-#&gt; 11119              57.997355              11.686444              19.343817
-#&gt; 7046               82.853364               7.790963              29.015726
-#&gt; 8082                0.000000              62.327702               9.671909
-#&gt; 12530              16.570673              23.372888              12.089886
-#&gt; 12492              16.570673              11.686444              43.523588
-#&gt; 5609                8.285336              11.686444              21.761794
-#&gt; 6516                8.285336               3.895481              14.507863
-#&gt; 7050               16.570673               7.790963              16.925840
-#&gt; 7815               12.428005               0.000000               7.253931
-#&gt; 972                 0.000000               3.895481               0.000000
-#&gt; 7703                8.285336               7.790963               0.000000
-#&gt; 11374               4.142668               3.895481               9.671909
-#&gt; 11906               0.000000              27.268370              12.089886
-#&gt;       e14-WT8-2_TAACCACCCCGT e14-WT8-2_TACGTGGCGTCC e14-WT8-2_TCCTAGCCTGGT
-#&gt; 7250              111.595733             127.732270             203.652363
-#&gt; 7019              101.450666             106.443559              88.990949
-#&gt; 11119              20.290133               4.257742              46.206839
-#&gt; 7046               10.145067              51.092908               8.556822
-#&gt; 8082               10.145067              29.804196               5.134093
-#&gt; 12530              15.217600               8.515485               5.134093
-#&gt; 12492               0.000000              21.288712              25.670466
-#&gt; 5609               15.217600               8.515485               3.422729
-#&gt; 6516               20.290133               0.000000              13.690915
-#&gt; 7050                0.000000              21.288712              17.113644
-#&gt; 7815               10.145067              12.773227               3.422729
-#&gt; 972                 5.072533              17.030969              15.402280
-#&gt; 7703                5.072533               8.515485               8.556822
-#&gt; 11374               5.072533               8.515485               8.556822
-#&gt; 11906               0.000000               4.257742               5.134093</code></pre>
+#&gt;         rowname e14-WT10_AGAGCTGGACGT e14-WT10_ATGTGTAGTCAC
+#&gt; 7250       Meg3             84.361212             77.714463
+#&gt; 7019     Malat1             62.160893             70.649512
+#&gt; 12530    Tuba1a             39.960574             14.129902
+#&gt; 7046      Map1b              0.000000             21.194854
+#&gt; 8082       Nnat              4.440064              7.064951
+#&gt; 11119    Snhg11             39.960574              0.000000
+#&gt; 12492      Ttc3             22.200319             14.129902
+#&gt; 785        Actb             13.320191             14.129902
+#&gt; 5609      Gria2              0.000000             28.259805
+#&gt; 5960  Hnrnpa2b1             17.760255             21.194854
+#&gt; 12180    Tmsb4x              0.000000             21.194854
+#&gt; 10321      Rtn1             22.200319             14.129902
+#&gt; 972       Akap9              0.000000             14.129902
+#&gt; 7050       Map2              8.880128             21.194854
+#&gt; 6027   Hsp90ab1              8.880128              7.064951
+#&gt;       e14-WT10_CAGCGTCTGTTC e14-WT10_CATGGTAAGACC e14-WT10_CTGAATGCAGCG
+#&gt; 7250              68.956688            119.947404             66.998755
+#&gt; 7019              62.252565            119.947404             22.332918
+#&gt; 12530             31.605149             28.683075             33.499377
+#&gt; 7046               2.873195              5.215105              9.571251
+#&gt; 8082              16.281440             18.252866             19.142501
+#&gt; 11119             20.112367             65.188807             17.547293
+#&gt; 12492             10.535050              0.000000             17.547293
+#&gt; 785               14.365977              2.607552             13.559272
+#&gt; 5609               9.577318             13.037761              0.000000
+#&gt; 5960              10.535050              7.822657              1.595208
+#&gt; 12180              7.661854             10.430209             12.761668
+#&gt; 10321             12.450513              7.822657             19.142501
+#&gt; 972                2.873195             18.252866              3.190417
+#&gt; 7050               1.915464              2.607552              2.392813
+#&gt; 6027               8.619586              2.607552             10.368855
+#&gt;       e14-WT10_GGCACATCAGCG e14-WT10_TACATACAATGG e14-WT10_TACGACGAATTA
+#&gt; 7250             139.998257            120.466294              131.6680
+#&gt; 7019             101.816914            102.750662              184.3352
+#&gt; 12530              0.000000             24.801884               26.3336
+#&gt; 7046               6.363557              7.086253               26.3336
+#&gt; 8082              12.727114              7.086253               16.4585
+#&gt; 11119             25.454229              0.000000               13.1668
+#&gt; 12492              0.000000              3.543126                6.5834
+#&gt; 785                6.363557              3.543126                3.2917
+#&gt; 5609               0.000000              7.086253               13.1668
+#&gt; 5960               6.363557              7.086253                3.2917
+#&gt; 12180              6.363557              3.543126                0.0000
+#&gt; 10321              6.363557             17.715631                6.5834
+#&gt; 972                0.000000              7.086253                9.8751
+#&gt; 7050               0.000000              3.543126                3.2917
+#&gt; 6027               0.000000              0.000000                6.5834
+#&gt;       e14-WT10_TAGACCGCTTGA e14-WT10_TCGACTCATGTG e14-WT10_TTACGCAACCAT
+#&gt; 7250              35.565303             89.584426             53.415313
+#&gt; 7019              97.804583             39.522541             67.150679
+#&gt; 12530            120.032898             97.488935             83.938349
+#&gt; 7046               4.445663              7.904508             15.261518
+#&gt; 8082               4.445663             10.539344              9.156911
+#&gt; 11119              4.445663              0.000000              0.000000
+#&gt; 12492              8.891326              5.269672              3.052304
+#&gt; 785                4.445663              5.269672             10.683063
+#&gt; 5609               4.445663              5.269672              6.104607
+#&gt; 5960              22.228314              7.904508              7.630759
+#&gt; 12180             13.336989             10.539344             10.683063
+#&gt; 10321              4.445663             13.174180              7.630759
+#&gt; 972                4.445663              7.904508              6.104607
+#&gt; 7050               0.000000              2.634836              7.630759
+#&gt; 6027               0.000000             10.539344              4.578455
+#&gt;       e14-WT10_TTTCCCCAATAA e14-WT11_ACGATGGTGCAG e14-WT11_TAACCACGGGTA
+#&gt; 7250              71.285877             91.496357             64.512359
+#&gt; 7019              27.218244             16.805453             22.769068
+#&gt; 12530              9.072748             54.150905             22.769068
+#&gt; 7046               9.072748             16.805453             53.127825
+#&gt; 8082               5.184427             22.407271              3.794845
+#&gt; 11119              0.000000             16.805453              0.000000
+#&gt; 12492              2.592214              1.867273              7.589689
+#&gt; 785               14.257175             22.407271              0.000000
+#&gt; 5609               1.296107              5.601818             11.384534
+#&gt; 5960               5.184427              5.601818              7.589689
+#&gt; 12180             15.553282             16.805453              3.794845
+#&gt; 10321              1.296107             13.070908             15.179379
+#&gt; 972                2.592214              0.000000             26.563912
+#&gt; 7050               5.184427              7.469090             18.974223
+#&gt; 6027               6.480534              9.336363              7.589689
+#&gt;       e14-WT11_TACAAGAAGTCC e14-WT11_TGAAAAGCAGAG e14-WT8-1_AAAATCCATGGC
+#&gt; 7250              55.518278            119.025119              76.048920
+#&gt; 7019              17.664907             45.342902              59.752723
+#&gt; 12530             27.759139             17.003588              16.296197
+#&gt; 7046               8.832453             17.003588              10.864131
+#&gt; 8082              22.712023             22.671451              38.024460
+#&gt; 11119             35.329813              0.000000              21.728263
+#&gt; 12492             10.094232              5.667863              10.864131
+#&gt; 785               22.712023             17.003588               5.432066
+#&gt; 5609               2.523558             22.671451               5.432066
+#&gt; 5960              18.926686              0.000000               0.000000
+#&gt; 12180             11.356011              0.000000               5.432066
+#&gt; 10321             11.356011              0.000000               0.000000
+#&gt; 972                5.047116              5.667863              21.728263
+#&gt; 7050               1.261779             11.335726              16.296197
+#&gt; 6027               7.570674              0.000000               5.432066
+#&gt;       e14-WT8-1_ACCCACACTATC e14-WT8-1_ATATCCATTACC e14-WT8-1_ATCCACCAGTGG
+#&gt; 7250              139.858973              50.005825              59.312903
+#&gt; 7019              110.922634              53.131189              44.484677
+#&gt; 12530               4.822723              65.632645              51.898790
+#&gt; 7046                4.822723              14.064138              14.828226
+#&gt; 8082                0.000000               3.125364               3.707056
+#&gt; 11119              28.936339               0.000000               0.000000
+#&gt; 12492              14.468170              10.938774               3.707056
+#&gt; 785                 4.822723               7.813410              22.242339
+#&gt; 5609               28.936339               7.813410               0.000000
+#&gt; 5960                4.822723               3.125364               0.000000
+#&gt; 12180               9.645446               4.688046               7.414113
+#&gt; 10321               4.822723               7.813410               7.414113
+#&gt; 972                 0.000000               3.125364              11.121169
+#&gt; 7050                4.822723               3.125364               0.000000
+#&gt; 6027                4.822723               6.250728               0.000000
+#&gt;       e14-WT8-1_CCATAGTATTCG e14-WT8-1_GACACGGGACCC e14-WT8-1_GGCTACTGTGGT
+#&gt; 7250              128.085854               91.00924             103.337855
+#&gt; 7019               12.198653               52.68956              79.490657
+#&gt; 12530               6.099326               23.94980               7.949066
+#&gt; 7046               24.397306                4.78996              15.898131
+#&gt; 8082                6.099326               14.36988               3.974533
+#&gt; 11119              12.198653                0.00000               3.974533
+#&gt; 12492               6.099326                9.57992              15.898131
+#&gt; 785                 0.000000                9.57992               7.949066
+#&gt; 5609                6.099326               14.36988               3.974533
+#&gt; 5960                0.000000               14.36988              11.923599
+#&gt; 12180               0.000000               23.94980               3.974533
+#&gt; 10321               0.000000                0.00000               0.000000
+#&gt; 972                12.198653                4.78996              11.923599
+#&gt; 7050               12.198653                0.00000              11.923599
+#&gt; 6027                0.000000                4.78996              27.821730
+#&gt;       e14-WT8-1_GGGGACGTGCAA e14-WT8-1_TACATGATCGAT e14-WT8-1_TCGTTTAGCGGC
+#&gt; 7250               41.655972             211.276079              34.514510
+#&gt; 7019               21.924196              28.998678              49.306443
+#&gt; 12530               6.577259              16.570673              83.820953
+#&gt; 7046                0.000000              82.853364               9.861289
+#&gt; 8082                0.000000               0.000000               9.861289
+#&gt; 11119               0.000000              57.997355               0.000000
+#&gt; 12492               0.000000              16.570673               9.861289
+#&gt; 785                28.501454               0.000000              19.722577
+#&gt; 5609                4.384839               8.285336               0.000000
+#&gt; 5960                2.192420               4.142668               4.930644
+#&gt; 12180               4.384839               4.142668              14.791933
+#&gt; 10321               2.192420               8.285336               0.000000
+#&gt; 972                 2.192420               0.000000               4.930644
+#&gt; 7050                0.000000              16.570673               9.861289
+#&gt; 6027                2.192420              12.428005               0.000000
+#&gt;       e14-WT8-1_TGTCACTAAAAG e14-WT8-1_TTGGAGGCTATA e14-WT8-2_AAACCGATTGGG
+#&gt; 7250               81.621262              65.632645              64.512359
+#&gt; 7019               31.392793              32.816323              75.896893
+#&gt; 12530              25.114234              56.256553               0.000000
+#&gt; 7046                9.417838              18.752184               7.589689
+#&gt; 8082               25.114234               0.000000               7.589689
+#&gt; 11119               0.000000               0.000000               0.000000
+#&gt; 12492               3.139279               4.688046               7.589689
+#&gt; 785                 9.417838               4.688046               3.794845
+#&gt; 5609               21.974955               0.000000              18.974223
+#&gt; 5960               12.557117              14.064138              15.179379
+#&gt; 12180               3.139279               0.000000               0.000000
+#&gt; 10321              12.557117               4.688046               0.000000
+#&gt; 972                 3.139279              14.064138               7.589689
+#&gt; 7050                0.000000               9.376092               0.000000
+#&gt; 6027                3.139279               9.376092               0.000000
+#&gt;       e14-WT8-2_AGTCTTCTTCAC e14-WT8-2_CCGACCTCATTG e14-WT8-2_CTGCTTGTACGA
+#&gt; 7250              110.983053             109.073479              51.440817
+#&gt; 7019               58.888967             167.505700              10.288163
+#&gt; 12530              38.504325              23.372888              61.728980
+#&gt; 7046               10.192321               7.790963              10.288163
+#&gt; 8082                5.662401              62.327702              17.146939
+#&gt; 11119               0.000000              11.686444               0.000000
+#&gt; 12492              20.384642              11.686444              13.717551
+#&gt; 785                 3.397440               3.895481              27.435102
+#&gt; 5609                6.794881              11.686444               6.858776
+#&gt; 5960                4.529921               7.790963              10.288163
+#&gt; 12180               3.397440               0.000000              37.723266
+#&gt; 10321               6.794881               3.895481              20.576327
+#&gt; 972                10.192321               3.895481               0.000000
+#&gt; 7050                3.397440               7.790963               3.429388
+#&gt; 6027               11.324801               7.790963              10.288163
+#&gt;       e14-WT8-2_GACCCTTTTCTA e14-WT8-2_TAACCACCCCGT e14-WT8-2_TACGTGGCGTCC
+#&gt; 7250              140.242674             111.595733             127.732270
+#&gt; 7019               99.137062             101.450666             106.443559
+#&gt; 12530              12.089886              15.217600               8.515485
+#&gt; 7046               29.015726              10.145067              51.092908
+#&gt; 8082                9.671909              10.145067              29.804196
+#&gt; 11119              19.343817              20.290133               4.257742
+#&gt; 12492              43.523588               0.000000              21.288712
+#&gt; 785                 2.417977               5.072533               0.000000
+#&gt; 5609               21.761794              15.217600               8.515485
+#&gt; 5960                7.253931              25.362667               8.515485
+#&gt; 12180               0.000000               5.072533               0.000000
+#&gt; 10321               0.000000              15.217600               8.515485
+#&gt; 972                 0.000000               5.072533              17.030969
+#&gt; 7050               16.925840               0.000000              21.288712
+#&gt; 6027                2.417977               0.000000               4.257742
+#&gt;       e14-WT8-2_TCCTAGCCTGGT e14-WT9-1_CCGAATCGGACC e14-WT9-1_TAGGTCGGTGCG
+#&gt; 7250              203.652363              41.475420              75.008737
+#&gt; 7019               88.990949              41.475420              13.236836
+#&gt; 12530               5.134093              82.950839              39.710508
+#&gt; 7046                8.556822              13.825140              26.473672
+#&gt; 8082                5.134093               2.765028               4.412279
+#&gt; 11119              46.206839               0.000000               0.000000
+#&gt; 12492              25.670466               5.530056              13.236836
+#&gt; 785                 0.000000              16.590168               0.000000
+#&gt; 5609                3.422729              11.060112               4.412279
+#&gt; 5960                3.422729               8.295084               0.000000
+#&gt; 12180               1.711364              11.060112              13.236836
+#&gt; 10321               6.845458               8.295084               8.824557
+#&gt; 972                15.402280               5.530056              17.649115
+#&gt; 7050               17.113644              11.060112              13.236836
+#&gt; 6027                6.845458              22.120224               0.000000
+#&gt;       e14-WT9-2_GTATCTTACCAC e14-WT9-2_TGGTTCTGCACT e14-WT9-2_TTGTGATAGAGC
+#&gt; 7250               74.937874              94.406559             53.0668940
+#&gt; 7019               51.623869              40.459954             11.4978270
+#&gt; 12530              24.979291              26.973303             31.8401364
+#&gt; 7046               16.652861              62.038596             14.1511717
+#&gt; 8082               23.314005              10.789321             19.4578611
+#&gt; 11119               4.995858              21.578642             22.1112058
+#&gt; 12492               4.995858              16.183982              7.0755859
+#&gt; 785                29.975150               0.000000             26.5334470
+#&gt; 5609                1.665286               8.091991              0.8844482
+#&gt; 5960                3.330572              10.789321              3.5377929
+#&gt; 12180               9.991717               5.394661              8.8444823
+#&gt; 10321               3.330572               2.697330              7.9600341
+#&gt; 972                 3.330572               5.394661              6.1911376
+#&gt; 7050                6.661144               5.394661              5.3066894
+#&gt; 6027               11.657003              21.578642             13.2667235</code></pre>
 <p><img src="E14.5_cortex_analysis_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Run this only in the last iteration, instead the previous code, when B cells group has not to be removed.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">pdf</span>(<span class="kw">paste</span>(out_dir, <span class="st">&quot;cleaning/&quot;</span>, t, <span class="st">&quot;_&quot;</span>, n_it, </a>
@@ -1142,24 +1304,104 @@ div.tocify {
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">ttm =<span class="st"> </span><span class="kw">clean</span>(obj)</a>
 <a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co">#&gt; [1] &quot;Start estimation mu with linear method&quot;</span></a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&gt; [1] 13683 10923</span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt;       rowname e14-WT8-1_TACATGATCGAT e14-WT8-2_TCCTAGCCTGGT</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt; 7247     Meg3             212.756855             205.079707</span></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&gt; 7016   Malat1              29.201921              89.614662</span></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&gt; 11116  Snhg11              58.403843              46.530690</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt; 7043    Map1b              83.434061               8.616794</span></a>
-<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 12489    Ttc3              16.686812              25.850383</span></a>
-<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; 7047     Map2              16.686812              17.233589</span></a>
-<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&gt; 3598  Dync1i2              20.858515               5.170077</span></a>
-<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&gt; 5769   Hbb-bs               0.000000              25.850383</span></a>
-<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co">#&gt; 936      Ahi1               8.343406              15.510230</span></a>
-<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; 10627   Sf3b1              16.686812               6.893436</span></a>
-<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt; 1081     Ank2              12.515109              10.340153</span></a>
-<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt; 6986    Macf1              12.515109              10.340153</span></a>
-<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 6513    Kif1b               8.343406              13.786871</span></a>
-<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 12527  Tuba1a              16.686812               5.170077</span></a>
-<a class="sourceLine" id="cb20-19" data-line-number="19"><span class="co">#&gt; 6533    Kif5c               8.343406              12.063512</span></a>
-<a class="sourceLine" id="cb20-20" data-line-number="20">obj =<span class="st"> </span>ttm<span class="op">$</span>object</a>
-<a class="sourceLine" id="cb20-21" data-line-number="21">ttm<span class="op">$</span>pca.cell<span class="fl">.2</span></a></code></pre></div>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt;         rowname e14-WT10_AGAGCTGGACGT e14-WT10_CATGGTAAGACC</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt; 7247       Meg3             84.952477            120.788082</span></a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"><span class="co">#&gt; 7016     Malat1             62.596562            120.788082</span></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="co">#&gt; 11116    Snhg11             40.240647             65.645697</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="co">#&gt; 7043      Map1b              0.000000              5.251656</span></a>
+<a class="sourceLine" id="cb20-9" data-line-number="9"><span class="co">#&gt; 12527    Tuba1a             40.240647             28.884107</span></a>
+<a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; 12489      Ttc3             22.355915              0.000000</span></a>
+<a class="sourceLine" id="cb20-11" data-line-number="11"><span class="co">#&gt; 8079       Nnat              4.471183             18.380795</span></a>
+<a class="sourceLine" id="cb20-12" data-line-number="12"><span class="co">#&gt; 5606      Gria2              0.000000             13.129139</span></a>
+<a class="sourceLine" id="cb20-13" data-line-number="13"><span class="co">#&gt; 5957  Hnrnpa2b1             17.884732              7.877484</span></a>
+<a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; 7047       Map2              8.942366              2.625828</span></a>
+<a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt; 6024   Hsp90ab1              8.942366              2.625828</span></a>
+<a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt; 7812       Nav1              4.471183              2.625828</span></a>
+<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 6513      Kif1b              8.942366              2.625828</span></a>
+<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 6533      Kif5c              0.000000              2.625828</span></a>
+<a class="sourceLine" id="cb20-19" data-line-number="19"><span class="co">#&gt; 10318      Rtn1             22.355915              7.877484</span></a>
+<a class="sourceLine" id="cb20-20" data-line-number="20"><span class="co">#&gt;       e14-WT10_TACATACAATGG e14-WT10_TACGACGAATTA e14-WT8-1_ACCCACACTATC</span></a>
+<a class="sourceLine" id="cb20-21" data-line-number="21"><span class="co">#&gt; 7247             121.310609            132.590823             140.839206</span></a>
+<a class="sourceLine" id="cb20-22" data-line-number="22"><span class="co">#&gt; 7016             103.470813            185.627152             111.700060</span></a>
+<a class="sourceLine" id="cb20-23" data-line-number="23"><span class="co">#&gt; 11116              0.000000             13.259082              29.139146</span></a>
+<a class="sourceLine" id="cb20-24" data-line-number="24"><span class="co">#&gt; 7043               7.135918             26.518165               4.856524</span></a>
+<a class="sourceLine" id="cb20-25" data-line-number="25"><span class="co">#&gt; 12527             24.975714             26.518165               4.856524</span></a>
+<a class="sourceLine" id="cb20-26" data-line-number="26"><span class="co">#&gt; 12489              3.567959              6.629541              14.569573</span></a>
+<a class="sourceLine" id="cb20-27" data-line-number="27"><span class="co">#&gt; 8079               7.135918             16.573853               0.000000</span></a>
+<a class="sourceLine" id="cb20-28" data-line-number="28"><span class="co">#&gt; 5606               7.135918             13.259082              29.139146</span></a>
+<a class="sourceLine" id="cb20-29" data-line-number="29"><span class="co">#&gt; 5957               7.135918              3.314771               4.856524</span></a>
+<a class="sourceLine" id="cb20-30" data-line-number="30"><span class="co">#&gt; 7047               3.567959              3.314771               4.856524</span></a>
+<a class="sourceLine" id="cb20-31" data-line-number="31"><span class="co">#&gt; 6024               0.000000              6.629541               4.856524</span></a>
+<a class="sourceLine" id="cb20-32" data-line-number="32"><span class="co">#&gt; 7812              10.703877             13.259082              14.569573</span></a>
+<a class="sourceLine" id="cb20-33" data-line-number="33"><span class="co">#&gt; 6513               0.000000             13.259082               4.856524</span></a>
+<a class="sourceLine" id="cb20-34" data-line-number="34"><span class="co">#&gt; 6533               7.135918             13.259082               4.856524</span></a>
+<a class="sourceLine" id="cb20-35" data-line-number="35"><span class="co">#&gt; 10318             17.839795              6.629541               4.856524</span></a>
+<a class="sourceLine" id="cb20-36" data-line-number="36"><span class="co">#&gt;       e14-WT8-1_GACACGGGACCC e14-WT8-1_GGCTACTGTGGT e14-WT8-1_TACATGATCGAT</span></a>
+<a class="sourceLine" id="cb20-37" data-line-number="37"><span class="co">#&gt; 7247               91.647101             104.062121             212.756855</span></a>
+<a class="sourceLine" id="cb20-38" data-line-number="38"><span class="co">#&gt; 7016               53.058848              80.047786              29.201921</span></a>
+<a class="sourceLine" id="cb20-39" data-line-number="39"><span class="co">#&gt; 11116               0.000000               4.002389              58.403843</span></a>
+<a class="sourceLine" id="cb20-40" data-line-number="40"><span class="co">#&gt; 7043                4.823532              16.009557              83.434061</span></a>
+<a class="sourceLine" id="cb20-41" data-line-number="41"><span class="co">#&gt; 12527              24.117658               8.004779              16.686812</span></a>
+<a class="sourceLine" id="cb20-42" data-line-number="42"><span class="co">#&gt; 12489               9.647063              16.009557              16.686812</span></a>
+<a class="sourceLine" id="cb20-43" data-line-number="43"><span class="co">#&gt; 8079               14.470595               4.002389               0.000000</span></a>
+<a class="sourceLine" id="cb20-44" data-line-number="44"><span class="co">#&gt; 5606               14.470595               4.002389               8.343406</span></a>
+<a class="sourceLine" id="cb20-45" data-line-number="45"><span class="co">#&gt; 5957               14.470595              12.007168               4.171703</span></a>
+<a class="sourceLine" id="cb20-46" data-line-number="46"><span class="co">#&gt; 7047                0.000000              12.007168              16.686812</span></a>
+<a class="sourceLine" id="cb20-47" data-line-number="47"><span class="co">#&gt; 6024                4.823532              28.016725              12.515109</span></a>
+<a class="sourceLine" id="cb20-48" data-line-number="48"><span class="co">#&gt; 7812                0.000000              12.007168              12.515109</span></a>
+<a class="sourceLine" id="cb20-49" data-line-number="49"><span class="co">#&gt; 6513               14.470595               0.000000               8.343406</span></a>
+<a class="sourceLine" id="cb20-50" data-line-number="50"><span class="co">#&gt; 6533                0.000000              20.011946               8.343406</span></a>
+<a class="sourceLine" id="cb20-51" data-line-number="51"><span class="co">#&gt; 10318               0.000000               0.000000               8.343406</span></a>
+<a class="sourceLine" id="cb20-52" data-line-number="52"><span class="co">#&gt;       e14-WT8-2_AGTCTTCTTCAC e14-WT8-2_CCGACCTCATTG e14-WT8-2_GACCCTTTTCTA</span></a>
+<a class="sourceLine" id="cb20-53" data-line-number="53"><span class="co">#&gt; 7247              111.760903             109.837945             141.225596</span></a>
+<a class="sourceLine" id="cb20-54" data-line-number="54"><span class="co">#&gt; 7016               59.301704             168.679701              99.831887</span></a>
+<a class="sourceLine" id="cb20-55" data-line-number="55"><span class="co">#&gt; 11116               0.000000              11.768351              19.479393</span></a>
+<a class="sourceLine" id="cb20-56" data-line-number="56"><span class="co">#&gt; 7043               10.263756               7.845567              29.219089</span></a>
+<a class="sourceLine" id="cb20-57" data-line-number="57"><span class="co">#&gt; 12527              38.774191              23.536702              12.174620</span></a>
+<a class="sourceLine" id="cb20-58" data-line-number="58"><span class="co">#&gt; 12489              20.527513              11.768351              43.828633</span></a>
+<a class="sourceLine" id="cb20-59" data-line-number="59"><span class="co">#&gt; 8079                5.702087              62.764540               9.739696</span></a>
+<a class="sourceLine" id="cb20-60" data-line-number="60"><span class="co">#&gt; 5606                6.842504              11.768351              21.914317</span></a>
+<a class="sourceLine" id="cb20-61" data-line-number="61"><span class="co">#&gt; 5957                4.561670               7.845567               7.304772</span></a>
+<a class="sourceLine" id="cb20-62" data-line-number="62"><span class="co">#&gt; 7047                3.421252               7.845567              17.044468</span></a>
+<a class="sourceLine" id="cb20-63" data-line-number="63"><span class="co">#&gt; 6024               11.404174               7.845567               2.434924</span></a>
+<a class="sourceLine" id="cb20-64" data-line-number="64"><span class="co">#&gt; 7812                7.982922               0.000000               7.304772</span></a>
+<a class="sourceLine" id="cb20-65" data-line-number="65"><span class="co">#&gt; 6513                5.702087               3.922784              14.609544</span></a>
+<a class="sourceLine" id="cb20-66" data-line-number="66"><span class="co">#&gt; 6533                2.280835               3.922784               9.739696</span></a>
+<a class="sourceLine" id="cb20-67" data-line-number="67"><span class="co">#&gt; 10318               6.842504               3.922784               0.000000</span></a>
+<a class="sourceLine" id="cb20-68" data-line-number="68"><span class="co">#&gt;       e14-WT8-2_TAACCACCCCGT e14-WT8-2_TACGTGGCGTCC e14-WT8-2_TCCTAGCCTGGT</span></a>
+<a class="sourceLine" id="cb20-69" data-line-number="69"><span class="co">#&gt; 7247               112.37788             128.627510             205.079707</span></a>
+<a class="sourceLine" id="cb20-70" data-line-number="70"><span class="co">#&gt; 7016               102.16171             107.189592              89.614662</span></a>
+<a class="sourceLine" id="cb20-71" data-line-number="71"><span class="co">#&gt; 11116               20.43234               4.287584              46.530690</span></a>
+<a class="sourceLine" id="cb20-72" data-line-number="72"><span class="co">#&gt; 7043                10.21617              51.451004               8.616794</span></a>
+<a class="sourceLine" id="cb20-73" data-line-number="73"><span class="co">#&gt; 12527               15.32426               8.575167               5.170077</span></a>
+<a class="sourceLine" id="cb20-74" data-line-number="74"><span class="co">#&gt; 12489                0.00000              21.437918              25.850383</span></a>
+<a class="sourceLine" id="cb20-75" data-line-number="75"><span class="co">#&gt; 8079                10.21617              30.013086               5.170077</span></a>
+<a class="sourceLine" id="cb20-76" data-line-number="76"><span class="co">#&gt; 5606                15.32426               8.575167               3.446718</span></a>
+<a class="sourceLine" id="cb20-77" data-line-number="77"><span class="co">#&gt; 5957                25.54043               8.575167               3.446718</span></a>
+<a class="sourceLine" id="cb20-78" data-line-number="78"><span class="co">#&gt; 7047                 0.00000              21.437918              17.233589</span></a>
+<a class="sourceLine" id="cb20-79" data-line-number="79"><span class="co">#&gt; 6024                 0.00000               4.287584               6.893436</span></a>
+<a class="sourceLine" id="cb20-80" data-line-number="80"><span class="co">#&gt; 7812                10.21617              12.862751               3.446718</span></a>
+<a class="sourceLine" id="cb20-81" data-line-number="81"><span class="co">#&gt; 6513                20.43234               0.000000              13.786871</span></a>
+<a class="sourceLine" id="cb20-82" data-line-number="82"><span class="co">#&gt; 6533                 0.00000               8.575167              12.063512</span></a>
+<a class="sourceLine" id="cb20-83" data-line-number="83"><span class="co">#&gt; 10318               15.32426               8.575167               6.893436</span></a>
+<a class="sourceLine" id="cb20-84" data-line-number="84"><span class="co">#&gt;       e14-WT9-2_TGGTTCTGCACT</span></a>
+<a class="sourceLine" id="cb20-85" data-line-number="85"><span class="co">#&gt; 7247               95.068229</span></a>
+<a class="sourceLine" id="cb20-86" data-line-number="86"><span class="co">#&gt; 7016               40.743527</span></a>
+<a class="sourceLine" id="cb20-87" data-line-number="87"><span class="co">#&gt; 11116              21.729881</span></a>
+<a class="sourceLine" id="cb20-88" data-line-number="88"><span class="co">#&gt; 7043               62.473408</span></a>
+<a class="sourceLine" id="cb20-89" data-line-number="89"><span class="co">#&gt; 12527              27.162351</span></a>
+<a class="sourceLine" id="cb20-90" data-line-number="90"><span class="co">#&gt; 12489              16.297411</span></a>
+<a class="sourceLine" id="cb20-91" data-line-number="91"><span class="co">#&gt; 8079               10.864940</span></a>
+<a class="sourceLine" id="cb20-92" data-line-number="92"><span class="co">#&gt; 5606                8.148705</span></a>
+<a class="sourceLine" id="cb20-93" data-line-number="93"><span class="co">#&gt; 5957               10.864940</span></a>
+<a class="sourceLine" id="cb20-94" data-line-number="94"><span class="co">#&gt; 7047                5.432470</span></a>
+<a class="sourceLine" id="cb20-95" data-line-number="95"><span class="co">#&gt; 6024               21.729881</span></a>
+<a class="sourceLine" id="cb20-96" data-line-number="96"><span class="co">#&gt; 7812               10.864940</span></a>
+<a class="sourceLine" id="cb20-97" data-line-number="97"><span class="co">#&gt; 6513               10.864940</span></a>
+<a class="sourceLine" id="cb20-98" data-line-number="98"><span class="co">#&gt; 6533               24.446116</span></a>
+<a class="sourceLine" id="cb20-99" data-line-number="99"><span class="co">#&gt; 10318               2.716235</span></a>
+<a class="sourceLine" id="cb20-100" data-line-number="100">obj =<span class="st"> </span>ttm<span class="op">$</span>object</a>
+<a class="sourceLine" id="cb20-101" data-line-number="101">ttm<span class="op">$</span>pca.cell<span class="fl">.2</span></a></code></pre></div>
 <p><img src="E14.5_cortex_analysis_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>Just to check again, we plot the final efficiency coloured PCA.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">nu_est =<span class="st"> </span><span class="kw">round</span>(obj<span class="op">@</span>nu, <span class="dt">digits =</span> <span class="dv">7</span>)</a>
