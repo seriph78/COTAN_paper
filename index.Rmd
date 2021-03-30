@@ -16,6 +16,8 @@
  #pdf.options(useDingbats = TRUE)
 ```
 
+
+
 # Overview
 
 This web page contains all data regarding the COTAN paper. Here can be found:
@@ -42,5 +44,8 @@ For example, a dataset with around 5000 cells was analysed in around 3 minutes. 
 
 * For more details see the [specific page](https://seriph78.github.io/Cotan_paper/Execution_times.nb.html).
 
+```{r}
+date()
+```
 
 
