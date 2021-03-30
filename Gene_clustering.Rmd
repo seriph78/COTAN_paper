@@ -321,6 +321,7 @@ mycolours2 = c(mycolours2,color_to_add)
 
 pca1 = ggplot(subset(pca_1,!hclust %in% unique(cut[unlist(layers)])  ), aes(x=PC1, y=PC2)) +  geom_point(alpha = 0.3,color = "#B09C85FF",size=1)
 
+pca_1$names = rownames(pca_1)
 #pca2 = pca1 + geom_point(data = subset(pca_1, highlight != "not marked" ), aes(x=PC1, y=PC2, colour=hclust),size=2.5,alpha = 0.9) 
 pca2 = pca1 + geom_point(data = subset(pca_1, hclust %in% unique(cut[unlist(layers)]) ), aes(x=PC1, y=PC2, colour=as.character(hclust)),size=1,alpha = 0.5) + 
  scale_color_manual( "Status", values = mycolours2)  +
@@ -353,6 +354,21 @@ pca2 = pca1 + geom_point(data = subset(pca_1, hclust %in% unique(cut[unlist(laye
 
 pca2 #+ geom_encircle(data = pca_1, aes(group=hclust)) 
 ```
+
+
+```{r }
+set.seed(NULL)
+cell = sample(ncol(objE17@raw),1,replace = T)
+print(cell)
+genes.to.color.red = which(objE17@raw[,cell] > 0)
+length(genes.to.color.red)
+
+pca3 = pca2 + geom_point(data = subset(pca_1, names %in% names(genes.to.color.red)), color="red")
+
+pca3
+```
+
+
 
 t-SNE code and plot
 
