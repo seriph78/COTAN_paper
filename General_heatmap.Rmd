@@ -1,15 +1,24 @@
 ---
 title: "General heatmap of mouse cortex E17.5"
 output:
-    html_notebook:
-      css: html-md-01.css
-      fig_caption: yes
-      highlight: haddock
-      number_sections: yes
-      theme: spacelab
-      toc: yes
-      toc_float: true
-      collapsed: no
+  html_document:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_notebook:
+    collapsed: no
+    css: html-md-01.css
+    fig_caption: yes
+    highlight: haddock
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r, include = FALSE}
@@ -37,11 +46,11 @@ input_dir = "Data/"
 The general heatmap can be done by the automatic function or extracting the information. In the first case we can plot a simmetric plot or an asymmetric one.
 
 ```{r}
-gen.heatmap = plot.general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = T)
+gen.heatmap = plot_general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = T)
 ```
 
 ```{r}
-gen.heatmap = plot.general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),markers.list =c("Grm3","Abracl","Tox") ,dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = F)
+gen.heatmap = plot_general.heatmap(prim.markers = c("Reln","Satb2","Sox5","Bcl11b"),markers.list =c("Grm3","Abracl","Tox") ,dir = input_dir,condition = "E17_cortex_cl2",p_value = 0.001,symmetric = F)
 ```
 
 

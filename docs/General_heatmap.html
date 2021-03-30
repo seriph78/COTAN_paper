@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>General heatmap of mouse cortex E17.5</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="html-md-01.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Documentation for COTAN paper</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Datasets
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="E11.5_cortex_analysis.html">E11.5 mouse cortex</a>
+    </li>
+    <li>
+      <a href="E13.5_cortex_analysis.html">E13.5 mouse cortex</a>
+    </li>
+    <li>
+      <a href="E15.5_cortex_analysis.html">E15.5 mouse cortex</a>
+    </li>
+    <li>
+      <a href="E17.5_cortex_analysis.html">E17.5 mouse cortex</a>
+    </li>
+    <li>
+      <a href="Gene_clustering.html">E17.5 gene clustering</a>
+    </li>
+    <li>
+      <a href="General_heatmap.html">E17.5 general heatmap</a>
+    </li>
+    <li>
+      <a href="E14.5_cortex_analysis.html">E14.5 mouse cortex</a>
+    </li>
+    <li>
+      <a href="P0_cortex_analysis.html">P0 mouse cortex</a>
+    </li>
+    <li>
+      <a href="E16_analysis.html">E16.5 mouse dentate gyrus</a>
+    </li>
+    <li>
+      <a href="P0_dentate_gyrus_analysis.html">P0 mouse dentate gyrus</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Test
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Fig1_Seurat_corr_vs_cotan_heatmap.html">Correlation vs COTAN coex</a>
+    </li>
+    <li>
+      <a href="Loo_et_all_markers.html">Comparison with Loo et al. markers</a>
+    </li>
+    <li>
+      <a href="WGCNA_experiments.html">WGCNA experiments</a>
+    </li>
+    <li>
+      <a href="Negative_dataset_analysis.html">Negative dataset</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Others
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Execution_times.html">Execution time</a>
+    </li>
+    <li>
+      <a href="Syntetic_dataset_analysis.html">Synthetic dataset analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">General heatmap of mouse cortex E17.5</h1>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(COTAN)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(ComplexHeatmap)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Loading required package: grid</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; ========================================</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; ComplexHeatmap version 2.6.2</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; Github page: https://github.com/jokergoo/ComplexHeatmap</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; Documentation: http://jokergoo.github.io/ComplexHeatmap-reference</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; If you use it in published research, please cite:</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional </span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;   genomic data. Bioinformatics 2016.</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; This message can be suppressed by:</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt;   suppressPackageStartupMessages(library(ComplexHeatmap))</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; ========================================</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="kw">library</span>(circlize)</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; ========================================</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; circlize version 0.4.12</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; CRAN page: https://cran.r-project.org/package=circlize</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; Github page: https://github.com/jokergoo/circlize</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; Documentation: https://jokergoo.github.io/circlize_book/book/</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; If you use it in published research, please cite:</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; Gu, Z. circlize implements and enhances circular visualization</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt;   in R. Bioinformatics 2014.</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; This message can be suppressed by:</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt;   suppressPackageStartupMessages(library(circlize))</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; ========================================</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="kw">library</span>(cowplot)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">input_dir =<span class="st"> &quot;Data/&quot;</span></a></code></pre></div>
+<p>The general heatmap can be done by the automatic function or extracting the information. In the first case we can plot a simmetric plot or an asymmetric one.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gen.heatmap =<span class="st"> </span><span class="kw">plot_general.heatmap</span>(<span class="dt">prim.markers =</span> <span class="kw">c</span>(<span class="st">&quot;Reln&quot;</span>,<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>),<span class="dt">dir =</span> input_dir,<span class="dt">condition =</span> <span class="st">&quot;E17_cortex_cl2&quot;</span>,<span class="dt">p_value =</span> <span class="fl">0.001</span>,<span class="dt">symmetric =</span> T)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; [1] &quot;ploting a general heatmap&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] &quot;Reln&quot;   &quot;Satb2&quot;  &quot;Sox5&quot;   &quot;Bcl11b&quot;</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Get p-values on a set of genes on columns genome wide on rows&quot;</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; [1] &quot;Using function S&quot;</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; [1] &quot;function to generate S &quot;</span></a></code></pre></div>
+<p><img src="General_heatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">gen.heatmap =<span class="st"> </span><span class="kw">plot_general.heatmap</span>(<span class="dt">prim.markers =</span> <span class="kw">c</span>(<span class="st">&quot;Reln&quot;</span>,<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>),<span class="dt">markers.list =</span><span class="kw">c</span>(<span class="st">&quot;Grm3&quot;</span>,<span class="st">&quot;Abracl&quot;</span>,<span class="st">&quot;Tox&quot;</span>) ,<span class="dt">dir =</span> input_dir,<span class="dt">condition =</span> <span class="st">&quot;E17_cortex_cl2&quot;</span>,<span class="dt">p_value =</span> <span class="fl">0.001</span>,<span class="dt">symmetric =</span> F)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; [1] &quot;ploting a general heatmap&quot;</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] &quot;Grm3&quot;   &quot;Abracl&quot; &quot;Tox&quot;    &quot;Reln&quot;   &quot;Satb2&quot;  &quot;Sox5&quot;   &quot;Bcl11b&quot;</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Get p-values on a set of genes on columns genome wide on rows&quot;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; [1] &quot;Using function S&quot;</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] &quot;function to generate S &quot;</span></a></code></pre></div>
+<p><img src="General_heatmap_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">obj17 =<span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="kw">paste</span>(input_dir,<span class="st">&quot;E17_cortex_cl2.cotan.RDS&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>))</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">p_value_<span class="dv">17</span> =<span class="st"> </span><span class="kw">get.pval</span>(<span class="dt">object =</span> obj17,<span class="dt">gene.set.col =</span> <span class="kw">c</span>(<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Reln&quot;</span>))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; [1] &quot;Satb2&quot;  &quot;Bcl11b&quot; &quot;Sox5&quot;   &quot;Reln&quot;  </span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Get p-values on a set of genes on columns genome wide on rows&quot;</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; [1] &quot;Using function S&quot;</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; [1] &quot;function to generate S &quot;</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">p_value_<span class="dv">17</span> =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.matrix</span>(p_value_<span class="dv">17</span>))</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">obj17<span class="op">@</span>coex =<span class="st"> </span>Matrix<span class="op">::</span><span class="kw">forceSymmetric</span>(obj17<span class="op">@</span>coex, <span class="dt">uplo=</span><span class="st">&quot;L&quot;</span> )</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">coex_<span class="dv">17</span> =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.matrix</span>(obj17<span class="op">@</span>coex[,<span class="kw">colnames</span>(obj17<span class="op">@</span>coex) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Reln&quot;</span>)]))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">pos.link.Satb2 =<span class="st"> </span><span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Satb2 <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,])[<span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Satb2 <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,]) <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(coex_<span class="dv">17</span>[coex_<span class="dv">17</span><span class="op">$</span>Satb2 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,])] </a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">pos.link.Bcl11b =<span class="st"> </span><span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Bcl11b <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.001</span>,])[<span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Bcl11b <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.001</span>,]) <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(coex_<span class="dv">17</span>[coex_<span class="dv">17</span><span class="op">$</span>Bcl11b <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,])] </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">pos.link.Reln =<span class="st"> </span><span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Reln <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,])[<span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Reln <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,]) <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(coex_<span class="dv">17</span>[coex_<span class="dv">17</span><span class="op">$</span>Reln <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,])]</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">pos.link.Sox5 =<span class="st"> </span><span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Sox5 <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,])[<span class="kw">rownames</span>(p_value_<span class="dv">17</span>[p_value_<span class="dv">17</span><span class="op">$</span>Sox5 <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.0001</span>,]) <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(coex_<span class="dv">17</span>[coex_<span class="dv">17</span><span class="op">$</span>Sox5 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,])] </a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">cl.genes =<span class="st"> </span><span class="kw">data.frame</span>(<span class="st">&quot;gene&quot;</span>=pos.link.Reln,<span class="st">&quot;cl&quot;</span>=<span class="st">&quot;Reln&quot;</span>)</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">cl.genes =<span class="st"> </span><span class="kw">rbind</span>(cl.genes,<span class="kw">data.frame</span>(<span class="st">&quot;gene&quot;</span>=pos.link.Satb2,<span class="st">&quot;cl&quot;</span>=<span class="st">&quot;Satb2&quot;</span>),<span class="kw">data.frame</span>(<span class="st">&quot;gene&quot;</span>=pos.link.Sox5,<span class="st">&quot;cl&quot;</span>=<span class="st">&quot;Sox5&quot;</span>),</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">                 <span class="kw">data.frame</span>(<span class="st">&quot;gene&quot;</span>=pos.link.Bcl11b,<span class="st">&quot;cl&quot;</span>=<span class="st">&quot;Bcl11b&quot;</span>))</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12">cl.genes<span class="op">$</span>gene =<span class="st"> </span><span class="kw">as.vector</span>(cl.genes<span class="op">$</span>gene)</a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="kw">length</span>(<span class="kw">c</span>(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2))</a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; [1] 184</span></a></code></pre></div>
+<p>This is the number of total secondary markers extracted.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">dupl.genes =<span class="st"> </span><span class="kw">c</span>(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2)[<span class="kw">duplicated</span>(<span class="kw">c</span>(pos.link.Bcl11b,pos.link.Reln,pos.link.Sox5,pos.link.Satb2))]</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">all.genes.to.plot =<span class="st"> </span><span class="kw">c</span>(pos.link.Reln,pos.link.Satb2,pos.link.Bcl11b,pos.link.Sox5)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">all.genes.to.plot =<span class="st"> </span>all.genes.to.plot[<span class="op">!</span>all.genes.to.plot <span class="op">%in%</span><span class="st"> </span>dupl.genes]</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">cl.genes=<span class="st"> </span>cl.genes[<span class="op">!</span>cl.genes<span class="op">$</span>gene <span class="op">%in%</span><span class="st"> </span>dupl.genes,]</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">paste0</span>(<span class="st">&quot;Duplicated genes: &quot;</span>,<span class="kw">length</span>(<span class="kw">unique</span>(dupl.genes)),<span class="st">&quot; Plotted genes: &quot;</span>,<span class="kw">length</span>(all.genes.to.plot))</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; [1] &quot;Duplicated genes: 7 Plotted genes: 170&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">coex_<span class="fl">17.2</span> =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">as.matrix</span>(obj17<span class="op">@</span>coex[<span class="kw">rownames</span>(coex_<span class="dv">17</span>) <span class="op">%in%</span><span class="st"> </span>all.genes.to.plot,<span class="kw">colnames</span>(obj17<span class="op">@</span>coex) <span class="op">%in%</span><span class="st"> </span>all.genes.to.plot]))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">cl.genes =<span class="st"> </span>cl.genes[cl.genes<span class="op">$</span>gene <span class="op">%in%</span><span class="st"> </span><span class="kw">colnames</span>(coex_<span class="fl">17.2</span>),]</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">reorder_idx_col &lt;-<span class="st"> </span><span class="kw">match</span>(cl.genes<span class="op">$</span>gene,<span class="kw">colnames</span>(coex_<span class="fl">17.2</span>))</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">reorder_idx_row &lt;-<span class="st"> </span><span class="kw">match</span>(cl.genes<span class="op">$</span>gene,<span class="kw">rownames</span>(coex_<span class="fl">17.2</span>))</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">to.plot &lt;-<span class="st"> </span>coex_<span class="fl">17.2</span>[reorder_idx_row,reorder_idx_col]</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="kw">diag</span>(to.plot) =<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">rg =<span class="st"> </span><span class="kw">max</span>(<span class="kw">c</span>(<span class="kw">abs</span>(<span class="kw">c</span>(<span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">as.matrix</span>(to.plot),<span class="dt">probs =</span><span class="fl">0.001</span>),<span class="dt">digits =</span> <span class="dv">1</span>))), <span class="dv">0</span>, <span class="kw">round</span>(<span class="kw">quantile</span>(<span class="kw">as.matrix</span>(to.plot),<span class="dt">probs =</span><span class="fl">0.999</span>),<span class="dt">digits =</span> <span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">col_fun =<span class="st"> </span><span class="kw">colorRamp2</span>(<span class="kw">c</span>(<span class="op">-</span>rg, <span class="dv">0</span>, rg), <span class="kw">c</span>(<span class="st">&quot;#E64B35FF&quot;</span>, <span class="st">&quot;gray93&quot;</span>, <span class="st">&quot;#3C5488FF&quot;</span>))</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#col_fun = colorRamp2(c(-0.4, 0, +0.4), c(&quot;#E64B35FF&quot;, &quot;gray93&quot;, &quot;#3C5488FF&quot;))</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#The next line is to set the columns and raws order</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">cl.genes<span class="op">$</span>cl =<span class="kw">factor</span>(cl.genes<span class="op">$</span>cl,<span class="kw">c</span>(<span class="st">&quot;Reln&quot;</span>,<span class="st">&quot;Satb2&quot;</span>,<span class="st">&quot;Sox5&quot;</span>,<span class="st">&quot;Bcl11b&quot;</span>))</a>
+<a class="sourceLine" id="cb8-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22">part1 =<span class="st"> </span><span class="kw">Heatmap</span>(<span class="kw">as.matrix</span>(to.plot),<span class="dt">cluster_rows =</span> <span class="ot">FALSE</span>, <span class="dt">cluster_columns =</span> F ,<span class="dt">row_split =</span> cl.genes<span class="op">$</span>cl, <span class="dt">column_split =</span> cl.genes<span class="op">$</span>cl ,<span class="dt">col =</span> col_fun, <span class="dt">show_row_names =</span> <span class="ot">FALSE</span>, <span class="dt">show_column_names =</span> F, <span class="dt">column_title_gp =</span> <span class="kw">gpar</span>(<span class="dt">fill =</span> <span class="st">&quot;#8491B44C&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">col=</span> <span class="st">&quot;#3C5488FF&quot;</span>),<span class="dt">row_title_gp =</span> <span class="kw">gpar</span>(<span class="dt">fill =</span> <span class="st">&quot;#8491B44C&quot;</span>,<span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">col=</span> <span class="st">&quot;#3C5488FF&quot;</span>))<span class="co">#, heatmap_legend_param = list(title = &quot;coex&quot; )</span></a>
+<a class="sourceLine" id="cb8-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb8-24" data-line-number="24">lgd =<span class="st"> </span><span class="kw">Legend</span>(<span class="dt">col_fun =</span> col_fun, <span class="dt">title =</span> <span class="st">&quot;coex&quot;</span>,<span class="dt">grid_width =</span> <span class="kw">unit</span>(<span class="fl">0.3</span>, <span class="st">&quot;cm&quot;</span>),<span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>, <span class="dt">title_position =</span> <span class="st">&quot;topcenter&quot;</span>,<span class="dt">title_gp =</span> <span class="kw">gpar</span>(<span class="dt">fontsize =</span> <span class="dv">10</span>, <span class="dt">fontface =</span> <span class="st">&quot;bold&quot;</span>,<span class="dt">col=</span><span class="st">&quot;#3C5488FF&quot;</span>),<span class="dt">labels_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> <span class="st">&quot;#3C5488FF&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>) )</a>
+<a class="sourceLine" id="cb8-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#part1 = draw(part1,show_heatmap_legend = FALSE,  annotation_legend_list = lgd,annotation_legend_side = &quot;bottom&quot;) #ht_gap = unit(7, &quot;mm&quot;), row_km = 2,</span></a>
+<a class="sourceLine" id="cb8-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="kw">require</span>(png)</a>
+<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; Loading required package: png</span></a>
+<a class="sourceLine" id="cb8-30" data-line-number="30">img&lt;-<span class="kw">readPNG</span>(<span class="st">&quot;prova_layers.png&quot;</span>)</a>
+<a class="sourceLine" id="cb8-31" data-line-number="31"></a>
+<a class="sourceLine" id="cb8-32" data-line-number="32">gb =<span class="st"> </span><span class="kw">grid.grabExpr</span>(<span class="kw">draw</span>(part1,</a>
+<a class="sourceLine" id="cb8-33" data-line-number="33">                        <span class="dt">show_heatmap_legend =</span> <span class="ot">FALSE</span>,  </a>
+<a class="sourceLine" id="cb8-34" data-line-number="34">                        <span class="dt">annotation_legend_list =</span> lgd,<span class="dt">annotation_legend_side =</span> <span class="st">&quot;bottom&quot;</span>))</a>
+<a class="sourceLine" id="cb8-35" data-line-number="35">gb2 =<span class="st"> </span><span class="kw">grid.grabExpr</span>(<span class="kw">grid.raster</span>(img, <span class="fl">0.5</span>, <span class="fl">.5</span>, <span class="dt">width=</span><span class="fl">0.95</span>))</a>
+<a class="sourceLine" id="cb8-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb8-37" data-line-number="37"></a>
+<a class="sourceLine" id="cb8-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb8-39" data-line-number="39">fig2_part1 =<span class="st"> </span><span class="kw">ggdraw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-40" data-line-number="40"><span class="st">  </span><span class="kw">draw_plot</span>(gb2, <span class="dt">x =</span> <span class="fl">.0</span>, <span class="dt">y =</span> <span class="dv">0</span>, <span class="dt">width =</span> <span class="fl">.35</span>, <span class="dt">height =</span> <span class="dv">1</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-41" data-line-number="41"><span class="st">  </span><span class="kw">draw_plot</span>(gb, <span class="dt">x =</span> <span class="fl">.4</span>, <span class="dt">y =</span> <span class="fl">0.01</span>, <span class="dt">width =</span> <span class="fl">.60</span>, <span class="dt">height =</span> <span class="fl">0.95</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-42" data-line-number="42"><span class="st">  </span><span class="kw">draw_plot_label</span>(<span class="dt">label =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">size =</span> <span class="dv">14</span>,</a>
+<a class="sourceLine" id="cb8-43" data-line-number="43">                  <span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.38</span>), <span class="dt">y =</span> <span class="kw">c</span>(<span class="fl">0.95</span>, <span class="fl">0.95</span>)) </a>
+<a class="sourceLine" id="cb8-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb8-45" data-line-number="45">fig2_part1</a></code></pre></div>
+<p><img src="General_heatmap_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; R version 4.0.4 (2021-02-15)</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Running under: Ubuntu 18.04.5 LTS</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.2.20.so</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16"><span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"><span class="co">#&gt; [1] grid      stats     graphics  grDevices utils     datasets  methods  </span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20"><span class="co">#&gt; [8] base     </span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23"><span class="co">#&gt; [1] png_0.1-7            cowplot_1.1.1        circlize_0.4.12     </span></a>
+<a class="sourceLine" id="cb9-24" data-line-number="24"><span class="co">#&gt; [4] ComplexHeatmap_2.6.2 ggplot2_3.3.3        COTAN_0.1.0         </span></a>
+<a class="sourceLine" id="cb9-25" data-line-number="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27"><span class="co">#&gt;  [1] ggrepel_0.9.1        Rcpp_1.0.6           lattice_0.20-41     </span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28"><span class="co">#&gt;  [4] tidyr_1.1.2          assertthat_0.2.1     digest_0.6.27       </span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29"><span class="co">#&gt;  [7] utf8_1.2.1           R6_2.5.0             stats4_4.0.4        </span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30"><span class="co">#&gt; [10] evaluate_0.14        highr_0.8            pillar_1.5.1        </span></a>
+<a class="sourceLine" id="cb9-31" data-line-number="31"><span class="co">#&gt; [13] basilisk_1.2.1       GlobalOptions_0.1.2  rlang_0.4.10        </span></a>
+<a class="sourceLine" id="cb9-32" data-line-number="32"><span class="co">#&gt; [16] jquerylib_0.1.3      S4Vectors_0.28.1     GetoptLong_1.0.5    </span></a>
+<a class="sourceLine" id="cb9-33" data-line-number="33"><span class="co">#&gt; [19] Matrix_1.3-2         reticulate_1.18      rmarkdown_2.7       </span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34"><span class="co">#&gt; [22] labeling_0.4.2       stringr_1.4.0        munsell_0.5.0       </span></a>
+<a class="sourceLine" id="cb9-35" data-line-number="35"><span class="co">#&gt; [25] compiler_4.0.4       xfun_0.22            pkgconfig_2.0.3     </span></a>
+<a class="sourceLine" id="cb9-36" data-line-number="36"><span class="co">#&gt; [28] BiocGenerics_0.36.0  shape_1.4.5          htmltools_0.5.1.1   </span></a>
+<a class="sourceLine" id="cb9-37" data-line-number="37"><span class="co">#&gt; [31] tidyselect_1.1.0     tibble_3.1.0         IRanges_2.24.1      </span></a>
+<a class="sourceLine" id="cb9-38" data-line-number="38"><span class="co">#&gt; [34] matrixStats_0.58.0   fansi_0.4.2          withr_2.4.1         </span></a>
+<a class="sourceLine" id="cb9-39" data-line-number="39"><span class="co">#&gt; [37] crayon_1.4.0         dplyr_1.0.4          rappdirs_0.3.3      </span></a>
+<a class="sourceLine" id="cb9-40" data-line-number="40"><span class="co">#&gt; [40] basilisk.utils_1.2.2 jsonlite_1.7.2       gtable_0.3.0        </span></a>
+<a class="sourceLine" id="cb9-41" data-line-number="41"><span class="co">#&gt; [43] lifecycle_1.0.0      DBI_1.1.1            magrittr_2.0.1      </span></a>
+<a class="sourceLine" id="cb9-42" data-line-number="42"><span class="co">#&gt; [46] scales_1.1.1         stringi_1.5.3        farver_2.1.0        </span></a>
+<a class="sourceLine" id="cb9-43" data-line-number="43"><span class="co">#&gt; [49] bslib_0.2.4          ellipsis_0.3.1       filelock_1.0.2      </span></a>
+<a class="sourceLine" id="cb9-44" data-line-number="44"><span class="co">#&gt; [52] generics_0.1.0       vctrs_0.3.6          rjson_0.2.20        </span></a>
+<a class="sourceLine" id="cb9-45" data-line-number="45"><span class="co">#&gt; [55] RColorBrewer_1.1-2   tools_4.0.4          Cairo_1.5-12.2      </span></a>
+<a class="sourceLine" id="cb9-46" data-line-number="46"><span class="co">#&gt; [58] glue_1.4.2           purrr_0.3.4          parallel_4.0.4      </span></a>
+<a class="sourceLine" id="cb9-47" data-line-number="47"><span class="co">#&gt; [61] yaml_2.2.1           clue_0.3-58          colorspace_2.0-0    </span></a>
+<a class="sourceLine" id="cb9-48" data-line-number="48"><span class="co">#&gt; [64] cluster_2.1.1        knitr_1.31           sass_0.3.1</span></a></code></pre></div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
