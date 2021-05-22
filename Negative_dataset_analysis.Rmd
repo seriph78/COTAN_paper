@@ -92,7 +92,7 @@ p_value_plot <-function(p_values, obj){
     p_values4 = p_values4[complete.cases(p_values4),]
     p_values4 = p_values4[order(p_values4$Freq, decreasing = F),]
     p_values4$n = c(1:nrow(p_values4))/nrow(p_values4)
-    p_values4$Type = "Pearson"
+    p_values4$Type = "Pearson on Seurat normalized data"
     
     p_values = rbind(p_values,p_values4)
     #-----------------------------
@@ -101,7 +101,7 @@ p_value_plot <-function(p_values, obj){
       theme(axis.text.x = element_text(size = 12, angle = 0, hjust = .5, vjust = .5, face = "plain"),
             axis.text.y = element_text( size = 12, angle = 0, hjust = 0, vjust = .5, face = "plain"),  
             axis.title.x = element_text( size = 12, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-            axis.title.y = element_text( size = 12, angle = 90, hjust = .5, vjust = .5, face = "plain"))       + 
+            axis.title.y = element_text( size = 12, angle = 90, hjust = .5, vjust = .5, face = "plain"))       +  geom_abline(linetype="dashed")+
       labs(x = "p-value", y = "percentile" ) +
       geom_line(size = 1.5)  
       #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),

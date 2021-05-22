@@ -566,7 +566,7 @@ div.tocify {
 <a class="sourceLine" id="cb1-79" data-line-number="79">    p_values4 =<span class="st"> </span>p_values4[<span class="kw">order</span>(p_values4<span class="op">$</span>Freq, </a>
 <a class="sourceLine" id="cb1-80" data-line-number="80">        <span class="dt">decreasing =</span> F), ]</a>
 <a class="sourceLine" id="cb1-81" data-line-number="81">    p_values4<span class="op">$</span>n =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(p_values4))<span class="op">/</span><span class="kw">nrow</span>(p_values4)</a>
-<a class="sourceLine" id="cb1-82" data-line-number="82">    p_values4<span class="op">$</span>Type =<span class="st"> &quot;Pearson&quot;</span></a>
+<a class="sourceLine" id="cb1-82" data-line-number="82">    p_values4<span class="op">$</span>Type =<span class="st"> &quot;Pearson on Seurat normalized data&quot;</span></a>
 <a class="sourceLine" id="cb1-83" data-line-number="83"></a>
 <a class="sourceLine" id="cb1-84" data-line-number="84">    p_values =<span class="st"> </span><span class="kw">rbind</span>(p_values, p_values4)</a>
 <a class="sourceLine" id="cb1-85" data-line-number="85">    <span class="co">#-----------------------------</span></a>
@@ -580,81 +580,82 @@ div.tocify {
 <a class="sourceLine" id="cb1-93" data-line-number="93">        <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="dv">0</span>, </a>
 <a class="sourceLine" id="cb1-94" data-line-number="94">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>), <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">12</span>, </a>
 <a class="sourceLine" id="cb1-95" data-line-number="95">        <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-96" data-line-number="96">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>, </a>
-<a class="sourceLine" id="cb1-97" data-line-number="97">        <span class="dt">y =</span> <span class="st">&quot;percentile&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>)</a>
-<a class="sourceLine" id="cb1-98" data-line-number="98">    <span class="co"># scale_x_log10(breaks =</span></a>
-<a class="sourceLine" id="cb1-99" data-line-number="99">    <span class="co"># trans_breaks(&#39;log10&#39;, function(x)</span></a>
-<a class="sourceLine" id="cb1-100" data-line-number="100">    <span class="co"># 10^x), labels = trans_format(&#39;log10&#39;,</span></a>
-<a class="sourceLine" id="cb1-101" data-line-number="101">    <span class="co"># math_format(10^.x))) +</span></a>
-<a class="sourceLine" id="cb1-102" data-line-number="102">    <span class="co"># scale_y_log10(breaks =</span></a>
-<a class="sourceLine" id="cb1-103" data-line-number="103">    <span class="co"># trans_breaks(&#39;log10&#39;, function(x)</span></a>
-<a class="sourceLine" id="cb1-104" data-line-number="104">    <span class="co"># 10^x), labels = trans_format(&#39;log10&#39;,</span></a>
-<a class="sourceLine" id="cb1-105" data-line-number="105">    <span class="co"># math_format(10^.x))) +</span></a>
-<a class="sourceLine" id="cb1-106" data-line-number="106">    <span class="co"># annotation_logticks()</span></a>
-<a class="sourceLine" id="cb1-107" data-line-number="107">    <span class="kw">return</span>(plot_p)</a>
-<a class="sourceLine" id="cb1-108" data-line-number="108">}</a>
-<a class="sourceLine" id="cb1-109" data-line-number="109"></a>
-<a class="sourceLine" id="cb1-110" data-line-number="110">plot.GDI.density &lt;-<span class="st"> </span><span class="cf">function</span>(GDI.df) {</a>
-<a class="sourceLine" id="cb1-111" data-line-number="111">    si =<span class="st"> </span><span class="dv">11</span></a>
-<a class="sourceLine" id="cb1-112" data-line-number="112">    mycolours &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Constitutive =</span> <span class="st">&quot;#00A087FF&quot;</span>, </a>
-<a class="sourceLine" id="cb1-113" data-line-number="113">        <span class="dt">dif =</span> <span class="st">&quot;#E64B35FF&quot;</span>, <span class="dt">normal =</span> <span class="st">&quot;#8491B4B2&quot;</span>)</a>
-<a class="sourceLine" id="cb1-114" data-line-number="114">    themex =<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-115" data-line-number="115">        <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-116" data-line-number="116">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-117" data-line-number="117">        <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(), </a>
-<a class="sourceLine" id="cb1-118" data-line-number="118">        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-119" data-line-number="119">            <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-120" data-line-number="120">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-121" data-line-number="121">        <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
-<a class="sourceLine" id="cb1-122" data-line-number="122"></a>
-<a class="sourceLine" id="cb1-123" data-line-number="123">    themey =<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-124" data-line-number="124">        <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-125" data-line-number="125">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-126" data-line-number="126">        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-127" data-line-number="127">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-128" data-line-number="128">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-129" data-line-number="129">        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_blank</span>(), </a>
-<a class="sourceLine" id="cb1-130" data-line-number="130">        <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
-<a class="sourceLine" id="cb1-131" data-line-number="131"></a>
-<a class="sourceLine" id="cb1-132" data-line-number="132">    f1 =<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(<span class="dt">x =</span> sum.raw.norm, </a>
-<a class="sourceLine" id="cb1-133" data-line-number="133">        <span class="dt">y =</span> GDI)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.4</span>, </a>
-<a class="sourceLine" id="cb1-134" data-line-number="134">        <span class="dt">color =</span> <span class="st">&quot;#8491B4B2&quot;</span>, <span class="dt">size =</span> <span class="fl">2.5</span>)</a>
-<a class="sourceLine" id="cb1-135" data-line-number="135"></a>
-<a class="sourceLine" id="cb1-136" data-line-number="136">    GDI.df_lin =<span class="st"> </span>f1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">1.5</span>, </a>
-<a class="sourceLine" id="cb1-137" data-line-number="137">        <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
-<a class="sourceLine" id="cb1-138" data-line-number="138">        <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Status&quot;</span>, </a>
-<a class="sourceLine" id="cb1-139" data-line-number="139">        <span class="dt">values =</span> mycolours) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Status&quot;</span>, </a>
-<a class="sourceLine" id="cb1-140" data-line-number="140">        <span class="dt">values =</span> mycolours) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;log normalized counts&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-141" data-line-number="141"><span class="st">        </span><span class="kw">ylab</span>(<span class="st">&quot;GDI&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-142" data-line-number="142">        <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-143" data-line-number="143">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-144" data-line-number="144">        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-145" data-line-number="145">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-146" data-line-number="146">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-147" data-line-number="147">        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-148" data-line-number="148">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="dv">0</span>, </a>
-<a class="sourceLine" id="cb1-149" data-line-number="149">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-150" data-line-number="150">        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
-<a class="sourceLine" id="cb1-151" data-line-number="151">            <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
-<a class="sourceLine" id="cb1-152" data-line-number="152">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
-<a class="sourceLine" id="cb1-153" data-line-number="153">        <span class="dt">legend.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;#3C5488FF&quot;</span>, </a>
-<a class="sourceLine" id="cb1-154" data-line-number="154">            <span class="dt">face =</span> <span class="st">&quot;italic&quot;</span>), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
-<a class="sourceLine" id="cb1-155" data-line-number="155"></a>
-<a class="sourceLine" id="cb1-156" data-line-number="156">    xdensityGDI.df &lt;-<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(sum.raw.norm)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-157" data-line-number="157"><span class="st">        </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&quot;#8491B4B2&quot;</span>, </a>
-<a class="sourceLine" id="cb1-158" data-line-number="158">            <span class="dt">colour =</span> <span class="st">&quot;#8491B4B2&quot;</span>) <span class="op">+</span><span class="st"> </span>themex</a>
-<a class="sourceLine" id="cb1-159" data-line-number="159"></a>
-<a class="sourceLine" id="cb1-160" data-line-number="160">    ydensityGDI.df &lt;-<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(GDI)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-161" data-line-number="161"><span class="st">        </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&quot;#00A087FF&quot;</span>, </a>
-<a class="sourceLine" id="cb1-162" data-line-number="162">            <span class="dt">colour =</span> <span class="st">&quot;#00A087FF&quot;</span>) <span class="op">+</span><span class="st"> </span>themey <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-163" data-line-number="163"><span class="st">        </span><span class="kw">coord_flip</span>()</a>
-<a class="sourceLine" id="cb1-164" data-line-number="164"></a>
-<a class="sourceLine" id="cb1-165" data-line-number="165">    GDI.df_lin =<span class="st"> </span>xdensityGDI.df <span class="op">+</span><span class="st"> </span><span class="kw">plot_spacer</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb1-166" data-line-number="166"><span class="st">        </span>GDI.df_lin <span class="op">+</span><span class="st"> </span>ydensityGDI.df <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb1-167" data-line-number="167">        <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb1-168" data-line-number="168">            <span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb1-169" data-line-number="169">    <span class="kw">return</span>(GDI.df_lin)</a>
-<a class="sourceLine" id="cb1-170" data-line-number="170">}</a></code></pre></div>
+<a class="sourceLine" id="cb1-96" data-line-number="96">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_abline</span>(<span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-97" data-line-number="97"><span class="st">        </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;p-value&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;percentile&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-98" data-line-number="98"><span class="st">        </span><span class="kw">geom_line</span>(<span class="dt">size =</span> <span class="fl">1.5</span>)</a>
+<a class="sourceLine" id="cb1-99" data-line-number="99">    <span class="co"># scale_x_log10(breaks =</span></a>
+<a class="sourceLine" id="cb1-100" data-line-number="100">    <span class="co"># trans_breaks(&#39;log10&#39;, function(x)</span></a>
+<a class="sourceLine" id="cb1-101" data-line-number="101">    <span class="co"># 10^x), labels = trans_format(&#39;log10&#39;,</span></a>
+<a class="sourceLine" id="cb1-102" data-line-number="102">    <span class="co"># math_format(10^.x))) +</span></a>
+<a class="sourceLine" id="cb1-103" data-line-number="103">    <span class="co"># scale_y_log10(breaks =</span></a>
+<a class="sourceLine" id="cb1-104" data-line-number="104">    <span class="co"># trans_breaks(&#39;log10&#39;, function(x)</span></a>
+<a class="sourceLine" id="cb1-105" data-line-number="105">    <span class="co"># 10^x), labels = trans_format(&#39;log10&#39;,</span></a>
+<a class="sourceLine" id="cb1-106" data-line-number="106">    <span class="co"># math_format(10^.x))) +</span></a>
+<a class="sourceLine" id="cb1-107" data-line-number="107">    <span class="co"># annotation_logticks()</span></a>
+<a class="sourceLine" id="cb1-108" data-line-number="108">    <span class="kw">return</span>(plot_p)</a>
+<a class="sourceLine" id="cb1-109" data-line-number="109">}</a>
+<a class="sourceLine" id="cb1-110" data-line-number="110"></a>
+<a class="sourceLine" id="cb1-111" data-line-number="111">plot.GDI.density &lt;-<span class="st"> </span><span class="cf">function</span>(GDI.df) {</a>
+<a class="sourceLine" id="cb1-112" data-line-number="112">    si =<span class="st"> </span><span class="dv">11</span></a>
+<a class="sourceLine" id="cb1-113" data-line-number="113">    mycolours &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">Constitutive =</span> <span class="st">&quot;#00A087FF&quot;</span>, </a>
+<a class="sourceLine" id="cb1-114" data-line-number="114">        <span class="dt">dif =</span> <span class="st">&quot;#E64B35FF&quot;</span>, <span class="dt">normal =</span> <span class="st">&quot;#8491B4B2&quot;</span>)</a>
+<a class="sourceLine" id="cb1-115" data-line-number="115">    themex =<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-116" data-line-number="116">        <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-117" data-line-number="117">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-118" data-line-number="118">        <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(), </a>
+<a class="sourceLine" id="cb1-119" data-line-number="119">        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-120" data-line-number="120">            <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-121" data-line-number="121">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-122" data-line-number="122">        <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
+<a class="sourceLine" id="cb1-123" data-line-number="123"></a>
+<a class="sourceLine" id="cb1-124" data-line-number="124">    themey =<span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-125" data-line-number="125">        <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-126" data-line-number="126">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-127" data-line-number="127">        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-128" data-line-number="128">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-129" data-line-number="129">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-130" data-line-number="130">        <span class="dt">axis.text.x.bottom =</span> <span class="kw">element_blank</span>(), </a>
+<a class="sourceLine" id="cb1-131" data-line-number="131">        <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
+<a class="sourceLine" id="cb1-132" data-line-number="132"></a>
+<a class="sourceLine" id="cb1-133" data-line-number="133">    f1 =<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(<span class="dt">x =</span> sum.raw.norm, </a>
+<a class="sourceLine" id="cb1-134" data-line-number="134">        <span class="dt">y =</span> GDI)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">alpha =</span> <span class="fl">0.4</span>, </a>
+<a class="sourceLine" id="cb1-135" data-line-number="135">        <span class="dt">color =</span> <span class="st">&quot;#8491B4B2&quot;</span>, <span class="dt">size =</span> <span class="fl">2.5</span>)</a>
+<a class="sourceLine" id="cb1-136" data-line-number="136"></a>
+<a class="sourceLine" id="cb1-137" data-line-number="137">    GDI.df_lin =<span class="st"> </span>f1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="fl">1.5</span>, </a>
+<a class="sourceLine" id="cb1-138" data-line-number="138">        <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>, </a>
+<a class="sourceLine" id="cb1-139" data-line-number="139">        <span class="dt">size =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Status&quot;</span>, </a>
+<a class="sourceLine" id="cb1-140" data-line-number="140">        <span class="dt">values =</span> mycolours) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Status&quot;</span>, </a>
+<a class="sourceLine" id="cb1-141" data-line-number="141">        <span class="dt">values =</span> mycolours) <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;log normalized counts&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-142" data-line-number="142"><span class="st">        </span><span class="kw">ylab</span>(<span class="st">&quot;GDI&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-143" data-line-number="143">        <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-144" data-line-number="144">        <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-145" data-line-number="145">        <span class="dt">axis.text.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-146" data-line-number="146">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-147" data-line-number="147">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-148" data-line-number="148">        <span class="dt">axis.title.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-149" data-line-number="149">            <span class="dt">angle =</span> <span class="dv">0</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb1-150" data-line-number="150">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-151" data-line-number="151">        <span class="dt">axis.title.y =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> si, </a>
+<a class="sourceLine" id="cb1-152" data-line-number="152">            <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="fl">0.5</span>, <span class="dt">vjust =</span> <span class="fl">0.5</span>, </a>
+<a class="sourceLine" id="cb1-153" data-line-number="153">            <span class="dt">face =</span> <span class="st">&quot;plain&quot;</span>, <span class="dt">colour =</span> <span class="st">&quot;#3C5488FF&quot;</span>), </a>
+<a class="sourceLine" id="cb1-154" data-line-number="154">        <span class="dt">legend.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">color =</span> <span class="st">&quot;#3C5488FF&quot;</span>, </a>
+<a class="sourceLine" id="cb1-155" data-line-number="155">            <span class="dt">face =</span> <span class="st">&quot;italic&quot;</span>), <span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</a>
+<a class="sourceLine" id="cb1-156" data-line-number="156"></a>
+<a class="sourceLine" id="cb1-157" data-line-number="157">    xdensityGDI.df &lt;-<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(sum.raw.norm)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-158" data-line-number="158"><span class="st">        </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&quot;#8491B4B2&quot;</span>, </a>
+<a class="sourceLine" id="cb1-159" data-line-number="159">            <span class="dt">colour =</span> <span class="st">&quot;#8491B4B2&quot;</span>) <span class="op">+</span><span class="st"> </span>themex</a>
+<a class="sourceLine" id="cb1-160" data-line-number="160"></a>
+<a class="sourceLine" id="cb1-161" data-line-number="161">    ydensityGDI.df &lt;-<span class="st"> </span><span class="kw">ggplot</span>(GDI.df, <span class="kw">aes</span>(GDI)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-162" data-line-number="162"><span class="st">        </span><span class="kw">geom_density</span>(<span class="dt">alpha =</span> <span class="fl">0.5</span>, <span class="dt">fill =</span> <span class="st">&quot;#00A087FF&quot;</span>, </a>
+<a class="sourceLine" id="cb1-163" data-line-number="163">            <span class="dt">colour =</span> <span class="st">&quot;#00A087FF&quot;</span>) <span class="op">+</span><span class="st"> </span>themey <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-164" data-line-number="164"><span class="st">        </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb1-165" data-line-number="165"></a>
+<a class="sourceLine" id="cb1-166" data-line-number="166">    GDI.df_lin =<span class="st"> </span>xdensityGDI.df <span class="op">+</span><span class="st"> </span><span class="kw">plot_spacer</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-167" data-line-number="167"><span class="st">        </span>GDI.df_lin <span class="op">+</span><span class="st"> </span>ydensityGDI.df <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb1-168" data-line-number="168">        <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">widths =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), <span class="dt">heights =</span> <span class="kw">c</span>(<span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb1-169" data-line-number="169">            <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb1-170" data-line-number="170">    <span class="kw">return</span>(GDI.df_lin)</a>
+<a class="sourceLine" id="cb1-171" data-line-number="171">}</a></code></pre></div>
 <div id="technical-negative-dataset-ercc-10x" class="section level1">
 <h1><span class="header-section-number">1</span> Technical negative dataset: ERCC 10x</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">ERCC =<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;Data/negative_datasets/ERCC.cotan.RDS&quot;</span>)</a></code></pre></div>
@@ -717,8 +718,8 @@ div.tocify {
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; [1] &quot;The distance between estimated n of zeros and observed number of zero is 0.0486027452293039 over 7850&quot;</span></a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt; [1] &quot;Done&quot;</span></a>
 <a class="sourceLine" id="cb8-17" data-line-number="17"><span class="co">#&gt; [1] &quot;G estimation&quot;</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; [1] 1539553       4</span></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; [1] 1539795       4</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="co">#&gt; [1] 1538420       4</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt; [1] 1541007       4</span></a>
 <a class="sourceLine" id="cb8-20" data-line-number="20"></a>
 <a class="sourceLine" id="cb8-21" data-line-number="21">Plot_CD14</a></code></pre></div>
 <p><img src="Negative_dataset_analysis_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
@@ -789,8 +790,8 @@ div.tocify {
 <a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; [1] &quot;The distance between estimated n of zeros and observed number of zero is 0.0574510036838693 over 11670&quot;</span></a>
 <a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; [1] &quot;Done&quot;</span></a>
 <a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; [1] &quot;G estimation&quot;</span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; [1] 3405878       4</span></a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; [1] 3404781       4</span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; [1] 3403098       4</span></a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; [1] 3404947       4</span></a>
 <a class="sourceLine" id="cb14-21" data-line-number="21"></a>
 <a class="sourceLine" id="cb14-22" data-line-number="22">Plot_CE4000</a></code></pre></div>
 <p><img src="Negative_dataset_analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
@@ -831,8 +832,8 @@ div.tocify {
 <a class="sourceLine" id="cb19-16" data-line-number="16"><span class="co">#&gt; [1] &quot;The distance between estimated n of zeros and observed number of zero is 0.0551150644366422 over 11498&quot;</span></a>
 <a class="sourceLine" id="cb19-17" data-line-number="17"><span class="co">#&gt; [1] &quot;Done&quot;</span></a>
 <a class="sourceLine" id="cb19-18" data-line-number="18"><span class="co">#&gt; [1] &quot;G estimation&quot;</span></a>
-<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; [1] 3303104       4</span></a>
-<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; [1] 3303132       4</span></a>
+<a class="sourceLine" id="cb19-19" data-line-number="19"><span class="co">#&gt; [1] 3304428       4</span></a>
+<a class="sourceLine" id="cb19-20" data-line-number="20"><span class="co">#&gt; [1] 3305117       4</span></a>
 <a class="sourceLine" id="cb19-21" data-line-number="21"></a>
 <a class="sourceLine" id="cb19-22" data-line-number="22">Plot_CE800</a></code></pre></div>
 <p><img src="Negative_dataset_analysis_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
