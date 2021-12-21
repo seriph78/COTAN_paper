@@ -71,7 +71,7 @@ fviz_eig(coex.pca.genes, addlabels=TRUE,ncp = 10)
 ```
 Hierarchical clustering
 
-```{r include=FALSE}
+```{r}
 hc.norm = hclust(dist(g.space), method = "ward.D2")
 
 dend <- as.dendrogram(hc.norm)
@@ -189,7 +189,7 @@ dend %>%
   #  set("branches_k_color", value = c("gray80","#4DBBD5FF","#91D1C2FF" ,"gray80","#F39B7FFF","#E64B35FF","#3C5488FF"), k = 7) %>%
  plot(horiz=F, axes=T,ylim = c(0,80))
 ```
-```{r include=FALSE}
+```{r}
 cluster = cut
 cluster[cluster == 1] = "#4DBBD5FF"
 cluster[cluster == 2] = "#91D1C2FF"
