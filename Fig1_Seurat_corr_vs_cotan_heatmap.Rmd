@@ -44,7 +44,8 @@ library(ggrepel)
 library("gridExtra")
 library(ggpubr)
 library(COTAN)
-
+```
+```{r}
 hk = c("Calm1","Cox6b1","Ppia","Rpl18","Cox7c","Erh","H3f3a","Taf1","Taf2","Gapdh","Actb","Golph3",
        "Mtmr12","Zfr","Sub1","Tars","Amacr")
 tf1 = c("Nes","Vim","Sox2","Sox1","Notch1", "Hes1","Hes5","Pax6")
